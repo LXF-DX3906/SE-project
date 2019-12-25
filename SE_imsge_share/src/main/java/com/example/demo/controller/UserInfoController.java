@@ -11,6 +11,13 @@ import java.sql.Date;
 import com.example.demo.service.UserService;
 import com.example.demo.entity.User;
 
+/**
+ * @program: SE_imsge_share
+ * @description: 用户控制类，编辑个人信息，查看个人信息
+ * @author: Xuefei Lv
+ * @create: 2019/12/24
+ **/
+
 @RestController
 @Controller
 public class UserInfoController {
