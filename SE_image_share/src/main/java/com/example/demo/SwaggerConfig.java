@@ -8,6 +8,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -33,7 +34,9 @@ public class SwaggerConfig {
                 // 自行修改为自己的包路径
                 .apis(RequestHandlerSelectors.basePackage("com.example.demo.controller"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .tags(new Tag("图片控制类", "负责展示，存储图片信息"),
+                        new Tag("相册控制类", "负责控制相册信息"));
     }
 
     private ApiInfo apiInfo() {

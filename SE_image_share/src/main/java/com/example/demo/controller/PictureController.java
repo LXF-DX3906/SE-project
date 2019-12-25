@@ -5,7 +5,7 @@ import com.example.demo.dao.PictureMapper;
 import com.example.demo.entity.Picture;
 import com.example.demo.entity.Type;
 import com.alibaba.fastjson.JSONObject;
-import io.swagger.annotations.Api;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ import java.util.List;
  * @create: 2019/12/24
  **/
 
-@Api(value = "消息",description = "消息操作 API", position = 100, protocols = "http")
+@Api(tags = {"图片控制类"})
 @RestController
 @Controller
 public class PictureController {
@@ -35,6 +35,20 @@ public class PictureController {
 private PictureMapper pictureMapper;
 private Type type = new Type();
 
+    @ApiOperation(
+            value = "按类型搜索",
+            notes = "按图片的type_name搜索",
+            produces = "application/json, application/xml",
+            consumes = "application/json, application/xml",
+            response = List.class
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tid", value = "类型ID", required = true, dataType = "Long", paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 100, message = "success"),
+            @ApiResponse(code = 200, message = "error")
+    })
     @RequestMapping(value="/typeSearch",method= RequestMethod.POST)
     public Object typeSearch(HttpServletRequest req, HttpSession session) {
         Integer tid = Integer.valueOf(req.getParameter("tid"));
