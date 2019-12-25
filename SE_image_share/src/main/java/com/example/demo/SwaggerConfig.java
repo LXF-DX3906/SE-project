@@ -31,19 +31,17 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 // 自行修改为自己的包路径
-                .apis(RequestHandlerSelectors.basePackage("com.swagger.springbootswagger.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.demo.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("客户管理")
-                .description("客户管理中心 API 1.0 操作文档")
-                //服务条款网址
-                .termsOfServiceUrl("https://www.cnblogs.com/wadmwz/")
+                .title("image-share")
+                .description("image-share API 1.0 Swagger文档")
+                .termsOfServiceUrl("http://swagger.io/")
                 .version("1.0")
-                .contact(new Contact("王智家园", "https://www.cnblogs.com/wadmwz/", "15713598138@sina.cn"))
                 .build();
     }
 

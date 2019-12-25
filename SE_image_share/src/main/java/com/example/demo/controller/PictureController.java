@@ -5,6 +5,7 @@ import com.example.demo.dao.PictureMapper;
 import com.example.demo.entity.Picture;
 import com.example.demo.entity.Type;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import java.util.List;
  * @create: 2019/12/24
  **/
 
+@Api(value = "消息",description = "消息操作 API", position = 100, protocols = "http")
 @RestController
 @Controller
 public class PictureController {

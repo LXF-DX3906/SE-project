@@ -114,6 +114,7 @@ export default {
     getdata(tid){
       this.$http.post('/api/typeSearch',{tid:tid},{emulateJSON:true})
       .then(res=>{
+        this.imgs = []
         let imgs = Object.assign(res.body.result);
         for (let item of  imgs) {
           let new_item = {
