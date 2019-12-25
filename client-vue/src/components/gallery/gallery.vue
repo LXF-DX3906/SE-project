@@ -114,7 +114,18 @@ export default {
     getdata(tid){
       this.$http.post('/api/typeSearch',{tid:tid},{emulateJSON:true})
       .then(res=>{
-        this.imgs=Object.assign(res.body);
+        this.imgs = []
+        let imgs = Object.assign(res.body.result);
+        for (let item of  imgs) {
+          let new_item = {
+            pid: item.pictureId,
+            position: this.$store.state.HOST + item.position,
+            weight: item.weight,
+            height: item.height,
+            description: item.description
+          }
+          this.imgs.push(new_item)
+        }
       })
     },
     more(){
@@ -163,7 +174,7 @@ export default {
               customClass: "zIndex"
             });
       }
-      
+
     },
     cancelcollect(pid){
       this.$http.post('/api/pictureCollectDelete',{uid:this.uid,pid:pid},{emulateJSON:true})

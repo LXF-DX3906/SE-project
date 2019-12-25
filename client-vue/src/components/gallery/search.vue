@@ -47,7 +47,18 @@ export default {
     getdata(keywords){
       this.$http.post('/api/keywordSearch',{keyword:keywords},{emulateJSON:true})
       .then(res=>{
-        this.imgs=Object.assign(res.body);
+        this.imgs = []
+        let imgs=Object.assign(res.body.result);
+        for (let item of  imgs) {
+          let new_item = {
+            pid: item.pictureId,
+            position: this.$store.state.HOST + item.position,
+            weight: item.weight,
+            height: item.height,
+            description: item.description
+          }
+          this.imgs.push(new_item)
+        }
         let query = this.$router.history.current.query;
         let path = this.$router.history.current.path;
         //对象的拷贝

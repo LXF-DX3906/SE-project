@@ -182,6 +182,7 @@ export default {
     },
     login(type, data, passwd) {
       if (type == "phone") {
+        console.log(type)
         this.$http
           .post(
             "/api/phoneLogin",
@@ -189,6 +190,7 @@ export default {
             { emulateJSON: true }
           )
           .then(result => {
+            console.log(result)
             if (result.body.message == "登录成功") {
               this.user = false;
               localStorage.setItem("uid", result.body.uid);
