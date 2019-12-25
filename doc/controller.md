@@ -1,86 +1,86 @@
-**/upload**
+- [ ] **/upload**
+- [ ] /pictureUpload
 
-/pictureUpload
+- [ ] /basicInfo
 
-/basicInfo
+- [ ] /phoneLogin
 
-/phoneLogin
+- [ ] /emailLogin
 
-/emailLogin
+- [ ] /phoneRegister
 
-/phoneRegister
+- [ ] /emailRegister
 
-/emailRegister
+- [ ] /addFocus
 
-/addFocus
+- [ ] **/adminUpload**
 
-**/adminUpload**
+- [ ] /galleryList
 
-/galleryList
+- [ ] /galleryUpdate
 
-/galleryUpdate
+- [ ] /galleryDelete
 
-/galleryDelete
+- [ ] /galleryUpload
 
-/galleryUpload
+- [ ] /galleryDetail
 
-/galleryDetail
+- [ ] /delete
 
-/delete
+- [ ] /collect
 
-/collect
+- [ ] /pictureCollectDelete
 
-/pictureCollectDelete
+- [ ] /focus
 
-/focus
+- [ ] /deleteFocus
 
-/deleteFocus
+- [ ] /userFocus  
 
-/userFocus  
+- [ ] /userComment
 
-/userComment
+- [ ] /pictureLike
 
-/pictureLike
+- [ ] /addFocus
 
-/addFocus
+- [ ] /pictureLikeDelete
 
-/pictureLikeDelete
+- [ ] /pictureDetail
 
-/pictureDetail
+- [ ] /userComment
 
-/userComment
+- [ ] /basicInfo
 
-/basicInfo
+- [ ] /createGallery  
 
-/createGallery  
+- [ ] /myPictures
 
-/myPictures
+- [ ] /deletes
 
-/deletes
+- [ ] /addFocus
 
-/addFocus
+- [ ] /pictureUsersList  
 
-/pictureUsersList  
+- [ ] /pictureLike
 
-/pictureLike
+- [ ] /typeSearch
 
-/typeSearch
+- [ ] /pictureCollectDelete
 
-/pictureCollectDelete
+- [ ] /pictureCollect
 
-/pictureCollect
+- [ ] /pictureCollectDelete  
 
-/pictureCollectDelete  
+- [ ] /keywordSearch
 
-/keywordSearch
+- [ ] /pushList
 
-/pushList
+- [ ] /updateEmail
 
-/updateEmail
+- [ ] /updatePhone  
 
-/updatePhone  
+- [ ] /updateInfo
 
-/updateInfo
 
 ## 用户
 
