@@ -38,16 +38,10 @@ private Type type = new Type();
     @ApiOperation(
             value = "按类型搜索",
             notes = "按图片的type_name搜索",
-            produces = "application/json, application/xml",
-            consumes = "application/json, application/xml",
-            response = List.class
+            produces = "application/json"
     )
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "tid", value = "类型ID", required = true, dataType = "Long", paramType = "query")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 100, message = "success"),
-            @ApiResponse(code = 200, message = "error")
+            @ApiImplicitParam(name = "tid", value = "类型ID", required = true, dataType = "Integer", paramType = "query")
     })
     @RequestMapping(value="/typeSearch",method= RequestMethod.POST)
     public Object typeSearch(HttpServletRequest req, HttpSession session) {
@@ -66,6 +60,14 @@ private Type type = new Type();
         return jsonObject;
     }
 
+    @ApiOperation(
+            value = "按关键词搜索",
+            notes = "按图片的description搜索",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "keyword", value = "关键词", required = true, dataType = "long", paramType = "query")
+    })
     @RequestMapping(value="/keywordSearch",method= RequestMethod.POST)
     public Object keywordSearch(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
