@@ -103,4 +103,15 @@
       description = #{description,jdbcType=VARCHAR}
     where picture_id = #{pictureId,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByType" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from picture
+    where type_name like CONCAT(CONCAT('%', #{type_name, jdbcType=VARCHAR}), '%')
+  </select>
+  <select id="selectByKeyWords" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from picture
+    where description like CONCAT(CONCAT('%', #{keyWords, jdbcType=VARCHAR}), '%')
+  </select>
 </mapper>

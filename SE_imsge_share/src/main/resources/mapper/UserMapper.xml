@@ -18,6 +18,29 @@
     user_id, user_name, pwd, phone, email, sex, birthday, head_img, introduction, province, 
     city
   </sql>
+  <select id="phoneVerify" resultType="java.lang.Integer">
+    select user_id
+    from user
+    where phone = #{phone,jdbcType=VARCHAR}
+    <if test="pwd != null">
+      and
+      pwd = #{pwd,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="emailVerify" resultType="java.lang.Integer">
+    select user_id
+    from user
+    where email = #{email,jdbcType=VARCHAR}
+    <if test="pwd != null">
+      and
+      pwd = #{pwd,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="userNameVerify" resultType="java.lang.Integer">
+    select user_id
+    from user
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

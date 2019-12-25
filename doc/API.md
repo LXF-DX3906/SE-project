@@ -128,3 +128,8 @@ url | 方法 | 后端接收数据 | 前端接收数据
 |     /upload      | 上传头像     | post |                       image(头像文件)                        | uid(用户id)<br/>image(头像路径)                              |
 | /headimageUpload | 更新头像     | post |            uid(当前用户id)<br/>position(头像路径)            | message('修改成功'/其他）                                    |
 
+## 关于图片路径设置
+
+用户头像：根目录/pictures/user_id/avator/user_id_avator.xxx
+
+图库图片：根目录/pictures/user_id/pictures/picture_id.xxx
