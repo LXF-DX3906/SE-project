@@ -92,6 +92,7 @@ private Type type = new Type();
     public class MyPicConfig implements WebMvcConfigurer {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
+            registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:\\Users\\10638\\Desktop\\SoftwareProject\\Service\\SE_image_share\\pictures");
         }
     }
 }

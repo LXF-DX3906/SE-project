@@ -1,6 +1,10 @@
 package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,12 +15,28 @@ import java.sql.Date;
 import com.example.demo.service.UserService;
 import com.example.demo.entity.User;
 
+/**
+ * @program: SE_imsge_share
+ * @description: 用户信息控制类，编辑个人信息，查看个人信息
+ * @author: Rui Xiao
+ * @create: 2019/12/24
+ **/
+
+@Api(tags = {"用户信息控制类"})
 @RestController
 @Controller
 public class UserInfoController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(
+            value = "获取用户信息",
+            notes = "根据用户的userId获取用户信息",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户id", required = true, dataType = "Integer", paramType = "query")
+    })
     @ResponseBody
     @RequestMapping(value = "/basicInfo", method = RequestMethod.POST)
     public Object userInfo(HttpServletRequest req) {
@@ -44,7 +64,15 @@ public class UserInfoController {
         return jsonObject;
     }
 
-
+    @ApiOperation(
+            value = "编辑电话",
+            notes = "根据用户新编辑的phone更新电话",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户id", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "phone", value = "新编辑的电话", required = true, dataType = "String", paramType = "query")
+    })
     @ResponseBody
     @RequestMapping(value = "/updatePhone", method = RequestMethod.POST)
     public Object updatePhone(HttpServletRequest req) {
@@ -79,7 +107,15 @@ public class UserInfoController {
         return jsonObject;
     }
 
-
+    @ApiOperation(
+            value = "编辑邮箱",
+            notes = "根据用户新编辑的email更新邮箱",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户id", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "email", value = "新编辑的邮箱", required = true, dataType = "String", paramType = "query")
+    })
     @ResponseBody
     @RequestMapping(value = "/updateEmail", method = RequestMethod.POST)
     public Object updateEmail(HttpServletRequest req) {
@@ -114,7 +150,15 @@ public class UserInfoController {
         return jsonObject;
     }
 
-
+    @ApiOperation(
+            value = "编辑密码",
+            notes = "根据用户新编辑的password更新密码",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户id", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "新编辑的密码", required = true, dataType = "String", paramType = "query")
+    })
     @ResponseBody
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     public Object updatePassword(HttpServletRequest req) {
@@ -141,7 +185,20 @@ public class UserInfoController {
         return jsonObject;
     }
 
-
+    @ApiOperation(
+            value = "编辑其他信息",
+            notes = "根据用户新编辑的各类其他信息更新",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户id", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "username", value = "用户昵称", required = false, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "sex", value = "用户性别", required = false, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "birthday", value = "用户生日", required = false, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "introduce", value = "用户介绍", required = false, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "province", value = "用户所在省", required = false, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "city", value = "用户所在城市", required = false, dataType = "String", paramType = "query"),
+    })
     @ResponseBody
     @RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
     public Object updateInfo(HttpServletRequest req) {
