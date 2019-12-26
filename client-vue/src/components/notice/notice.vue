@@ -29,7 +29,16 @@ export default {
         .then(res => {
           console.log(res);
 
-          this.items = Object.assign(res.body);
+          this.items = [];
+          let temp=Object.assign(res.body.result);
+          for (let item of temp) {
+            let new_item = {
+              id: item.userId,
+              introduce: item.introduction,
+              position: item.headImg,
+            }
+            this.items.push(new_item)
+          }
         });
     }
   }

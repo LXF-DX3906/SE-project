@@ -33,4 +33,9 @@
       </if>
     </trim>
   </insert>
+  <select id="getPictures" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from album_picture
+    where album_id = #{albumId,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -92,19 +92,25 @@ export default {
     follow(uuid){
         this.$http.post('/api/addFocus',{uid:this.uid,uuid:uuid},{emulateJSON:true})
         .then(res=>{
-            if (res.body.message=="关注成功") {
-          this.$message({
+          if (res.body.message=="关注成功") {
+            this.$message({
               message: "关注成功",
               type: "success",
               customClass: "zIndex"
             });
-        }else{
-          this.$message({
+          }else if (res.body.message=="已关注该用户"){
+            this.$message({
               message: "您已关注",
               type: "warning",
               customClass: "zIndex"
             });
-        }
+          } else {
+            this.$message({
+              message: "关注失败",
+              type: "warning",
+              customClass: "zIndex"
+            });
+          }
         })
       },
     scroll() {

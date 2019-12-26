@@ -90,4 +90,10 @@
       description = #{description,jdbcType=VARCHAR}
     where album_id = #{albumId,jdbcType=INTEGER}
   </update>
+  <select id="getAlbum" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from album
+    where owner_id = #{ownerId,jdbcType=INTEGER}
+  </select>
 </mapper>

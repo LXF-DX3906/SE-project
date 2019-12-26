@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 
 import com.example.demo.service.UserService;
 import com.example.demo.entity.User;
@@ -48,6 +51,8 @@ public class UserInfoController {
         }
         try {
             User user = userService.getUserById(Integer.parseInt(userId));
+            Integer followsNum = userService.getFollowsNum(Integer.parseInt(userId));
+            Integer fansNum = userService.getFansNum(Integer.parseInt(userId));
             jsonObject.put("message", "登陆成功");
             jsonObject.put("username", user.getUserName());
             jsonObject.put("phone", user.getPhone());
@@ -58,6 +63,8 @@ public class UserInfoController {
             jsonObject.put("introduce", user.getIntroduction());
             jsonObject.put("province", user.getProvince());
             jsonObject.put("city", user.getCity());
+            jsonObject.put("follow", followsNum);
+            jsonObject.put("fans", fansNum);
         } catch (Exception e) {
             jsonObject.put("message", "数据库错误");
         }
@@ -208,7 +215,7 @@ public class UserInfoController {
         String sex = req.getParameter("sex").trim();
         Date birthday = null;
         if (!req.getParameter("birthday").trim().equals("")) {
-            birthday = Date.valueOf(req.getParameter("birthday").trim());
+            birthday = Date.valueOf(req.getParameter("birthday").trim().substring(0, 10));
         }
         String introduction = req.getParameter("introduce").trim();
         String province = req.getParameter("province").trim();

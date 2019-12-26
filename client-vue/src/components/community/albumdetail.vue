@@ -122,7 +122,23 @@ export default {
       this.$http
         .post("/api/galleryDetail", { gid: this.gid }, { emulateJSON: true })
         .then(res => {
-          this.imgs = Object.assign(res.body.list);
+          if (res.body.message == "获取成功") {
+            this.imgs = [];
+            let items = Object.assign(res.body.pictures)
+            for (let item of items) {
+              let new_item = {
+                pid: item.pictureId,
+                position: this.$store.state.HOST + item.position,
+              }
+              this.imgs.push(new_item)
+            }
+          } else {
+            this.$message({
+              message: "获取失败",
+              type: "error",
+              customClass: "zIndex"
+            });
+          }
         });
     },
     deletedetail(pid) {

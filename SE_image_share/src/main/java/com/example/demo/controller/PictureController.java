@@ -86,7 +86,7 @@ private UserMapper userMapper;
         JSONArray jsonArray = new JSONArray();
         try {
             String keyWords = req.getParameter("keyword");
-            List<Picture> pictureList =  pictureMapper.selectByKeyWords(keyWords);
+            List<Picture> pictureList = pictureMapper.selectByKeyWords(keyWords);
             jsonArray = JSONArray.parseArray(JSONObject.toJSONString(pictureList));
             jsonObject.put("message","success");
             jsonObject.put("result", jsonArray);
@@ -142,7 +142,7 @@ private UserMapper userMapper;
     public class MyPicConfig implements WebMvcConfigurer {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:\\Users\\10638\\Desktop\\SoftwareProject\\Service\\SE_image_share\\pictures");
+            registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:\\Users\\10638\\Desktop\\SoftwareProject\\Service\\SE_image_share\\pictures\\");
         }
     }
 }

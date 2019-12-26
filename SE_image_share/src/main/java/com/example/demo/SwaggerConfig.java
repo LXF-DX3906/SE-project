@@ -36,10 +36,11 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .tags(new Tag("图片控制类", "负责展示，存储图片信息"),
-                        new Tag( "用户图片交互类","负责用户与图片间的交互，包括点赞，收藏等"),
+                        new Tag("用户图片交互类","负责用户与图片间的交互，包括点赞，收藏等"),
                         new Tag("相册控制类", "负责控制相册信息"),
                         new Tag("登录控制类", "负责用户的登录及注册"),
-                        new Tag("用户信息控制类", "负责用户信息的展示及修改"));
+                        new Tag("用户信息控制类", "负责用户信息的展示及修改"),
+                        new Tag("用户间交互控制类", "用户间的关注互动"));
     }
 
     private ApiInfo apiInfo() {
