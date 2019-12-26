@@ -1,6 +1,10 @@
 package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +18,29 @@ import com.example.demo.service.UserService;
 import com.example.demo.entity.Response;
 import com.example.demo.entity.User;
 
+/**
+ * @program: SE_imsge_share
+ * @description: 登录，注册
+ * @author: Rui Xiao
+ * @create: 2019/12/24
+ **/
+
+@Api(tags = {"登录控制类"})
 @RestController
 @Controller
 public class LoginController {
     @Autowired
     private UserService userService;
 
-    @ResponseBody
+    @ApiOperation(
+            value = "电话登录",
+            notes = "按照用户的phone来登录",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "phone", value = "用户电话", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "String", paramType = "query")
+    })
     @RequestMapping(value = "/phoneLogin", method = RequestMethod.POST)
     public Object phoneLoginVerify(HttpServletRequest req, HttpSession session) throws IOException {
         JSONObject jsonObject = new JSONObject();
@@ -53,7 +73,15 @@ public class LoginController {
 //        return response;
     }
 
-
+    @ApiOperation(
+            value = "邮箱登录",
+            notes = "按照用户的email来登录",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email", value = "用户邮箱", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "String", paramType = "query")
+    })
     @ResponseBody
     @RequestMapping(value = "/emailLogin", method = RequestMethod.POST)
     public Object emailLoginVerify(HttpServletRequest req, HttpSession session) throws IOException {
@@ -87,7 +115,15 @@ public class LoginController {
 //        return response;
     }
 
-
+    @ApiOperation(
+            value = "电话注册",
+            notes = "按照用户的phone来注册",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "phone", value = "用户电话", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "String", paramType = "query")
+    })
     @ResponseBody
     @RequestMapping(value = "/phoneRegister", method = RequestMethod.POST)
     public Object phoneRegister(HttpServletRequest req) {
@@ -115,7 +151,15 @@ public class LoginController {
         return jsonObject;
     }
 
-
+    @ApiOperation(
+            value = "邮箱注册",
+            notes = "按照用户的email来注册",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email", value = "用户电话", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "String", paramType = "query")
+    })
     @ResponseBody
     @RequestMapping(value = "/emailRegister", method = RequestMethod.POST)
     public Object emailRegister(HttpServletRequest req) {

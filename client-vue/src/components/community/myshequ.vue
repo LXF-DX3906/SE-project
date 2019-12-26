@@ -103,7 +103,7 @@ export default {
       username: "",
       txurl: "../../assets/tx6.jpg",
       //下面这个是找的一个网络图片，到时候我们可以改
-      bgurl: "https://s1.tuchong.com/content-image/201912/050e14aefcaf80a901932aacb96266fc.jpg",
+      bgurl: require("../../assets/shequ-bg.jpg"),
       introduction: "做个自我介绍吧..",
       follows: '',
       fans: '',
