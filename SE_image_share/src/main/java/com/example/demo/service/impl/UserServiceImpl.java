@@ -89,4 +89,17 @@ public class UserServiceImpl implements UserService {
         }
         return users;
     }
+
+    @Override
+    public boolean deleteFollow(Follow follow) {
+        return followMapper.deleteByPrimaryKey(follow.getUserId(), follow.getFollowingId()) > 0;
+    }
+
+    @Override
+    public boolean addFollow(Follow follow) {
+        if (followMapper.ifFollowing(follow) != 0) {
+            return false;
+        }
+        return followMapper.insert(follow) > 0;
+    }
 }

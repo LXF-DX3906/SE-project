@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONAware;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.entity.Follow;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import io.swagger.annotations.Api;
@@ -79,4 +80,63 @@ public class UserInteractionController {
         return jsonObject;
     }
 
+    @ApiOperation(
+            value = "当前用户取消关注操作",
+            notes = "按其他用户uuid取消对其关注",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "当前用户ID", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "uuid", value = "被取关用户ID", required = true, dataType = "Integer", paramType = "query")
+    })
+    @RequestMapping(value="/deleteFocus",method= RequestMethod.POST)
+    public Object deleteFocus(HttpServletRequest req, HttpSession session) {
+        Integer userId = Integer.valueOf(req.getParameter("uid"));
+        Integer followingId = Integer.valueOf(req.getParameter("uuid"));
+        JSONObject jsonObject = new JSONObject();
+        Follow follow = new Follow();
+        follow.setUserId(userId);
+        follow.setFollowingId(followingId);
+        try {
+            boolean res = userService.deleteFollow(follow);
+            if (res) {
+                jsonObject.put("message", "取消关注成功");
+            } else {
+                jsonObject.put("message", "取消关注失败");
+            }
+        } catch (Exception e) {
+            jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
+    }
+
+    @ApiOperation(
+            value = "当前用户关注其他用户",
+            notes = "按其他用户uuid对其关注",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "当前用户ID", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "uuid", value = "被关注用户ID", required = true, dataType = "Integer", paramType = "query")
+    })
+    @RequestMapping(value="/addFocus",method= RequestMethod.POST)
+    public Object addFocus(HttpServletRequest req, HttpSession session) {
+        Integer userId = Integer.valueOf(req.getParameter("uid"));
+        Integer followingId = Integer.valueOf(req.getParameter("uuid"));
+        JSONObject jsonObject = new JSONObject();
+        Follow follow = new Follow();
+        follow.setUserId(userId);
+        follow.setFollowingId(followingId);
+        try {
+            boolean res = userService.addFollow(follow);
+            if (res) {
+                jsonObject.put("message", "关注成功");
+            } else {
+                jsonObject.put("message", "已关注该用户");
+            }
+        } catch (Exception e) {
+            jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
+    }
 }

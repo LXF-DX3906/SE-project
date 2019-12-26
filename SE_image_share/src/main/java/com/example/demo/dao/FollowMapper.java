@@ -19,4 +19,6 @@ public interface FollowMapper {
     List<Follow> getFollows(Integer userId);
 
     List<Follow> getFans(Integer userId);
+
+    Integer ifFollowing(Follow follow);
 }

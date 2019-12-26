@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Follow;
 import com.example.demo.entity.User;
 
 import java.util.List;
@@ -28,4 +29,8 @@ public interface UserService {
     List<User> getFollows(Integer userId);
 
     List<User> getFans(Integer userId);
+
+    boolean deleteFollow(Follow follow);
+
+    boolean addFollow(Follow follow);
 }

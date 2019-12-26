@@ -18,7 +18,7 @@
                       <span>粉丝&nbsp;{{fans}}</span>
                   </li>
                   <li>
-                      <el-button class="other-gz" size="mini" @click="follow(uid)">关注</el-button>
+                      <el-button class="other-gz" size="mini" @click="follow(uuid)">关注</el-button>
                   </li>
                 </ul>
               </li>
@@ -78,10 +78,11 @@ export default {
       flag3: false,
       flag5: false,
       collection: false,
-      uid:this.$route.query.uid,
+      uuid:this.$route.query.uuid,
+      uid:localStorage.getItem("uid"),
       username: "",
       txurl: "/img/tx6.27d6e020.jpg",
-      bgurl:'http://188.131.192.194/head_images/U1wjUvsbuKkrlGwO5K2h339nJ2wf0WdnYBTDxBhf.jpeg',
+      bgurl:require("../../assets/shequ-bg.jpg"),
       introduction: "做个自我介绍吧..",
       fans: '',
       follows: '',
@@ -158,9 +159,16 @@ export default {
               type: "success",
               customClass: "zIndex"
             });
-        }else{
+          this.getinfo()
+        }else if (res.body.message=="已关注该用户") {
+              this.$message({
+                message: "您已关注",
+                type: "warning",
+                customClass: "zIndex"
+              })
+            } else{
           this.$message({
-              message: "您已关注",
+              message: "关注失败",
               type: "warning",
               customClass: "zIndex"
             });
@@ -168,30 +176,30 @@ export default {
         })
       },
     getinfo(){
-      this.$http.post('/api/basicInfo',{uid:this.uid},{emulateJSON:true})
+      this.$http.post('/api/basicInfo',{uid:this.uuid},{emulateJSON:true})
      .then(result=>{
-       if (result.body[0].username) {
-          this.username=result.body[0].username;
+       if (result.body.username) {
+          this.username=result.body.username;
        }else{
           this.username='注册用户';
        }
-       this.introduction=result.body[0].introduce;
-       this.txurl=result.body[0].head_image;
-       this.fans=result.body[0].fans;
-       this.follows=result.body[0].follow;
+       this.introduction=result.body.introduce;
+       this.txurl=result.body.head_image;
+       this.fans=result.body.fans;
+       this.follows=result.body.follow;
      })
     },
     showalbum(){
-      this.$router.push({path: "/community/others/album",query:{uid:this.uid}})
+      this.$router.push({path: "/community/others/album",query:{uid:this.uuid}})
     },
     showwork(){
-      this.$router.push({path: "/community/others/work",query:{my:false,uid:this.uid}})
+      this.$router.push({path: "/community/others/work",query:{my:false,uid:this.uuid}})
     },
     showlike(){
-      this.$router.push({path: "/community/others/like",query:{my:false,uid:this.uid}})
+      this.$router.push({path: "/community/others/like",query:{my:false,uid:this.uuid}})
     },
     showcollection(){
-      this.$router.push({path: "/community/others/collection",query:{my:false,uid:this.uid}})
+      this.$router.push({path: "/community/others/collection",query:{my:false,uid:this.uuid}})
     },
     show(data) {
       this.comName = data;
@@ -285,7 +293,7 @@ export default {
   padding: 0;
 }
 .other-name {
-  
+
   font-size: 1.5rem;
   font-weight: bolder;
   margin-bottom: 15px;

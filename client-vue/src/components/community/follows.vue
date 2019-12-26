@@ -2,7 +2,7 @@
   <div class="follows">
       <span class="follows-title">您关注了 {{followsnum}} 位用户</span>
     <el-row class="follows-row">
-      <el-col :span="5" v-for=" item in items" :key="item.uid" class="follows-col">
+      <el-col :span="5" v-for="item in items" :key="item.uid" class="follows-col">
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="card-bg"></div>
             <ul class="follows-ul">
@@ -32,17 +32,42 @@ export default {
   },
   methods: {
       others(uid){
-      this.$router.push({path: "/community/others",query:{my:false,uid:uid}})
+      this.$router.push({path: "/community/others",query:{my:false,uuid:uid}})
     },
     getfollows(){
         this.$http.post('/api/focus',{uid:this.uid},{emulateJSON:true})
         .then(res=>{
-            this.items=Object.assign(res.body);
+            this.items = []
+            let focus=Object.assign(res.body.result);
+            let i = 0
+            for (let item of focus) {
+                let new_item = {
+                    uid: item.userId,
+                    username: item.userName,
+                    head_image: item.headImg,
+                }
+                this.items.push(new_item)
+                i++
+            }
+            this.followsnum = i
         })
     },
     deletefocus(uuid){
     this.$http.post('/api/deleteFocus',{uid:this.uid,uuid:uuid},{emulateJSON:true})
     .then(res=>{
+        if (res.body.message == "取消关注成功") {
+            this.$message({
+                message: "取消关注成功",
+                type: "success",
+                customClass: "zIndex"
+            });
+        } else {
+            this.$message({
+                message: "取消关注失败",
+                type: "success",
+                customClass: "zIndex"
+            });
+        }
         this.getfollows()
     })
     }
@@ -121,7 +146,7 @@ export default {
 }
 .follows-userintr{
     display: block;
-    margin:10px 0 15px 15px; 
+    margin:10px 0 15px 15px;
     font-size: 14px;
     color: #85888a;
 }

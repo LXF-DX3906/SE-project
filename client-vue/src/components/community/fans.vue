@@ -2,7 +2,7 @@
   <div class="fans">
       <span class="fans-title">共有 {{fansnum}} 位用户关注了您</span>
     <el-row class="fans-row">
-      <el-col :span="5" v-for=" item in items" :key="item.uid" class="fans-col">
+      <el-col :span="5" v-for="item in items" :key="item.uid" class="fans-col">
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="card-bg"></div>
             <ul class="fans-ul">
@@ -29,16 +29,25 @@ export default {
       }
   },
   created () {
-    this.getfans()  
+    this.getfans()
   },
   methods: {
       others(uid){
-      this.$router.push({path: "/community/others",query:{my:false,uid:uid}})
+      this.$router.push({path: "/community/others",query:{my:false,uuid:uid}})
     },
     getfans(){
         this.$http.post('/api/fans',{uid:this.uid},{emulateJSON:true})
         .then(res=>{
-            this.items=Object.assign(res.body);
+            this.items = []
+            let fans=Object.assign(res.body.result);
+            for (let item of fans) {
+                let new_item = {
+                    uid: item.userId,
+                    username: item.userName,
+                    head_image: item.headImg,
+                }
+                this.items.push(new_item)
+            }
            /* var that=this;
             var temp1=[];
             for(let i=0;i<res.body.length;i++){
@@ -57,26 +66,26 @@ export default {
             console.log(temp1);
             temp2=temp2.concat(temp1)
             })
-            //temp1.concat(this.tryfollow(res.body[i].uid)) 
+            //temp1.concat(this.tryfollow(res.body[i].uid))
               console.log(this.tryfollow(res.body[i].uid));
             }*/
         })
     },
-    tryfollow(uuid){
-        var temp=[]
-        this.$http.post('/api/addFocus',{uid:this.uid,uuid:uuid},{emulateJSON:true})
-        .then(res=>{
-            if (res.body.message=='关注成功') {
-                temp=[{flag:false}]
-                //this.deletefocus(uuid)
-            }else{
-                temp=[{flag:true}]
-            }
-            console.log(temp);
-            return temp
-        })
-        
-    },
+    // tryfollow(uuid){
+    //     var temp=[]
+    //     this.$http.post('/api/addFocus',{uid:this.uid,uuid:uuid},{emulateJSON:true})
+    //     .then(res=>{
+    //         if (res.body.message=='关注成功') {
+    //             temp=[{flag:false}]
+    //             //this.deletefocus(uuid)
+    //         }else{
+    //             temp=[{flag:true}]
+    //         }
+    //         console.log(temp);
+    //         return temp
+    //     })
+    //
+    // },
       follow(uuid){
         this.$http.post('/api/addFocus',{uid:this.uid,uuid:uuid},{emulateJSON:true})
         .then(res=>{
@@ -86,13 +95,19 @@ export default {
               type: "success",
               customClass: "zIndex"
             });
-        }else{
+        }else if (res.body.message=="已关注该用户"){
           this.$message({
               message: "您已关注",
               type: "warning",
               customClass: "zIndex"
             });
-        }
+        } else {
+                this.$message({
+                    message: "关注失败",
+                    type: "warning",
+                    customClass: "zIndex"
+                });
+            }
         })
       },
       deletefocus(uuid){
@@ -105,6 +120,7 @@ export default {
               type: "success",
               customClass: "zIndex"
             });
+            this.$route.query.follows = this.$route.query.follows - 1
         }else{
           this.$message({
               message: "取消关注失败",
@@ -189,7 +205,7 @@ export default {
 }
 .fans-userintr{
     display: block;
-    margin:10px 0 15px 15px; 
+    margin:10px 0 15px 15px;
     font-size: 14px;
     color: #85888a;
 }
