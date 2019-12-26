@@ -61,7 +61,7 @@
       #{birthday,jdbcType=DATE}, #{headImg,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
       #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.entity.User">
+  <insert id="insertSelective" parameterType="com.example.demo.entity.User" useGeneratedKeys="true" keyProperty="userId">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">

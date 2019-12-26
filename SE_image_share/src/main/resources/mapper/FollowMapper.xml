@@ -33,4 +33,14 @@
       </if>
     </trim>
   </insert>
+  <select id="getFollows" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from follow
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="getFans" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from follow
+    where following_id = #{userId,jdbcType=INTEGER}
+  </select>
 </mapper>

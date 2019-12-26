@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface FollowMapper {
@@ -13,4 +15,8 @@ public interface FollowMapper {
     int insert(Follow record);
 
     int insertSelective(Follow record);
+
+    List<Follow> getFollows(Integer userId);
+
+    List<Follow> getFans(Integer userId);
 }

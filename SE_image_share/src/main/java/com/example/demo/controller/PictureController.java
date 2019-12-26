@@ -31,9 +31,9 @@ import java.util.List;
 @RestController
 @Controller
 public class PictureController {
-@Autowired
-private PictureMapper pictureMapper;
-private Type type = new Type();
+    @Autowired
+    private PictureMapper pictureMapper;
+    private Type type = new Type();
 
     @ApiOperation(
             value = "按类型搜索",
