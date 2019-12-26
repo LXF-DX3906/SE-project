@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import org.springframework.stereotype.Repository;
+
 public class FavoritePicture {
     private Integer pictureId;
 

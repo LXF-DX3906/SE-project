@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface FavoritePictureMapper {
@@ -13,4 +15,6 @@ public interface FavoritePictureMapper {
     int insert(FavoritePicture record);
 
     int insertSelective(FavoritePicture record);
+
+    List<FavoritePicture> selectByUserIdAndPictureId(@Param("userId") Integer userId, @Param("pictureId") Integer pictureId);
 }

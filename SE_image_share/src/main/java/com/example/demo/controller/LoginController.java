@@ -20,6 +20,7 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @ResponseBody
     @RequestMapping(value = "/phoneLogin", method = RequestMethod.POST)
     public Object phoneLoginVerify(HttpServletRequest req, HttpSession session) throws IOException {
         JSONObject jsonObject = new JSONObject();

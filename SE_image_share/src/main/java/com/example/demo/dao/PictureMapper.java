@@ -24,4 +24,6 @@ public interface PictureMapper {
     List<Picture> selectByType(String type_name);
 
     List<Picture> selectByKeyWords(String keyWords);
+
+    List<Picture> selectAll();
 }

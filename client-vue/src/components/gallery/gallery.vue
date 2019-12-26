@@ -54,7 +54,7 @@
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible" width="70%">
-        <div class="dia-cont" @load="collectinfo(diaitem.pid)">
+        <div class="dia-cont">
           <img :src="diaitem.position">
         </div>
         <el-button type="text" v-if="collect" @click="docollect(diaitem.pid)">收藏</el-button>
@@ -137,15 +137,20 @@ export default {
     showdia(item) {
       this.dialogVisible = true;
       this.diaitem = item;
+      this.collectinfo(this.diaitem.pid)
     },
     collectinfo(pid){
+      console.log('hhhhh')
       this.$http.post('/api/pictureCollectDelete',{uid:this.uid,pid:pid},{emulateJSON:true})
       .then(res=>{
-        if(res.body.message=="未点赞"){
+        if(res.body.message=="未收藏"){
           this.collect=true
         }else{
           this.$http.post('/api/pictureCollect',{uid:this.uid,pid:pid},{emulateJSON:true})
-          .then(res=>{this.collect=false})
+          .then(res=>{
+            console.log('hhh',res)
+            this.collect=false
+          })
         }
       })
     },
@@ -154,6 +159,7 @@ export default {
         this.$http.post('/api/pictureCollect',{uid:this.uid,pid:pid},{emulateJSON:true})
       .then(res=>{
         if(res.body.message=="收藏成功"){
+          this.collect=false
           this.$message({
               message: "收藏成功",
               type: "success",
@@ -180,6 +186,7 @@ export default {
       this.$http.post('/api/pictureCollectDelete',{uid:this.uid,pid:pid},{emulateJSON:true})
       .then(res=>{
         if(res.body.message=="取消收藏成功"){
+          this.collect=true
           this.$message({
               message: "取消收藏成功",
               type: "success",

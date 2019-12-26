@@ -36,6 +36,7 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .tags(new Tag("图片控制类", "负责展示，存储图片信息"),
+                        new Tag( "用户图片交互类","负责用户与图片间的交互，包括点赞，收藏等"),
                         new Tag("相册控制类", "负责控制相册信息"));
     }
 

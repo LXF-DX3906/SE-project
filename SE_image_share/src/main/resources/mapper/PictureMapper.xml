@@ -114,4 +114,8 @@
     from picture
     where description like CONCAT(CONCAT('%', #{keyWords, jdbcType=VARCHAR}), '%')
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from picture
+  </select>
 </mapper>

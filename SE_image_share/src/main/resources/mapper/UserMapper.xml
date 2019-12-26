@@ -2,20 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.example.demo.entity.User">
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="birthday" jdbcType="DATE" property="birthday" />
-    <result column="head_img" jdbcType="VARCHAR" property="headImg" />
-    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
-    <result column="province" jdbcType="VARCHAR" property="province" />
-    <result column="city" jdbcType="VARCHAR" property="city" />
+    <id column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" javaType="java.lang.String" property="userName" />
+    <result column="pwd" jdbcType="VARCHAR" javaType="java.lang.String" property="pwd" />
+    <result column="phone" jdbcType="VARCHAR" javaType="java.lang.String" property="phone" />
+    <result column="email" jdbcType="VARCHAR" javaType="java.lang.String" property="email" />
+    <result column="sex" jdbcType="VARCHAR" javaType="java.lang.String" property="sex" />
+    <result column="birthday" jdbcType="DATE" javaType="java.sql.Date" property="birthday" />
+    <result column="head_img" jdbcType="VARCHAR" javaType="java.lang.String" property="headImg" />
+    <result column="introduction" jdbcType="VARCHAR" javaType="java.lang.String" property="introduction" />
+    <result column="province" jdbcType="VARCHAR" javaType="java.lang.String" property="province" />
+    <result column="city" jdbcType="VARCHAR" javaType="java.lang.String" property="city" />
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, user_name, pwd, phone, email, sex, birthday, head_img, introduction, province, 
+    user_id, user_name, pwd, phone, email, sex, birthday, head_img, introduction, province,
     city
   </sql>
   <select id="phoneVerify" resultType="java.lang.Integer">
@@ -42,7 +42,7 @@
     where user_name = #{userName,jdbcType=VARCHAR}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from user
     where user_id = #{userId,jdbcType=INTEGER}
@@ -52,16 +52,16 @@
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.entity.User">
-    insert into user (user_id, user_name, pwd, 
-      phone, email, sex, 
-      birthday, head_img, introduction, 
+    insert into user (user_id, user_name, pwd,
+      phone, email, sex,
+      birthday, head_img, introduction,
       province, city)
-    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
-      #{birthday,jdbcType=DATE}, #{headImg,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+      #{birthday,jdbcType=DATE}, #{headImg,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR},
       #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.entity.User">
+  <insert id="insertSelective" parameterType="com.example.demo.entity.User" useGeneratedKeys="true" keyProperty="userId">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -184,4 +184,10 @@
       city = #{city,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
+  <select id="selectUserNameByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select user_name
+    from user
+    where user_id = #{userId,jdbcType=INTEGER};
+  </select>
 </mapper>

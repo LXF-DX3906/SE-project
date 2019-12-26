@@ -71,7 +71,7 @@ export default {
       imgs: [],
       diaitem: [],
       picdetail:[],
-      useritem:[]
+      useritem:{}
     };
   },
   created() {
@@ -113,13 +113,37 @@ export default {
     },
     getData(){
       this.$http.get('/api/pictureUsersList').then(res=>{
-        this.imgs = Object.assign(res.body);
+        console.log(res)
+        this.imgs = []
+        let imgs = Object.assign(res.body.result);
+        for (let item of  imgs) {
+          let new_item = {
+            pid: item.pictureId,
+            position: this.$store.state.HOST + item.position,
+            weight: item.weight,
+            height: item.height,
+            description: item.description,
+            uid: item.userId,
+            username: item.userName,
+            head_image: this.$store.state .HOST+item.headImg
+          }
+          this.imgs.push(new_item)
+        }
       })
     },
     getuserinfo(uid){
       this.$http.post('/api/basicInfo',{uid:uid},{emulateJSON:true})
       .then(res=>{
-        this.useritem = Object.assign(res.body[0]);  
+        console.log(res)
+        this.useritem = {
+          username: res.body.username,
+          sex: res.body.sex,
+          desc: res.body.desc,
+          city: res.body.city,
+          province: res.body.province,
+          birth: res.body.birthday,
+          head_image: this.$store.state.HOST+res.body.head_image,
+        }
       })
     },
     getpicdetail(pid){
@@ -132,7 +156,7 @@ export default {
     addcom(pid,uuid,content){
       this.$http.post('/api/userComment',{pid:pid,uid:this.uid,uuid:uuid,content:content})
       .then(res=>{
-        if(res.body=='评论成功'){   
+        if(res.body=='评论成功'){
           this.getpicdetail(pid)
           this.comment=''
         }else{
@@ -148,7 +172,7 @@ export default {
       this.$http.post('/api/pictureLike',{uid:this.uid,pid:pid})
       .then(res=>{
         console.log(res);
-        
+
         if (res.body.message=='点赞成功') {
           this.$message({
               message: "点赞成功",
@@ -167,6 +191,7 @@ export default {
     },
     show(item) {
       if (this.uid) {
+        this.useritem = {}
         this.dialogVisible = true;
         this.diaitem = item;
         this.getuserinfo(item.uid)
@@ -178,11 +203,11 @@ export default {
               customClass: "zIndex"
             })
       }
-      
+
     }
   }
 };
-</script> 
+</script>
 <style>
 .tj {
   background-color: #ededef;

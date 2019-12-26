@@ -24,4 +24,6 @@ public interface UserMapper {
     Integer emailVerify(String email, String pwd);
 
     Integer userNameVerify(String userName);
+
+    String selectUserNameByUserId(Integer userId);
 }

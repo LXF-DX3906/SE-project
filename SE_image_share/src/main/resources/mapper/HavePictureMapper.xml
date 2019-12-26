@@ -55,4 +55,10 @@
     set user_id = #{userId,jdbcType=INTEGER}
     where picture_id = #{pictureId,jdbcType=INTEGER}
   </update>
+
+  <select id="selectUserIdByPictureId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select user_id
+    from have_picture
+    where picture_id = #{pictureId,jdbcType=INTEGER}
+  </select>
 </mapper>

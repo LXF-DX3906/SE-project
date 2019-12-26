@@ -5,6 +5,7 @@
     <id column="picture_id" jdbcType="INTEGER" property="pictureId" />
     <id column="user_id" jdbcType="INTEGER" property="userId" />
   </resultMap>
+
   <delete id="deleteByPrimaryKey" parameterType="map">
     delete from like_picture
     where picture_id = #{pictureId,jdbcType=INTEGER}
@@ -33,4 +34,19 @@
       </if>
     </trim>
   </insert>
+
+  <select id="getLikeCountById" parameterType="java.lang.Integer">
+    select count (user_id)
+    from like_picture
+    where picture_id = #{pictureId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getAllLikeNum" resultType="com.example.demo.entity.LikeNum">
+    select t.picture_id, t.like_num
+    from(
+        select picture_id, count(user_id) as like_num
+        from like_picture
+        group by picture_id
+     )t
+  </select>
 </mapper>

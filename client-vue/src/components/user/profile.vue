@@ -87,7 +87,7 @@ export default {
        this.city=result.body.city;
        this.province=result.body.province;
        this.birth=result.body.birthday;
-       this.avatar=result.body.head_image;
+       this.avatar=this.$store.state.HOST+result.body.head_image;
      })
      },
      updateInfo(){

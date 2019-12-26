@@ -18,4 +18,6 @@ public interface HavePictureMapper {
     int updateByPrimaryKeySelective(HavePicture record);
 
     int updateByPrimaryKey(HavePicture record);
+
+    int selectUserIdByPictureId(Integer pictureId);
 }
