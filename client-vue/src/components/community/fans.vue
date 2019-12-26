@@ -25,7 +25,8 @@ export default {
           uid:this.$route.query.uid,
           fansnum:this.$route.query.fans,
           items:[],
-          arr:[]
+          arr:[],
+          followsnum:this.$route.query.follows
       }
   },
   created () {
@@ -95,6 +96,9 @@ export default {
               type: "success",
               customClass: "zIndex"
             });
+          this.$emit('getmsg',(Number(this.followsnum )+1).toString());
+          console.log()
+          this.followsnum = (Number(this.followsnum )+1).toString()
         }else if (res.body.message=="已关注该用户"){
           this.$message({
               message: "您已关注",

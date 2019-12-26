@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.example.demo.entity.User">
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="birthday" jdbcType="DATE" property="birthday" />
-    <result column="head_img" jdbcType="VARCHAR" property="headImg" />
-    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
-    <result column="province" jdbcType="VARCHAR" property="province" />
-    <result column="city" jdbcType="VARCHAR" property="city" />
+    <id column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" javaType="java.lang.String" property="userName" />
+    <result column="pwd" jdbcType="VARCHAR" javaType="java.lang.String" property="pwd" />
+    <result column="phone" jdbcType="VARCHAR" javaType="java.lang.String" property="phone" />
+    <result column="email" jdbcType="VARCHAR" javaType="java.lang.String" property="email" />
+    <result column="sex" jdbcType="VARCHAR" javaType="java.lang.String" property="sex" />
+    <result column="birthday" jdbcType="DATE" javaType="java.sql.Date" property="birthday" />
+    <result column="head_img" jdbcType="VARCHAR" javaType="java.lang.String" property="headImg" />
+    <result column="introduction" jdbcType="VARCHAR" javaType="java.lang.String" property="introduction" />
+    <result column="province" jdbcType="VARCHAR" javaType="java.lang.String" property="province" />
+    <result column="city" jdbcType="VARCHAR" javaType="java.lang.String" property="city" />
   </resultMap>
   <sql id="Base_Column_List">
     user_id, user_name, pwd, phone, email, sex, birthday, head_img, introduction, province, 

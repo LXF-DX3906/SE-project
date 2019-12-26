@@ -80,7 +80,7 @@
         </el-dialog>
       </el-header>
       <el-main class="mysq-main">
-        <router-view></router-view>
+        <router-view v-on:getmsg="getmsg"></router-view>
       </el-main>
     </el-container>
   </div>
@@ -218,6 +218,9 @@ export default {
     }
   },
   methods: {
+    getmsg(data){
+      this.follows = data
+    },
     getinfo(){
       this.$http.post('/api/basicInfo',{uid:localStorage.getItem('uid')},{emulateJSON:true})
      .then(result=>{
@@ -269,7 +272,7 @@ export default {
       this.$router.push({path: "/community/mycommunity/mycollection",query:{my:true,uid:this.uid}})
     },
     showfans(){
-      this.$router.push({ path: "/community/mycommunity/fans",query:{fans:this.fans,uid:this.uid} });
+      this.$router.push({ path: "/community/mycommunity/fans",query:{fans:this.fans,uid:this.uid,follows:this.follows} });
     },
     showfollows(){
       this.$router.push({ path: "/community/mycommunity/follows",query:{follows:this.follows,uid:this.uid} });

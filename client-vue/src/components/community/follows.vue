@@ -69,6 +69,7 @@ export default {
             });
         }
         this.getfollows()
+        this.$emit('getmsg', (this.followsnum - 1).toString())
     })
     }
   },

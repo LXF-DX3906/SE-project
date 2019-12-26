@@ -4,6 +4,8 @@ import com.example.demo.entity.Album;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface AlbumMapper {
@@ -18,4 +20,6 @@ public interface AlbumMapper {
     int updateByPrimaryKeySelective(Album record);
 
     int updateByPrimaryKey(Album record);
+
+    List<Album> getAlbum(Integer ownerId);
 }

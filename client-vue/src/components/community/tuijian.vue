@@ -92,19 +92,25 @@ export default {
     follow(uuid){
         this.$http.post('/api/addFocus',{uid:this.uid,uuid:uuid},{emulateJSON:true})
         .then(res=>{
-            if (res.body.message=="关注成功") {
-          this.$message({
+          if (res.body.message=="关注成功") {
+            this.$message({
               message: "关注成功",
               type: "success",
               customClass: "zIndex"
             });
-        }else{
-          this.$message({
+          }else if (res.body.message=="已关注该用户"){
+            this.$message({
               message: "您已关注",
               type: "warning",
               customClass: "zIndex"
             });
-        }
+          } else {
+            this.$message({
+              message: "关注失败",
+              type: "warning",
+              customClass: "zIndex"
+            });
+          }
         })
       },
     scroll() {
@@ -119,7 +125,7 @@ export default {
     getuserinfo(uid){
       this.$http.post('/api/basicInfo',{uid:uid},{emulateJSON:true})
       .then(res=>{
-        this.useritem = Object.assign(res.body[0]);  
+        this.useritem = Object.assign(res.body[0]);
       })
     },
     getpicdetail(pid){
@@ -132,7 +138,7 @@ export default {
     addcom(pid,uuid,content){
       this.$http.post('/api/userComment',{pid:pid,uid:this.uid,uuid:uuid,content:content})
       .then(res=>{
-        if(res.body=='评论成功'){   
+        if(res.body=='评论成功'){
           this.getpicdetail(pid)
           this.comment=''
         }else{
@@ -148,7 +154,7 @@ export default {
       this.$http.post('/api/pictureLike',{uid:this.uid,pid:pid})
       .then(res=>{
         console.log(res);
-        
+
         if (res.body.message=='点赞成功') {
           this.$message({
               message: "点赞成功",
@@ -178,11 +184,11 @@ export default {
               customClass: "zIndex"
             })
       }
-      
+
     }
   }
 };
-</script> 
+</script>
 <style>
 .tj {
   background-color: #ededef;

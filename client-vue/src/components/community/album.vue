@@ -7,17 +7,19 @@
           <div class="al-one" :style="{backgroundImage:'url('+bgurl+')'}" @click="detail(item.gid)"></div>
         </div>
         <div class="al-two" v-else-if="item.num==1">
-          <div class="al-one" :style="{backgroundImage:'url('+item.list[0].position+')'}" @click="detail(item.gid)"></div>
+          <div class="al-one" :style="{backgroundImage:'url('+hostUrl+item.list[0].position+')'}" @click="detail(item.gid)"></div>
         </div>
-        <div class="al-two" v-else-if="item.num>1" :style="{backgroundImage:'url('+item.list[1].position+')'}">
-          <div class="al-one" :style="{backgroundImage:'url('+item.list[0].position+')'}" @click="detail(item.gid)"></div>
+        <div class="al-two" v-else-if="item.num>1" :style="{backgroundImage:'url('+hostUrl+item.list[1].position+')'}">
+          <div class="al-one" :style="{backgroundImage:'url('+hostUrl+item.list[0].position+')'}" @click="detail(item.gid)"></div>
         </div>
+
         <ul class="al-ul">
           <li class="al-name">{{item.gallery_name}}</li>
           <li class="alli-btn"><el-button class="al-btn" icon="el-icon-edit" @click="changeal(item.gid,item.gallery_name,item.status,item.description)"></el-button></li>
           <li class="al-num">{{item.num}}张</li>
           <li class="al-open" v-if="item.status==0">公开</li>
           <li class="al-open" v-else>私密</li>
+            <li class="al-desc">{{item.description}}</li>
         </ul>
       </el-col>
     </el-row>
@@ -28,14 +30,16 @@
           <div class="al-one" :style="{backgroundImage:'url('+bgurl+')'}" @click="detail(item.gid)"></div>
         </div>
         <div class="al-two" v-else-if="item.num==1">
-          <div class="al-one" :style="{backgroundImage:'url('+item.list[0].position+')'}" @click="detail(item.gid)"></div>
+          <div class="al-one" :style="{backgroundImage:'url('+hostUrl+item.list[0].position+')'}" @click="detail(item.gid)"></div>
         </div>
-        <div class="al-two" v-else-if="item.num>1" :style="{backgroundImage:'url('+item.list[1].position+')'}">
-          <div class="al-one" :style="{backgroundImage:'url('+item.list[0].position+')'}" @click="detail(item.gid)"></div>
+        <div class="al-two" v-else-if="item.num>1" :style="{backgroundImage:'url('+hostUrl+item.list[1].position+')'}">
+          <div class="al-one" :style="{backgroundImage:'url('+hostUrl+item.list[0].position+')'}" @click="detail(item.gid)"></div>
         </div>
         <ul class="al-ul">
           <li class="al-name">{{item.gallery_name}}</li>
           <li class="al-num">{{item.num}}张</li>
+            <li class="al-open"></li>
+            <li class="al-desc">{{item.description}}</li>
         </ul>
       </el-col>
     </el-row>
@@ -66,8 +70,9 @@ export default {
   name: "album",
   data() {
     return {
+      hostUrl:this.$store.state.HOST,
       style: "",
-      bgurl:'http://188.131.192.194/head_images/Wmyn4BVtK5ZyeZvpTOd5SfIbAYJWVt6lvQdPvhpl.gif',
+      bgurl: require("../../assets/shequ-bg.jpg"),
       comName: this.$route.path,
       uid:this.$route.query.uid,
       datalist:[],
@@ -84,7 +89,7 @@ export default {
           label: "私密"
         }
       ],
-      status:'0',
+      status:"",
       gid:'',
       formLabelWidth1: "100px",
       formLabelWidth2: "100px",
@@ -98,9 +103,31 @@ export default {
      getalbum(){
       this.$http.post('/api/galleryList',{uid:this.uid},{emulateJSON:true})
       .then(res=>{
-        console.log(res);
-        
-        this.datalist=Object.assign(res.body);
+          if (res.body.message=="获取成功") {
+              this.datalist = []
+              let albums=Object.assign(res.body.albums);
+              let picturesInAlbum=Object.assign(res.body.pictures);
+              let picturelist = []
+              let index = 0
+              for(let album of albums) {
+                  picturelist = picturesInAlbum[index]
+                  let item = {
+                      gid:album.albumId,
+                      num:picturelist.length,
+                      list:picturelist,
+                      gallery_name:album.albumName,
+                      status: Number(album.status),
+                      description: album.description
+                  }
+                  this.datalist.push(item)
+              }
+          } else {
+              this.$message({
+                  message: "获取失败",
+                  type: "error",
+                  customClass: "zIndex"
+              });
+          }
       })
     },
     changeal(gid,name,status,desc){
@@ -201,6 +228,11 @@ export default {
   float: left;
   font-size: 15px;
   color: #000;
+}
+.al-desc {
+    float: left;
+    font-size: 15px;
+    color: #000;
 }
 .al-num {
   font-size: 5px;
