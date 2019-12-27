@@ -212,8 +212,8 @@ public class AlbumController {
             @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query"),
     })
-    @RequestMapping(value="/delete",method= RequestMethod.POST)
-    public Object delete(HttpServletRequest req, HttpSession session) {
+    @RequestMapping(value="/deleteFromAlbum",method= RequestMethod.POST)
+    public Object deleteFromAlbum(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         Integer albumId = Integer.valueOf(req.getParameter("gid").trim());
         Integer pictureId = Integer.valueOf(req.getParameter("pid").trim());
