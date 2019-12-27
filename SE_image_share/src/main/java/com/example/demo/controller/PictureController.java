@@ -35,7 +35,6 @@ import java.util.*;
 
 @Api(tags = {"图片控制类"})
 @RestController
-@Controller
 public class PictureController {
 @Autowired
 private PictureMapper pictureMapper;
@@ -142,7 +141,8 @@ private UserMapper userMapper;
     public class MyPicConfig implements WebMvcConfigurer {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:\\Users\\10638\\Desktop\\SoftwareProject\\Service\\SE_image_share\\pictures\\");
+//            registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:/Users/10638/Desktop/SoftwareProject/Service/SE_image_share/pictures/");
+            registry.addResourceHandler("/pictures/**").addResourceLocations("file:E:/大三上/软件工程/SE project/SE-project/SE_image_share/pictures/");
         }
     }
 }

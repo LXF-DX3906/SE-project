@@ -184,7 +184,7 @@ export default {
           this.username='注册用户';
        }
        this.introduction=result.body.introduce;
-       this.txurl=result.body.head_image;
+       this.txurl=this.$store.state.HOST + result.body.head_image;
        this.fans=result.body.fans;
        this.follows=result.body.follow;
      })

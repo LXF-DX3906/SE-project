@@ -45,7 +45,7 @@ export default {
                 let new_item = {
                     uid: item.userId,
                     username: item.userName,
-                    head_image: item.headImg,
+                    head_image:this.$store.state.HOST + item.headImg,
                 }
                 this.items.push(new_item)
             }

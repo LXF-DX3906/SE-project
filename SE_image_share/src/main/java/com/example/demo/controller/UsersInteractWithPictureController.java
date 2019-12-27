@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.dao.FavoritePictureMapper;
 import com.example.demo.entity.FavoritePicture;
+import com.example.demo.entity.User;
+import com.example.demo.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -27,7 +29,6 @@ import java.util.List;
 
 @Api(tags = {"用户图片交互类"})
 @RestController
-@Controller
 public class UsersInteractWithPictureController {
     @Autowired
     private FavoritePictureMapper favoritePictureMapper;

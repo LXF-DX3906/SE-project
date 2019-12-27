@@ -27,7 +27,6 @@ import com.example.demo.entity.User;
 
 @Api(tags = {"登录控制类"})
 @RestController
-@Controller
 public class LoginController {
     @Autowired
     private UserService userService;

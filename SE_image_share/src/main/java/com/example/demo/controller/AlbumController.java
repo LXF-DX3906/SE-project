@@ -31,7 +31,6 @@ import java.util.List;
 
 @Api(tags = {"相册控制类"})
 @RestController
-@Controller
 public class AlbumController {
     @Autowired
     AlbumService albumService;
