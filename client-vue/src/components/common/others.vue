@@ -71,6 +71,12 @@ export default {
   name: "other",
   components: {},
   data() {
+    let id
+    if (this.$route.query.uuid != undefined) {
+      id = this.$route.query.uuid
+    } else {
+      id = this.$route.query.uid
+    }
     return {
       comName: this.$route.path,
       flag1: true,
@@ -78,7 +84,7 @@ export default {
       flag3: false,
       flag5: false,
       collection: false,
-      uuid:this.$route.query.uuid,
+      uuid: id,
       uid:localStorage.getItem("uid"),
       username: "",
       txurl: "/img/tx6.27d6e020.jpg",

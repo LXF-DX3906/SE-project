@@ -88,7 +88,7 @@ export default {
     galleryUpload(pos, width, height) {
       this.$http
         .post(
-          "/api/galleryUpload",
+          "/api/albumUpload",
           {
             uid: this.uid,
             gid: this.gid,
@@ -120,7 +120,7 @@ export default {
     loadmore() {},
     getalbumdetail() {
       this.$http
-        .post("/api/galleryDetail", { gid: this.gid }, { emulateJSON: true })
+        .post("/api/albumDetail", { gid: this.gid }, { emulateJSON: true })
         .then(res => {
           if (res.body.message == "获取成功") {
             this.imgs = [];
@@ -143,7 +143,7 @@ export default {
     },
     deletedetail(pid) {
       this.$http
-        .post("/api/delete", { uid: this.uid, pid: pid }, { emulateJSON: true })
+        .post("/api/delete", { gid: this.gid, pid: pid }, { emulateJSON: true })
         .then(res => {
           if (res.body.message == "删除成功") {
             this.$message({

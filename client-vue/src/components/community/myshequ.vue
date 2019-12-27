@@ -80,7 +80,7 @@
         </el-dialog>
       </el-header>
       <el-main class="mysq-main">
-        <router-view v-on:getmsg="getmsg"></router-view>
+        <router-view ref="child" v-on:getmsg="getmsg"></router-view>
       </el-main>
     </el-container>
   </div>
@@ -239,7 +239,7 @@ export default {
       this.newalbum=true;
     },
     createsubmit(){
-      this.$http.post('/api/createGallery',{uid:this.uid,gallery_name:this.alname,status:this.status,description:this.alinfo},{emulateJSON:true})
+      this.$http.post('/api/createAlbum',{uid:this.uid,albumName:this.alname,status:this.status,description:this.alinfo},{emulateJSON:true})
       .then(res=>{
         if (res.body.message=="创建成功") {
           this.$message({
@@ -247,7 +247,7 @@ export default {
               type: "success",
               customClass: "zIndex"
             });
-          this.$router.go(0)
+          this.$refs.child.getalbum()
           this.newalbum=false;
         }else{
           this.$message({

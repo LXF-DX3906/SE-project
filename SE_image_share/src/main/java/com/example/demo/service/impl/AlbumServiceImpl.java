@@ -26,8 +26,8 @@ public class AlbumServiceImpl implements AlbumService {
     PictureMapper pictureMapper;
 
     @Override
-    public List<Album> getAlbum(Integer onwerId) {
-        return albumMapper.getAlbum(onwerId);
+    public List<Album> getAlbum(Integer ownerId) {
+        return albumMapper.getAlbum(ownerId);
     }
 
     @Override
@@ -38,5 +38,26 @@ public class AlbumServiceImpl implements AlbumService {
             pictures.add(pictureMapper.selectByPrimaryKey(albumPicture.getPictureId()));
         }
         return pictures;
+    }
+
+    @Override
+    public boolean updateAlbumMsg(Album album) {
+        return albumMapper.updateByPrimaryKeySelective(album) > 0;
+    }
+
+    @Override
+    public boolean createAlbum(Album album) {
+        albumMapper.insertSelective(album);
+        return album.getAlbumId() > 0;
+    }
+
+    @Override
+    public boolean deleteAlbum(Album album) {
+        return albumMapper.deleteAlbum(album) > 0;
+    }
+
+    @Override
+    public boolean deletePictures(Integer albumId, Integer pictureId) {
+        return albumPictureMapper.deleteByPrimaryKey(albumId, pictureId) > 0;
     }
 }

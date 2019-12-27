@@ -27,7 +27,7 @@
     values (#{albumId,jdbcType=INTEGER}, #{albumName,jdbcType=VARCHAR}, #{ownerId,jdbcType=INTEGER}, 
       #{status,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.entity.Album">
+  <insert id="insertSelective" parameterType="com.example.demo.entity.Album" useGeneratedKeys="true" keyProperty="albumId">
     insert into album
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="albumId != null">
@@ -96,4 +96,9 @@
     from album
     where owner_id = #{ownerId,jdbcType=INTEGER}
   </select>
+  <delete id="deleteAlbum" parameterType="com.example.demo.entity.Album">
+    delete from album
+    where album_id = #{albumId,jdbcType=INTEGER}
+      and owner_id = #{ownerId,jdbcType=INTEGER}
+  </delete>
 </mapper>

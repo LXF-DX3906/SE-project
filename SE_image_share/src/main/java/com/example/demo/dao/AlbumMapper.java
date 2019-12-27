@@ -22,4 +22,6 @@ public interface AlbumMapper {
     int updateByPrimaryKey(Album record);
 
     List<Album> getAlbum(Integer ownerId);
+
+    Integer deleteAlbum(Album album);
 }

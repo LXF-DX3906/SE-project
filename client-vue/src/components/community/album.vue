@@ -19,8 +19,10 @@
           <li class="al-num">{{item.num}}张</li>
           <li class="al-open" v-if="item.status==0">公开</li>
           <li class="al-open" v-else>私密</li>
-          <li class="al-desc">{{item.description}}</li>
         </ul>
+         <ul class="al-ul">
+             <li class="al-desc">{{item.description}}</li>
+         </ul>
       </el-col>
     </el-row>
       <!--其他用户的相册-->
@@ -38,9 +40,11 @@
         <ul class="al-ul">
           <li class="al-name">{{item.gallery_name}}</li>
           <li class="al-num">{{item.num}}张</li>
-          <li class="al-open"></li>
-          <li class="al-desc">{{item.description}}</li>
+            <li class="al-open"></li>
         </ul>
+          <ul class="al-ul">
+              <li class="al-desc">{{item.description}}</li>
+          </ul>
       </el-col>
     </el-row>
     <el-dialog :visible.sync="changealbum">
@@ -72,7 +76,7 @@ export default {
     return {
       hostUrl:this.$store.state.HOST,
       style: "",
-      bgurl: require("../../assets/shequ-bg.jpg"),
+      bgurl: require("../../assets/nopic.jpg"),
       comName: this.$route.path,
       uid:this.$route.query.uid,
       datalist:[],
@@ -89,7 +93,7 @@ export default {
           label: "私密"
         }
       ],
-      status:"",
+      status:0,
       gid:'',
       formLabelWidth1: "100px",
       formLabelWidth2: "100px",
@@ -101,7 +105,7 @@ export default {
   },
   methods: {
      getalbum(){
-      this.$http.post('/api/galleryList',{uid:this.uid},{emulateJSON:true})
+      this.$http.post('/api/albumList',{uid:this.uid},{emulateJSON:true})
       .then(res=>{
           if (res.body.message=="获取成功") {
               this.datalist = []
@@ -119,6 +123,7 @@ export default {
                       status: Number(album.status),
                       description: album.description
                   }
+                  index++
                   this.datalist.push(item)
               }
           } else {
@@ -138,7 +143,7 @@ export default {
       this.albuminfo=desc;
     },
     edit(gid){
-      this.$http.post('/api/galleryUpdate',{gid:gid,uid:this.uid,gallery_name:this.albumname,status:this.status,description:this.albuminfo},{emulateJSON:true})
+      this.$http.post('/api/albumUpdate',{gid:gid,uid:this.uid,albumName:this.albumname,status:this.status,description:this.albuminfo},{emulateJSON:true})
       .then(res=>{
         if (res.body.message=="修改成功") {
           this.$message({
@@ -159,7 +164,7 @@ export default {
       })
     },
     deletealbum(gid){
-      this.$http.post('/api/galleryDelete',{gid:gid,uid:this.uid},{emulateJSON:true})
+      this.$http.post('/api/albumDelete',{gid:gid,uid:this.uid},{emulateJSON:true})
       .then(res=>{
         if (res.body.message=="删除成功") {
           this.$message({

@@ -44,9 +44,9 @@ public class AlbumController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/galleryList",method= RequestMethod.POST)
-    public Object galleryList(HttpServletRequest req, HttpSession session) {
-        Integer userId = Integer.valueOf(req.getParameter("uid"));
+    @RequestMapping(value="/albumList",method= RequestMethod.POST)
+    public Object albumList(HttpServletRequest req, HttpSession session) {
+        Integer userId = Integer.valueOf(req.getParameter("uid").trim());
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         try {
@@ -75,9 +75,9 @@ public class AlbumController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/galleryDetail",method= RequestMethod.POST)
-    public Object galleryDetail(HttpServletRequest req, HttpSession session) {
-        Integer albumId = Integer.valueOf(req.getParameter("gid"));
+    @RequestMapping(value="/albumDetail",method= RequestMethod.POST)
+    public Object albumDetail(HttpServletRequest req, HttpSession session) {
+        Integer albumId = Integer.valueOf(req.getParameter("gid").trim());
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         try {
@@ -85,6 +85,145 @@ public class AlbumController {
             jsonArray = JSONArray.parseArray(JSONObject.toJSONString(pictures));
             jsonObject.put("pictures", jsonArray);
             jsonObject.put("message", "获取成功");
+        } catch (Exception e) {
+            jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
+    }
+
+    @ApiOperation(
+            value = "编辑相册基本信息",
+            notes = "按相册gid编辑",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "albumName", value = "相册名字", required = false, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "status", value = "相册状态", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "相册描述", required = true, dataType = "String", paramType = "query"),
+    })
+    @RequestMapping(value="/albumUpdate",method= RequestMethod.POST)
+    public Object albumUpdate(HttpServletRequest req, HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
+        Integer albumId = Integer.valueOf(req.getParameter("gid").trim());
+        Integer ownerId = Integer.valueOf(req.getParameter("uid").trim());
+        String albumName = req.getParameter("albumName").trim();
+        String status = req.getParameter("status").trim();
+        String description = req.getParameter("description").trim();
+        Album album = new Album();
+        album.setAlbumId(albumId);
+        album.setOwnerId(ownerId);
+        album.setAlbumName(albumName);
+        album.setStatus(status);
+        album.setDescription(description);
+        try {
+            boolean res = albumService.updateAlbumMsg(album);
+            if (res) {
+                jsonObject.put("message", "修改成功");
+            } else {
+                jsonObject.put("message","修改失败");
+            }
+        } catch (Exception e) {
+            jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
+    }
+
+    @ApiOperation(
+            value = "创建新相册",
+            notes = "根据用户uid创建",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "albumName", value = "相册名字", required = false, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "status", value = "相册状态", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "相册描述", required = true, dataType = "String", paramType = "query"),
+    })
+    @RequestMapping(value="/createAlbum",method= RequestMethod.POST)
+    public Object createAlbum(HttpServletRequest req, HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
+        Integer ownerId = Integer.valueOf(req.getParameter("uid").trim());
+        String albumName = req.getParameter("albumName").trim();
+        String status = req.getParameter("status").trim();
+        String description = req.getParameter("description").trim();
+        Album album = new Album();
+        album.setOwnerId(ownerId);
+        album.setAlbumName(albumName);
+        album.setStatus(status);
+        album.setDescription(description);
+        try {
+            boolean res = albumService.createAlbum(album);
+            if (res) {
+                jsonObject.put("message", "创建成功");
+            } else {
+                jsonObject.put("message","创建失败");
+            }
+        } catch (Exception e) {
+            jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
+    }
+
+    @ApiOperation(
+            value = "删除相册",
+            notes = "根据用户uid删除对应gid的相册",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query"),
+    })
+    @RequestMapping(value="/albumDelete",method= RequestMethod.POST)
+    public Object albumDelete(HttpServletRequest req, HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
+        Integer albumId = Integer.valueOf(req.getParameter("gid").trim());
+        Integer ownerId = Integer.valueOf(req.getParameter("uid").trim());
+        Album album = new Album();
+        album.setAlbumId(albumId);
+        album.setOwnerId(ownerId);
+        try {
+            boolean res1 = albumService.deleteAlbum(album);
+            boolean res2 = true;
+            List<Picture> pictures = albumService.getPicturesByAlbumId(albumId);
+            if (pictures.size() > 0) {
+                for (Picture picture : pictures) {
+                    res2 = res2 && albumService.deletePictures(albumId, picture.getPictureId());
+                }
+            }
+            if (res1 && res2) {
+                jsonObject.put("message", "删除成功");
+            } else {
+                jsonObject.put("message","删除失败");
+            }
+        } catch (Exception e) {
+            jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
+    }
+
+    @ApiOperation(
+            value = "删除相册中的图片",
+            notes = "根据相册gid删除对应pid的图片",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query"),
+    })
+    @RequestMapping(value="/delete",method= RequestMethod.POST)
+    public Object delete(HttpServletRequest req, HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
+        Integer albumId = Integer.valueOf(req.getParameter("gid").trim());
+        Integer pictureId = Integer.valueOf(req.getParameter("pid").trim());
+        try {
+            boolean res = albumService.deletePictures(albumId, pictureId);
+            if (res) {
+                jsonObject.put("message", "删除成功");
+            } else {
+                jsonObject.put("message","删除失败");
+            }
         } catch (Exception e) {
             jsonObject.put("message", "数据库错误");
         }
