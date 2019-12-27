@@ -5,7 +5,7 @@ public class Picture {
 
     private String position;
 
-    private String weight;
+    private String width;
 
     private String height;
 
@@ -29,12 +29,12 @@ public class Picture {
         this.position = position == null ? null : position.trim();
     }
 
-    public String getWeight() {
-        return weight;
+    public String getWidth() {
+        return width;
     }
 
-    public void setWeight(String weight) {
-        this.weight = weight == null ? null : weight.trim();
+    public void setWidth(String width) {
+        this.width = width == null ? null : width.trim();
     }
 
     public String getHeight() {

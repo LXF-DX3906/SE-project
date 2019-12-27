@@ -4,13 +4,13 @@
   <resultMap id="BaseResultMap" type="com.example.demo.entity.Picture">
     <id column="picture_id" jdbcType="INTEGER" property="pictureId" />
     <result column="position" jdbcType="VARCHAR" property="position" />
-    <result column="weight" jdbcType="VARCHAR" property="weight" />
+    <result column="width" jdbcType="VARCHAR" property="width" />
     <result column="height" jdbcType="VARCHAR" property="height" />
     <result column="type_name" jdbcType="VARCHAR" property="typeName" />
     <result column="description" jdbcType="VARCHAR" property="description" />
   </resultMap>
   <sql id="Base_Column_List">
-    picture_id, position, weight, height, type_name, description
+    picture_id, position, width, height, type_name, description
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,14 +23,14 @@
     where picture_id = #{pictureId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.entity.Picture">
-    insert into picture (picture_id, position, weight, 
+    insert into picture (picture_id, position, width, 
       height, type_name, description
       )
-    values (#{pictureId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, 
+    values (#{pictureId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, 
       #{height,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.entity.Picture">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pictureId" parameterType="com.example.demo.entity.Picture">
     insert into picture
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="pictureId != null">
@@ -39,8 +39,8 @@
       <if test="position != null">
         position,
       </if>
-      <if test="weight != null">
-        weight,
+      <if test="width != null">
+        width,
       </if>
       <if test="height != null">
         height,
@@ -59,8 +59,8 @@
       <if test="position != null">
         #{position,jdbcType=VARCHAR},
       </if>
-      <if test="weight != null">
-        #{weight,jdbcType=VARCHAR},
+      <if test="width != null">
+        #{width,jdbcType=VARCHAR},
       </if>
       <if test="height != null">
         #{height,jdbcType=VARCHAR},
@@ -79,8 +79,8 @@
       <if test="position != null">
         position = #{position,jdbcType=VARCHAR},
       </if>
-      <if test="weight != null">
-        weight = #{weight,jdbcType=VARCHAR},
+      <if test="width != null">
+        width = #{width,jdbcType=VARCHAR},
       </if>
       <if test="height != null">
         height = #{height,jdbcType=VARCHAR},
@@ -97,7 +97,7 @@
   <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.Picture">
     update picture
     set position = #{position,jdbcType=VARCHAR},
-      weight = #{weight,jdbcType=VARCHAR},
+      width = #{width,jdbcType=VARCHAR},
       height = #{height,jdbcType=VARCHAR},
       type_name = #{typeName,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR}

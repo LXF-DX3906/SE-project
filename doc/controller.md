@@ -3,15 +3,13 @@
 
 - [ ] /basicInfo
 
-- [ ] /phoneLogin
+- [x] /phoneLogin
 
-- [ ] /emailLogin
+- [x] /emailLogin
 
-- [ ] /phoneRegister
+- [x] /phoneRegister
 
-- [ ] /emailRegister
-
-- [ ] /addFocus
+- [x] /emailRegister
 
 - [ ] **/adminUpload**
 
@@ -25,13 +23,11 @@
 
 - [ ] /galleryDetail
 
-- [ ] /delete
+- [x] /delete
 
 - [ ] /collect
 
-- [ ] /pictureCollectDelete
-
-- [ ] /focus
+- [x] /focus
 
 - [ ] /deleteFocus
 
@@ -53,33 +49,31 @@
 
 - [ ] /createGallery  
 
-- [ ] /myPictures
+- [x] /myPictures
 
 - [ ] /deletes
 
-- [ ] /addFocus
+- [x] /addFocus
 
-- [ ] /pictureUsersList  
+- [x] /pictureUsersList  
 
 - [ ] /pictureLike
 
-- [ ] /typeSearch
+- [x] /typeSearch
 
-- [ ] /pictureCollectDelete
+- [x] /pictureCollect
 
-- [ ] /pictureCollect
+- [x] /pictureCollectDelete  
 
-- [ ] /pictureCollectDelete  
-
-- [ ] /keywordSearch
+- [x] /keywordSearch
 
 - [ ] /pushList
 
-- [ ] /updateEmail
+- [x] /updateEmail
 
-- [ ] /updatePhone  
+- [x] /updatePhone  
 
-- [ ] /updateInfo
+- [x] /updateInfo
 
 
 ## 用户

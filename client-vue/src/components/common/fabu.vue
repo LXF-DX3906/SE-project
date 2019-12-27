@@ -123,7 +123,8 @@ export default {
           id: 9,
           category: "抓拍"
         }
-      ]
+      ],
+      uploadFormdata: new  FormData()
     };
   },
   methods: {
@@ -135,22 +136,17 @@ export default {
       this.$refs.upload.submit();
     },
     imgchange(file,fileList){
-      console.log(file);
-      let img = new FormData()
-      img.append('file', file.raw)
-      console.log(img);
-      this.$http.post('/api/upload',img)
-      .then(res=>{
-        console.log(res.body);
-        if (res.body.message=="上传成功") {
-          this.imgurl=res.body.image;
-          this.width=res.body.weight;
-          this.height=res.body.height;
-        }
-      })
-      .catch(ref=>{
-        console.log("asdasdasd");
-      })
+      console.log(file)
+      this.uploadFormdata = new FormData()
+      let f_img = new Image()
+      f_img.src=file.url
+      let _this = this
+      f_img.onload = function(){
+        _this.height =  f_img.height
+        _this.width =  f_img.width
+      }
+      this.uploadFormdata.append('img', file.raw)
+      console.log(this.uploadFormdata)
     },
     maxnum() {
       this.$message({
@@ -186,8 +182,13 @@ export default {
       },
     fabu(){
       let tags=this.dynamicTags.toString();
-     this.$http.post('/api/pictureUpload',{uid:this.uid,position:this.imgurl,type_name:tags,
-      description:this.description,weight:this.width,height:this.height},{emulateJSON:true})
+      this.uploadFormdata.append('height', this.height.toString())
+      this.uploadFormdata.append('width',this.width.toString())
+      this.uploadFormdata.append('uid',this.uid.toString())
+      this.uploadFormdata.append('type_name', tags)
+      this.uploadFormdata.append('description',this.description)
+      console.log(this.uploadFormdata.get('type_name'))
+      this.$http.post('/api/pictureUpload',this.uploadFormdata)
       .then(res=>{
         if (res.body.message=="添加成功") {
           this.$message({

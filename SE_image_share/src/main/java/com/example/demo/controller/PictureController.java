@@ -20,11 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -167,6 +171,72 @@ public class PictureController {
         }
         return jsonObject;
     }
+
+
+    @ApiOperation(
+            value = "上传图片",
+            notes = "从前端获取图片文件与图片尺寸，写入到数据库与文件系统"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "form"),
+            @ApiImplicitParam(name = "width", value = "图片宽度", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "height", value = "图片高度", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "description", value = "图片描述", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "type_name", value = "图片类型", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "img", value = "图片文件", required = true, dataType = "MultipartFile", paramType = "form")
+    })
+    @RequestMapping(value="/pictureUpload",method= RequestMethod.POST)
+    public Object pictureUpload(HttpServletRequest request , HttpSession session) throws IOException {
+        MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
+        List<MultipartFile> file = ((MultipartHttpServletRequest) request).getFiles("img");
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            int uid = Integer.parseInt(params.getParameter("uid"));
+            String width = params.getParameter("width");
+            String height = params.getParameter("height");
+            String description = params.getParameter("description");
+            String type_name = params.getParameter("type_name");
+
+
+            String dirPath = System.getProperty("user.dir") + System.getProperty("file.separator") + "pictures" + System.getProperty("file.separator") + uid + System.getProperty("file.separator") + "pictures" + System.getProperty("file.separator");
+            String fileName = file.get(0).getOriginalFilename();
+            assert fileName != null;
+            String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
+            Picture picture = new Picture();
+            picture.setTypeName(type_name);
+            picture.setDescription(description);
+            picture.setHeight(height);
+            picture.setWidth(width);
+
+            pictureMapper.insertSelective(picture);
+            int pid = picture.getPictureId();
+            picture.setPosition("pictures/" + uid + "/pictures/" + pid + fileSuffix);
+            pictureMapper.updateByPrimaryKeySelective(picture);
+            String localFileName =  pid +  fileSuffix;
+            String filePath = dirPath + localFileName;
+            File localFile = new File(filePath);
+            File imagePath = new File(dirPath);
+            if (!imagePath.exists()) {
+                imagePath.mkdirs();
+            }
+            file.get(0).transferTo(localFile);
+            jsonObject.put("message","添加成功");
+        }catch (Exception e){
+            jsonObject.put("message","error");
+        }
+        return jsonObject;
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     @Configuration

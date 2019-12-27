@@ -47,9 +47,9 @@
         class="gtuku-div"
         v-for="(img) in imgs"
         :key="img.pid"
-        :style="{width:img.weight*200/img.height+'px',flexGrow:img.weight*200/img.height}"
+        :style="{width:img.width*200/img.height+'px',flexGrow:img.width*200/img.height}"
       >
-        <i :style="{paddingBottom:img.height/img.weight*100+'%'}"></i>
+        <i :style="{paddingBottom:img.height/img.width*100+'%'}"></i>
         <img :src="img.position" @click="showdia(img)">
       </div>
     </div>
@@ -120,7 +120,7 @@ export default {
           let new_item = {
             pid: item.pictureId,
             position: this.$store.state.HOST + item.position,
-            weight: item.weight,
+            width: item.width,
             height: item.height,
             description: item.description
           }

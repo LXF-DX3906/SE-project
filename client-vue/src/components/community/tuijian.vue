@@ -126,7 +126,7 @@ export default {
           let new_item = {
             pid: item.pictureId,
             position: this.$store.state.HOST + item.position,
-            weight: item.weight,
+            weight: item.width,
             height: item.height,
             description: item.description,
             uid: item.userId,
