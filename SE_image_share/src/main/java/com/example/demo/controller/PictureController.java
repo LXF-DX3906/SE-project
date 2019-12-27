@@ -2,14 +2,8 @@ package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.example.demo.dao.HavePictureMapper;
-import com.example.demo.dao.LikePictureMapper;
-import com.example.demo.dao.PictureMapper;
-import com.example.demo.dao.UserMapper;
-import com.example.demo.entity.LikeNum;
-import com.example.demo.entity.LikePicture;
-import com.example.demo.entity.Picture;
-import com.example.demo.entity.Type;
+import com.example.demo.dao.*;
+import com.example.demo.entity.*;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.service.PictureService;
 import io.swagger.annotations.*;
@@ -210,8 +204,8 @@ public class PictureController {
     public class MyPicConfig implements WebMvcConfigurer {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//            registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:/Users/10638/Desktop/SoftwareProject/Service/SE_image_share/pictures/");
-            registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
+            registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:/Users/10638/Desktop/SoftwareProject/Service/SE_image_share/pictures/");
+//            registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
         }
     }
 }
