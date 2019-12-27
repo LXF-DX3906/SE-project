@@ -157,7 +157,7 @@ export default {
       this.$http.post('/api/pictureDetail',{pid:pid},{emulateJSON:true})
       .then(res=>{
         console.log(res);
-        this.picdetail=Object.assign(res.body);
+        this.picdetail=Object.assign(res.body.result);
       })
     },
     addcom(pid,uuid,content){

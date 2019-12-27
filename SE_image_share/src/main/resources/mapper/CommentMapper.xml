@@ -79,4 +79,9 @@
       content = #{content,jdbcType=VARCHAR}
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
+  <select id="selectByPictureId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from comment
+    where picture_id = #{pictureId,jdbcType=INTEGER}
+  </select>
 </mapper>

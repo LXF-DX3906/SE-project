@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import com.example.demo.entity.Comment;
 import com.example.demo.entity.Picture;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

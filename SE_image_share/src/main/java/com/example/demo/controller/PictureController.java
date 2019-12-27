@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.example.demo.dao.HavePictureMapper;
 import com.example.demo.dao.LikePictureMapper;
@@ -48,6 +49,8 @@ public class PictureController {
     private UserMapper userMapper;
     @Autowired
     private PictureService pictureService;
+    @Autowired
+    private CommentMapper commentMapper;
 
     @ApiOperation(
             value = "按类型搜索",
@@ -173,8 +176,6 @@ public class PictureController {
     public class MyPicConfig implements WebMvcConfigurer {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:/Users/10638/Desktop/SoftwareProject/Service/SE_image_share/pictures/");
-//            registry.addResourceHandler("/pictures/**").addResourceLocations("file:E:/大三上/软件工程/SE project/SE-project/SE_image_share/pictures/");
         }
     }
 }
