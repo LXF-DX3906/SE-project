@@ -35,8 +35,8 @@
     </trim>
   </insert>
 
-  <select id="getLikeCountById" parameterType="java.lang.Integer">
-    select count (user_id)
+  <select id="getLikeCountById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(user_id)
     from like_picture
     where picture_id = #{pictureId,jdbcType=INTEGER}
   </select>

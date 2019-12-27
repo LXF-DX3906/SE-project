@@ -5,7 +5,7 @@
         <waterfall class="mywork-div" :col="col" :width="itemWidth" :gutterWidth="gutterWidth" :data="imgs" @loadmore="loadmore"
       @scroll="scroll">
       <template>
-        <div class="mywork-item" v-for="img in imgs" :key="img.id">
+        <div class="mywork-item" v-for="img in imgs" :key="img.pid">
           <div class="mywork-img">
             <img :src="img.position">
           </div>
@@ -83,7 +83,17 @@ export default {
     getmywork(){
     this.$http.post('/api/myPictures',{uid:this.uid},{emulateJSON:true})
       .then(res=>{
-        this.imgs = Object.assign(res.body);
+        this.imgs = [];
+        let imgs = Object.assign(res.body.result);
+        for (let item of  imgs) {
+          let new_item = {
+            pid: item.pictureId,
+            position: this.$store.state.HOST + item.position,
+            type_name: item.typeName,
+            like_num:item.likeNum,
+          }
+          this.imgs.push(new_item)
+        }
       })
     },
     getpicdetail(pid){

@@ -1,8 +1,11 @@
 package com.example.demo.dao;
 
 import com.example.demo.entity.HavePicture;
+import com.example.demo.entity.Picture;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Mapper
 @Repository
@@ -20,4 +23,6 @@ public interface HavePictureMapper {
     int updateByPrimaryKey(HavePicture record);
 
     int selectUserIdByPictureId(Integer pictureId);
+
+    List<Integer> getPictureId(Integer userId);
 }

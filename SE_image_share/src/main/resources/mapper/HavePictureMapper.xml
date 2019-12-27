@@ -61,4 +61,10 @@
     from have_picture
     where picture_id = #{pictureId,jdbcType=INTEGER}
   </select>
+
+  <select id="getPictureId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select picture_id
+    from have_picture
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -10,6 +10,7 @@ import com.example.demo.entity.LikePicture;
 import com.example.demo.entity.Picture;
 import com.example.demo.entity.Type;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.service.PictureService;
 import io.swagger.annotations.*;
 import org.apache.ibatis.annotations.Lang;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +37,17 @@ import java.util.*;
 @Api(tags = {"图片控制类"})
 @RestController
 public class PictureController {
-@Autowired
-private PictureMapper pictureMapper;
-private Type type = new Type();
-@Autowired
-private LikePictureMapper likePictureMapper;
-@Autowired
-private HavePictureMapper havePictureMapper;
-@Autowired
-private UserMapper userMapper;
+    @Autowired
+    private PictureMapper pictureMapper;
+    private Type type = new Type();
+    @Autowired
+    private LikePictureMapper likePictureMapper;
+    @Autowired
+    private HavePictureMapper havePictureMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private PictureService pictureService;
 
     @ApiOperation(
             value = "按类型搜索",
@@ -134,6 +137,35 @@ private UserMapper userMapper;
         }catch (Exception e){
             return jsonObject.put("message","error");
         }
+    }
+
+    @ApiOperation(
+            value = "获得用户的图片",
+            notes = "按用户uid获得",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
+    })
+    @RequestMapping(value="/myPictures",method= RequestMethod.POST)
+    public Object myPictures(HttpServletRequest req, HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        Integer userId = Integer.valueOf(req.getParameter("uid").trim());
+        try {
+            List<Picture> pictures = pictureService.getPicturesByUserId(userId);
+            for (Picture picture : pictures) {
+                JSONObject tempJsonObject = new JSONObject();
+                tempJsonObject = JSONObject.parseObject(JSONObject.toJSONString(picture));
+                tempJsonObject.put("likeNum", likePictureMapper.getLikeCountById(picture.getPictureId()));
+                jsonArray.add(tempJsonObject);
+            }
+            jsonObject.put("message", "获取成功");
+            jsonObject.put("result", jsonArray);
+        } catch (Exception e) {
+            jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
     }
 
 

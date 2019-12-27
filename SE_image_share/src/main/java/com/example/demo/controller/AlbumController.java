@@ -101,7 +101,7 @@ public class AlbumController {
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "albumName", value = "相册名字", required = false, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "status", value = "相册状态", required = true, dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "相册描述", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "相册描述", required = false, dataType = "String", paramType = "query"),
     })
     @RequestMapping(value="/albumUpdate",method= RequestMethod.POST)
     public Object albumUpdate(HttpServletRequest req, HttpSession session) {
@@ -139,7 +139,7 @@ public class AlbumController {
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "albumName", value = "相册名字", required = false, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "status", value = "相册状态", required = true, dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "相册描述", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "相册描述", required = false, dataType = "String", paramType = "query"),
     })
     @RequestMapping(value="/createAlbum",method= RequestMethod.POST)
     public Object createAlbum(HttpServletRequest req, HttpSession session) {
