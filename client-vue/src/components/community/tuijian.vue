@@ -131,7 +131,8 @@ export default {
             description: item.description,
             uid: item.userId,
             username: item.userName,
-            head_image: this.$store.state .HOST+item.headImg
+            head_image: this.$store.state .HOST+item.headImg,
+            like_num:item.likeNum,
           }
           this.imgs.push(new_item)
         }
@@ -144,7 +145,7 @@ export default {
         this.useritem = {
           username: res.body.username,
           sex: res.body.sex,
-          desc: res.body.desc,
+          desc: res.body.introduction,
           city: res.body.city,
           province: res.body.province,
           birth: res.body.birthday,
