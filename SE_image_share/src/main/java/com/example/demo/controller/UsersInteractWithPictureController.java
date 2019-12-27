@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.dao.FavoritePictureMapper;
+import com.example.demo.dao.LikePictureMapper;
 import com.example.demo.entity.FavoritePicture;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
@@ -34,6 +35,8 @@ public class UsersInteractWithPictureController {
     private FavoritePictureMapper favoritePictureMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private LikePictureMapper likePictureMapper;
 
 
     @ApiOperation(

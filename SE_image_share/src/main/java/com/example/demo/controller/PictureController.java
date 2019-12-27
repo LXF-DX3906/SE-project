@@ -1,14 +1,9 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.example.demo.dao.HavePictureMapper;
-import com.example.demo.dao.LikePictureMapper;
-import com.example.demo.dao.PictureMapper;
-import com.example.demo.dao.UserMapper;
-import com.example.demo.entity.LikeNum;
-import com.example.demo.entity.LikePicture;
-import com.example.demo.entity.Picture;
-import com.example.demo.entity.Type;
+import com.example.demo.dao.*;
+import com.example.demo.entity.*;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.service.PictureService;
 import io.swagger.annotations.*;
@@ -52,6 +47,8 @@ public class PictureController {
     private UserMapper userMapper;
     @Autowired
     private PictureService pictureService;
+    @Autowired
+    private CommentMapper commentMapper;
 
     @ApiOperation(
             value = "按类型搜索",
@@ -172,6 +169,40 @@ public class PictureController {
         return jsonObject;
     }
 
+    @ApiOperation(
+            value = "按图片id搜索",
+            notes = "按图片的id搜索",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pid", value = "图片id", required = true, dataType = "Integer", paramType = "query")
+    })
+    @RequestMapping(value="/pictureDetail",method= RequestMethod.POST)
+    public Object pictureIdSearch(HttpServletRequest req, HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
+        JSONObject comment = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            String userId = req.getParameter("pid");
+            int a = Integer.parseInt(userId);
+            List<Comment> commentList = commentMapper.selectByPictureId(Integer.parseInt(userId));
+            for(Comment item : commentList){
+                JSONObject tempJsonObject = new JSONObject();
+                tempJsonObject.put("from_username", userMapper.selectByPrimaryKey(item.getUserId()).getUserName());
+                tempJsonObject.put("content", item.getContent());
+                tempJsonObject.put("from_head_image", userMapper.selectByPrimaryKey(item.getUserId()).getHeadImg());
+                jsonArray.add(tempJsonObject);
+            }
+            comment.put("comment", jsonArray);
+            jsonObject.put("result", comment);
+            jsonObject.put("message","success");
+        }catch (Exception e){
+            System.out.println(e);
+            jsonObject.put("message","数据库错误");
+        }
+        return jsonObject;
+    }
 
     @ApiOperation(
             value = "上传图片",
@@ -244,7 +275,7 @@ public class PictureController {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
             registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:/Users/10638/Desktop/SoftwareProject/Service/SE_image_share/pictures/");
-//            registry.addResourceHandler("/pictures/**").addResourceLocations("file:E:/大三上/软件工程/SE project/SE-project/SE_image_share/pictures/");
+//            registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
         }
     }
 }
