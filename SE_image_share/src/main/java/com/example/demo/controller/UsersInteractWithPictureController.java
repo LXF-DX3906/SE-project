@@ -94,23 +94,4 @@ public class UsersInteractWithPictureController {
         }
         return jsonObject;
     }
-
-
-    /**
-    * 临时的，没什么用，前端这部分都是没写完的，干脆不要了
-    **/
-    @RequestMapping(value="/pushList",method= RequestMethod.POST)
-    public Object pushList(HttpServletRequest req, HttpSession session) {
-        Integer userId = Integer.valueOf(req.getParameter("uid"));
-        JSONObject jsonObject = new JSONObject();
-        try {
-            List<User> users = userService.getFans(userId);
-            JSONArray jsonArray = JSONArray.parseArray(JSONObject.toJSONString(users));
-            jsonObject.put("message","获取成功");
-            jsonObject.put("result", jsonArray);
-        } catch (Exception e) {
-            jsonObject.put("message", "数据库错误");
-        }
-        return jsonObject;
-    }
 }
