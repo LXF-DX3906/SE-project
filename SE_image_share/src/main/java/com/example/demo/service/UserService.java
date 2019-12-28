@@ -22,6 +22,8 @@ public interface UserService {
 
     boolean updateUserMsg(User user);
 
+    boolean uploadAvatar(Integer uid, String head_img);
+
     Integer getFollowsNum(Integer userId);
 
     Integer getFansNum(Integer userId);

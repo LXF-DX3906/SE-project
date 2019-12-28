@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dao.*;
 import com.example.demo.entity.HavePicture;
+import com.example.demo.entity.LikeNum;
 import com.example.demo.entity.Picture;
 import com.example.demo.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,4 +52,12 @@ public class PictureServiceImpl implements PictureService {
         }
         return res1 && res2 && res3;
     }
+    @Override
+    public List<LikeNum> getAllLikeNum(){ return likePictureMapper.getAllLikeNum(); };
+
+    @Override
+    public int getLikeCountById(Integer pictureId){return likePictureMapper.getLikeCountById(pictureId);};
+
+    @Override
+    public int selectUserIdByPictureId(Integer pictureId){return havePictureMapper.selectUserIdByPictureId(pictureId);};
 }

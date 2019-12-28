@@ -40,8 +40,6 @@ public class PictureController {
     private PictureMapper pictureMapper;
     private Type type = new Type();
     @Autowired
-    private LikePictureMapper likePictureMapper;
-    @Autowired
     private HavePictureMapper havePictureMapper;
     @Autowired
     private UserMapper userMapper;
@@ -114,7 +112,7 @@ public class PictureController {
             //得到所有的图片信息列表
             List<Picture> pictureList = pictureMapper.selectAll();
             //得到所有的图片id以及其点赞数
-            List<LikeNum> likeNumList = likePictureMapper.getAllLikeNum();
+            List<LikeNum> likeNumList = pictureService.getAllLikeNum();
             //将得到的图片以及点赞数转换成对应的字典<pictureId, likeNum>
             Map<Integer,Integer> likeNumDict = new HashMap<>();
             for(LikeNum item: likeNumList){
@@ -128,7 +126,7 @@ public class PictureController {
                 JSONObject tempJsonObject = new JSONObject();
                 tempJsonObject = JSONObject.parseObject(JSONObject.toJSONString(item));
                 tempJsonObject.put("likeNum",likeNumDict.get(tempJsonObject.getInteger("pictureId")));
-                tempJsonObject.put("userId",havePictureMapper.selectUserIdByPictureId(tempJsonObject.getInteger("pictureId")));
+                tempJsonObject.put("userId",pictureService.selectUserIdByPictureId(tempJsonObject.getInteger("pictureId")));
                 tempJsonObject.put("userName",userMapper.selectByPrimaryKey(tempJsonObject.getInteger("userId")).getUserName());
                 tempJsonObject.put("headImg",userMapper.selectByPrimaryKey(tempJsonObject.getInteger("userId")).getHeadImg());
                 jsonArray.add(tempJsonObject);
@@ -161,7 +159,7 @@ public class PictureController {
             for (Picture picture : pictures) {
                 JSONObject tempJsonObject = new JSONObject();
                 tempJsonObject = JSONObject.parseObject(JSONObject.toJSONString(picture));
-                tempJsonObject.put("likeNum", likePictureMapper.getLikeCountById(picture.getPictureId()));
+                tempJsonObject.put("likeNum", pictureService.getLikeCountById(picture.getPictureId()));
                 jsonArray.add(tempJsonObject);
             }
             jsonObject.put("message", "获取成功");
@@ -226,29 +224,39 @@ public class PictureController {
 
         JSONObject jsonObject = new JSONObject();
         try {
+            //解析从前端获取的数据
             int uid = Integer.parseInt(params.getParameter("uid"));
             String width = params.getParameter("width");
             String height = params.getParameter("height");
             String description = params.getParameter("description");
             String type_name = params.getParameter("type_name");
-
-
+            //根据uid拼接图片存放目录
             String dirPath = System.getProperty("user.dir") + System.getProperty("file.separator") + "pictures" + System.getProperty("file.separator") + uid + System.getProperty("file.separator") + "pictures" + System.getProperty("file.separator");
+            //获取图片文件名
             String fileName = file.get(0).getOriginalFilename();
             assert fileName != null;
+            //获取图片文件名后缀
             String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
+            //将图片信息插入数据库
             Picture picture = new Picture();
             picture.setTypeName(type_name);
             picture.setDescription(description);
             picture.setHeight(height);
             picture.setWidth(width);
-
             pictureMapper.insertSelective(picture);
+            //获取自增后的pid
             int pid = picture.getPictureId();
+            //将uid与pid插入表HavePicture
+            HavePicture havePicture =new HavePicture();
+            havePicture.setPictureId(pid);
+            havePicture.setUserId(uid);
+            havePictureMapper.insertSelective(havePicture);
+            //根据自增后的pid拼接出图片的position，更新图片信息
             picture.setPosition("pictures/" + uid + "/pictures/" + pid + fileSuffix);
             pictureMapper.updateByPrimaryKeySelective(picture);
             String localFileName =  pid +  fileSuffix;
             String filePath = dirPath + localFileName;
+            //创建图片文件并保存到文件系统
             File localFile = new File(filePath);
             File imagePath = new File(dirPath);
             if (!imagePath.exists()) {

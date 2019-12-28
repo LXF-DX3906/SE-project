@@ -10,13 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import com.example.demo.service.UserService;
 import com.example.demo.entity.User;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  * @program: SE_imsge_share
@@ -243,6 +248,49 @@ public class UserInfoController {
             }
         } catch (Exception e) {
             jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
+    }
+
+    @ApiOperation(
+            value = "上传头像",
+            notes = "将用户头像保存在文件系统中,并将头像路径写入数据库"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="avatarFile",value = "头像图片文件", required = true, dataType = "MultipartFile", paramType = "form"),
+            @ApiImplicitParam(name="uid",value = "用户id", required = true, dataType = "Integer", paramType = "form")
+    })
+    @RequestMapping(value = "/uploadAvatar",method = RequestMethod.POST)
+    public Object uploadAvatar(HttpServletRequest req) throws IOException {
+        MultipartHttpServletRequest params=((MultipartHttpServletRequest) req);
+        List<MultipartFile> avatarFile = ((MultipartHttpServletRequest) req).getFiles("avatarFile");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            //解析从前端获取的数据
+            int uid = Integer.parseInt(params.getParameter("uid"));
+            //拼接头像存放路径
+            String dirPath = System.getProperty("user.dir") + System.getProperty("file.separator") + "pictures" + System.getProperty("file.separator") + uid + System.getProperty("file.separator") + "avatar" + System.getProperty("file.separator");
+            //获取图片文件名
+            String fileName = avatarFile.get(0).getOriginalFilename();
+            assert fileName != null;
+            //获取图片文件名后缀
+            String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
+            String localFileName =  uid + "_avatar" +  fileSuffix;
+            String filePath = dirPath + localFileName;
+            //创建图片文件并保存到文件系统
+            File localFile = new File(filePath);
+            File imagePath = new File(dirPath);
+            if (!imagePath.exists()) {
+                imagePath.mkdirs();
+            }
+            avatarFile.get(0).transferTo(localFile);
+            if(userService.uploadAvatar(uid,"pictures/"+uid+"/avatar/"+localFileName)){
+                jsonObject.put("message","修改成功");
+            }else {
+                jsonObject.put("message","error");
+            }
+        }catch (Exception e){
+            jsonObject.put("message","error");
         }
         return jsonObject;
     }
