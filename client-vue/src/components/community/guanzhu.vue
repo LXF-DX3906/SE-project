@@ -118,6 +118,11 @@ export default {
         if(res.body.message=='评论成功'){
           this.getdata()
           this.inputcomment=''
+          this.$message({
+            message: "评论成功",
+            type: "success",
+            customClass: "zIndex"
+          })
         }else{
           this.$message({
               message: "评论失败",

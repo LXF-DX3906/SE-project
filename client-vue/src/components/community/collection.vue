@@ -5,7 +5,7 @@
         <waterfall class="collec-div" :col="col" :width="itemWidth" :gutterWidth="gutterWidth" :data="imgs" @loadmore="loadmore"
       @scroll="scroll">
       <template>
-        <div class="collec-item" v-for="img in imgs" :key="img.id">
+        <div class="collec-item" v-for="img in imgs" :key="img.pid">
           <div class="collec-img">
             <img :src="img.position">
           </div>
@@ -13,7 +13,7 @@
           <div class="collec-det">
             <el-button type="text" @click="show(img)">查看详情</el-button>
           </div>
-          <div class="collec-line">
+          <div v-if="my" class="collec-line">
             <div class="collec-btn"><el-button type="text" @click="deletecollection(img.pid)">取消收藏</el-button></div>
           </div>
       </div>
@@ -35,6 +35,20 @@
 export default {
   name: "collection",
   data() {
+    let ifMy
+    if (this.$route.query.my != undefined) {
+      if (this.$route.query.my == "true") {
+        ifMy = true
+      } else if (this.$route.query.my == "false") {
+        ifMy = false
+      } else {
+        ifMy = this.$route.query.my
+      }
+      console.log(this.$route.query.my)
+    } else {
+      console.log(this.$route.query.my)
+      ifMy = false
+    }
     return {
       dialogVisible: false,
       diaitem: [],
@@ -42,7 +56,8 @@ export default {
       comment: "",
       uid:this.$route.query.uid, 
       col:5,
-      imgs:[]
+      imgs:[],
+      my:ifMy
     };
   },
   created(){
@@ -64,9 +79,23 @@ export default {
     getmycollection(){
       this.$http.post('/api/collect',{uid:this.uid},{emulateJSON:true})
       .then(res=>{
-        console.log(res);
-        
-        this.imgs = Object.assign(res.body);
+        if (res.body.message == "获取成功") {
+          this.imgs = [];
+          let items = Object.assign(res.body.result)
+          for (let item of items) {
+            let new_item = {
+              pid: item.pictureId,
+              position: this.$store.state.HOST + item.position,
+            }
+            this.imgs.push(new_item)
+          }
+        } else {
+          this.$message({
+            message: "获取失败",
+            type: "error",
+            customClass: "zIndex"
+          });
+        }
       })
     },
     deletecollection(pid){

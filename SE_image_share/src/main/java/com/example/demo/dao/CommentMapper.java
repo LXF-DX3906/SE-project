@@ -22,4 +22,6 @@ public interface CommentMapper {
     int updateByPrimaryKey(Comment record);
 
     List<Comment> selectByPictureId(Integer pictureId);
+
+    Integer globalDeletePicture(Integer pictureId);
 }

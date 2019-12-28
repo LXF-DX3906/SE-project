@@ -39,4 +39,13 @@
     where user_id = #{userId,jdbcType=INTEGER}
         and picture_id = #{pictureId,jdbcType=INTEGER}
   </select>
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select picture_id
+    from favorite_picture
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="globalDeletePicture" parameterType="java.lang.Integer">
+    delete from favorite_picture
+    where picture_id = #{pictureId,jdbcType=INTEGER}
+  </delete>
 </mapper>

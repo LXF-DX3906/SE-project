@@ -15,7 +15,7 @@
           </div>
           <div class="like-line">
             <div class="like-lc">{{img.like_num}}喜欢</div>
-            <div class="my-work-space"></div>
+            <div v-if="my" class="my-work-space"></div>
             <div v-if="my" class="like-btn"><el-button type="text" @click="deletelike(img.pid)">取消点赞</el-button></div>
           </div>
       </div>
@@ -62,13 +62,27 @@
 export default {
   name: "like",
   data() {
+    let ifMy
+    if (this.$route.query.my != undefined) {
+      if (this.$route.query.my == "true") {
+        ifMy = true
+      } else if (this.$route.query.my == "false") {
+        ifMy = false
+      } else {
+        ifMy = this.$route.query.my
+      }
+      console.log(this.$route.query.my)
+    } else {
+      console.log(this.$route.query.my)
+      ifMy = false
+    }
     return {
       dialogVisible: false,
       avatar:'http://188.131.192.194/head_images/5LSk0zVtyKDq9UciiWPab50dwjoNI2324KtwSyBD.jpeg',
       comment: "",
       col:5,
       uid:this.$route.query.uid,
-      my:this.$route.query.my,
+      my:ifMy,
       imgs:[],
       diaitem: [],
       picdetail:[],
@@ -117,7 +131,22 @@ export default {
     getmylike(){
       this.$http.post('/api/like',{uid:this.uid},{emulateJSON:true})
       .then(res=>{
-        this.imgs = Object.assign(res.body);
+        this.imgs = []
+        let imgs = Object.assign(res.body.result);
+        for (let item of  imgs) {
+          let new_item = {
+            pid: item.pictureId,
+            position: this.$store.state.HOST + item.position,
+            weight: item.width,
+            height: item.height,
+            description: item.description,
+            uid: item.uid,
+            username: item.userName,
+            head_image: this.$store.state.HOST+item.headImg,
+            like_num:item.like_num,
+          }
+          this.imgs.push(new_item)
+        }
       })
     },
     deletelike(pid){
@@ -142,7 +171,15 @@ export default {
     getuserinfo(uid){
       this.$http.post('/api/basicInfo',{uid:uid},{emulateJSON:true})
       .then(res=>{
-        this.useritem = Object.assign(res.body[0]);
+        this.useritem = {
+          username: res.body.username,
+          sex: res.body.sex,
+          desc: res.body.introduction,
+          city: res.body.city,
+          province: res.body.province,
+          birth: res.body.birthday,
+          head_image: this.$store.state.HOST+res.body.head_image,
+        }
       })
     },
     follow(){
@@ -151,15 +188,20 @@ export default {
     getpicdetail(pid){
       this.$http.post('/api/pictureDetail',{pid:pid},{emulateJSON:true})
       .then(res=>{
-        this.picdetail=Object.assign(res.body);
+        this.picdetail=Object.assign(res.body.result);
       })
     },
     addcom(pid,uuid,content){
-      this.$http.post('/api/userComment',{pid:pid,uid:this.uid,uuid:uuid,content:content})
+      this.$http.post('/api/userComment',{pid:pid,uid:this.uid,uuid:uuid,content:content},{emulateJSON:true})
       .then(res=>{
-        if(res.body=='评论成功'){
+        if(res.body.message=='评论成功'){
           this.getpicdetail(pid)
           this.comment=''
+          this.$message({
+            message: "评论成功",
+            type: "success",
+            customClass: "zIndex"
+          })
         }else{
           this.$message({
               message: "评论失败",

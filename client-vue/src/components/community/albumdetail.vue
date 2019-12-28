@@ -17,7 +17,7 @@
             @scroll="scroll"
           >
             <template>
-              <div class="aldetail-item" v-for="img in imgs" :key="img.id">
+              <div class="aldetail-item" v-for="img in imgs" :key="img.pid">
                 <div class="aldetail-img">
                   <img :src="img.position">
                 </div>
@@ -49,13 +49,27 @@
 export default {
   name: "albumdetail",
   data() {
+    let ifMy
+    if (this.$route.query.my != undefined) {
+      if (this.$route.query.my == "true") {
+        ifMy = true
+      } else if (this.$route.query.my == "false") {
+        ifMy = false
+      } else {
+        ifMy = this.$route.query.my
+      }
+      console.log(this.$route.query.my)
+    } else {
+      console.log(this.$route.query.my)
+      ifMy = false
+    }
     return {
       dialogVisible: false,
       diaitem: [],
       activeName: "comments",
       gid: this.$route.query.gid,
       uid: this.$route.query.uid,
-      my: this.$route.query.my,
+      my: ifMy,
       col: 5,
       imgs: []
     };

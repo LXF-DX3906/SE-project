@@ -37,7 +37,7 @@
       </div>
       <div class="tj-dia-text" v-text="diaitem.description"></div>
       <div class="tj-dia-like">
-        <el-button icon="el-icon-gz-heart" @click="like(diaitem.pid)"></el-button>
+        <el-button icon="el-icon-gz-heart" @click="like(diaitem)"></el-button>
           <span v-text="diaitem.like_num"></span>
       </div>
           <div class="tj-dia-tabs">
@@ -158,14 +158,20 @@ export default {
       .then(res=>{
         console.log(res);
         this.picdetail=Object.assign(res.body.result);
+
       })
     },
     addcom(pid,uuid,content){
-      this.$http.post('/api/userComment',{pid:pid,uid:this.uid,uuid:uuid,content:content})
+      this.$http.post('/api/userComment',{pid:pid,uid:this.uid,uuid:uuid,content:content}, {emulateJSON:true})
       .then(res=>{
-        if(res.body=='评论成功'){
+        if(res.body.message=='评论成功'){
           this.getpicdetail(pid)
           this.comment=''
+          this.$message({
+            message: "评论成功",
+            type: "success",
+            customClass: "zIndex"
+          })
         }else{
           this.$message({
               message: "评论失败",
@@ -175,8 +181,8 @@ export default {
         }
       })
     },
-    like(pid){
-      this.$http.post('/api/pictureLike',{uid:this.uid,pid:pid})
+    like(diaitem){
+      this.$http.post('/api/pictureLike',{uid:this.uid,pid:diaitem.pid}, {emulateJSON:true})
       .then(res=>{
         console.log(res);
 
@@ -186,7 +192,8 @@ export default {
               type: "success",
               customClass: "zIndex"
             })
-          this.getpicdetail()
+          diaitem.like_num++;
+          this.show(diaitem)
         }else{
           this.$message({
               message: "点赞失败",

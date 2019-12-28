@@ -84,4 +84,8 @@
     from comment
     where picture_id = #{pictureId,jdbcType=INTEGER}
   </select>
+  <delete id="globalDeletePicture" parameterType="java.lang.Integer">
+    delete from comment
+    where picture_id = #{pictureId,jdbcType=INTEGER}
+  </delete>
 </mapper>

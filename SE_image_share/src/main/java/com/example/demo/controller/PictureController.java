@@ -122,6 +122,9 @@ public class PictureController {
             }
             //遍历图片信息列表,将likeNum放入图片信息中
             for (Picture item: pictureList){
+                if(!likeNumDict.containsKey(item.getPictureId())){
+                    likeNumDict.put(item.getPictureId(), 0);
+                }
                 JSONObject tempJsonObject = new JSONObject();
                 tempJsonObject = JSONObject.parseObject(JSONObject.toJSONString(item));
                 tempJsonObject.put("likeNum",likeNumDict.get(tempJsonObject.getInteger("pictureId")));
@@ -270,12 +273,42 @@ public class PictureController {
 
 
 
+    @ApiOperation(
+            value = "用户删除图片",
+            notes = "根据图片pid将用户uid的图片删除",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query")
+    })
+    @RequestMapping(value="/deletePicture",method= RequestMethod.POST)
+    public Object deletePicture(HttpServletRequest req, HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
+        Integer userId = Integer.valueOf(req.getParameter("uid").trim());
+        Integer pictureId = Integer.valueOf(req.getParameter("pid").trim());
+        HavePicture havePicture = new HavePicture();
+        havePicture.setPictureId(pictureId);
+        havePicture.setUserId(userId);
+        try {
+            boolean res = pictureService.deletePicture(havePicture);
+            if (res) {
+                jsonObject.put("message", "删除成功");
+            } else {
+                jsonObject.put("message", "删除失败");
+            }
+        } catch (Exception e) {
+            jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
+    }
+
     @Configuration
     public class MyPicConfig implements WebMvcConfigurer {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:/Users/10638/Desktop/SoftwareProject/Service/SE_image_share/pictures/");
-//            registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
+          //  registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:/Users/10638/Desktop/SoftwareProject/Service/SE_image_share/pictures/");
+           registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
         }
     }
 }

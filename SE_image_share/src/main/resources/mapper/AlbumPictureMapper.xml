@@ -38,4 +38,8 @@
     from album_picture
     where album_id = #{albumId,jdbcType=INTEGER}
   </select>
+  <delete id="globalDeletePicture" parameterType="java.lang.Integer">
+    delete from album_picture
+    where picture_id = #{pictureId,jdbcType=INTEGER}
+  </delete>
 </mapper>

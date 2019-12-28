@@ -21,4 +21,8 @@ public interface LikePictureMapper {
     int getLikeCountById(Integer pictureId);
 
     List<LikeNum> getAllLikeNum();
+
+    List<LikePicture> getLikePictureByUserId(Integer userId);
+
+    Integer globalDeletePicture(Integer pictureId);
 }
