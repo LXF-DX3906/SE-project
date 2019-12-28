@@ -122,6 +122,9 @@ public class PictureController {
             }
             //遍历图片信息列表,将likeNum放入图片信息中
             for (Picture item: pictureList){
+                if (!likeNumDict.containsKey(item.getPictureId())) {
+                    likeNumDict.put(item.getPictureId(), 0);
+                }
                 JSONObject tempJsonObject = new JSONObject();
                 tempJsonObject = JSONObject.parseObject(JSONObject.toJSONString(item));
                 tempJsonObject.put("likeNum",likeNumDict.get(tempJsonObject.getInteger("pictureId")));
