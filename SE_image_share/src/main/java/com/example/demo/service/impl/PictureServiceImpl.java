@@ -1,7 +1,8 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.HavePictureMapper;
-import com.example.demo.dao.PictureMapper;
+import com.example.demo.dao.*;
+import com.example.demo.entity.HavePicture;
+import com.example.demo.entity.LikeNum;
 import com.example.demo.entity.Picture;
 import com.example.demo.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,14 @@ public class PictureServiceImpl implements PictureService {
     HavePictureMapper havePictureMapper;
     @Autowired
     PictureMapper pictureMapper;
+    @Autowired
+    AlbumPictureMapper albumPictureMapper;
+    @Autowired
+    CommentMapper commentMapper;
+    @Autowired
+    FavoritePictureMapper favoritePictureMapper;
+    @Autowired
+    LikePictureMapper likePictureMapper;
 
     @Override
     public List<Picture> getPicturesByUserId(Integer userId) {
@@ -26,4 +35,29 @@ public class PictureServiceImpl implements PictureService {
         }
         return pictures;
     }
+
+    @Override
+    public boolean deletePicture(HavePicture havePicture) {
+        boolean res1 = havePictureMapper.deleteByPrimaryKey(havePicture.getPictureId()) > 0;
+        boolean res2 = pictureMapper.deleteByPrimaryKey(havePicture.getPictureId()) > 0;
+        boolean res3 = false;
+        try {
+            albumPictureMapper.globalDeletePicture(havePicture.getPictureId());
+            commentMapper.globalDeletePicture(havePicture.getPictureId());
+            favoritePictureMapper.globalDeletePicture(havePicture.getPictureId());
+            likePictureMapper.globalDeletePicture(havePicture.getPictureId());
+            res3 = true;
+        } catch (Exception e) {
+            res3 = false;
+        }
+        return res1 && res2 && res3;
+    }
+    @Override
+    public List<LikeNum> getAllLikeNum(){ return likePictureMapper.getAllLikeNum(); };
+
+    @Override
+    public int getLikeCountById(Integer pictureId){return likePictureMapper.getLikeCountById(pictureId);};
+
+    @Override
+    public int selectUserIdByPictureId(Integer pictureId){return havePictureMapper.selectUserIdByPictureId(pictureId);};
 }

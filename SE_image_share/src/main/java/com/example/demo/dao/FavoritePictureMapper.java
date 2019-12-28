@@ -17,4 +17,8 @@ public interface FavoritePictureMapper {
     int insertSelective(FavoritePicture record);
 
     List<FavoritePicture> selectByUserIdAndPictureId(@Param("userId") Integer userId, @Param("pictureId") Integer pictureId);
+
+    List<Integer> selectByUserId(Integer userId);
+
+    Integer globalDeletePicture(Integer pictureId);
 }

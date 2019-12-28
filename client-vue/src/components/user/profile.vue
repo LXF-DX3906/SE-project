@@ -22,9 +22,9 @@
       <el-aside width="300px" class="pr-aside">
         <img :src="avatar" class="pr-tx">
         <br>
-        <input type="file" @change="changehead($event)" ref="avatarInput" style="display:none;">
-        <el-button class="pr-txbtn" size="mini" @click="setavatar">上传图片</el-button>
-        <el-button class="pr-txbtn" size="mini" @click="confirmset">确认修改</el-button>
+        <input type="file" @change="changeHead($event)" ref="avatarInput" style="display:none;">
+        <el-button class="pr-txbtn" size="mini" @click="setAvatar">上传图片</el-button>
+        <el-button class="pr-txbtn" size="mini" @click="confirmSet">确认修改</el-button>
       </el-aside>
     </el-container>
   </div>
@@ -122,7 +122,7 @@ export default {
       // this.uploadimg();
        this.updateInfo();
      },
-     changehead(e){
+     changeHead(e){
       var file = e.target.files[0]
       var reader = new FileReader()
       var that = this
@@ -131,38 +131,51 @@ export default {
       that.avatar = this.result
       }
      },
-     setavatar(){
+     setAvatar(){
        this.$refs.avatarInput.click();
      },
-    uploadimg(){
+    uploadAvatar(){
       var image = new FormData()
-      image.append('file', this.$refs.avatarInput.files[0])
-      this.$http.post('/api/upload',image)
-      .then(result=>{
-        this.updateavatar(this.uid,result.body.image)
-      })
-    },
-    updateavatar(uid,position){
-      this.$http.post('/api/headimageUpload',{uid:uid,position:position},{emulateJSON:true})
+      image.append('avatarFile', this.$refs.avatarInput.files[0])
+      image.append('uid', this.uid)
+      this.$http.post('/api/uploadAvatar',image)
       .then(res=>{
-       if (res.body.message=="修改成功") {
+        console.log(res)
+        if (res.body.message=="修改成功") {
           this.$message({
-              message: "修改头像成功",
-              type: "success",
-              customClass: "zIndex"
-            });
+            message: "修改头像成功",
+            type: "success",
+            customClass: "zIndex"
+          });
         }else{
           this.$message({
-              message: "修改头像失败",
-              type: "danger",
-              customClass: "zIndex"
-            });
+            message: "修改头像失败",
+            type: "danger",
+            customClass: "zIndex"
+          });
         }
       })
     },
-    confirmset(){
-      this.uploadimg()
-
+    // updateAvatar(uid,position){
+    //   this.$http.post('/api/saveAvatar',{uid:uid,position:position},{emulateJSON:true})
+    //   .then(res=>{
+    //    if (res.body.message=="修改成功") {
+    //       this.$message({
+    //           message: "修改头像成功",
+    //           type: "success",
+    //           customClass: "zIndex"
+    //         });
+    //     }else{
+    //       this.$message({
+    //           message: "修改头像失败",
+    //           type: "danger",
+    //           customClass: "zIndex"
+    //         });
+    //     }
+    //   })
+    // },
+    confirmSet(){
+      this.uploadAvatar()
     }
    }
 };

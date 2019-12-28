@@ -15,7 +15,7 @@
           </div>
           <div class="mywork-line">
             <div class="mywork-lc">{{img.like_num}}喜欢</div>
-            <div class="my-work-space"></div>
+            <div v-if="my" class="my-work-space"></div>
             <div v-if="my" class="mywork-btn"><el-button type="text" @click="deletepic(img.pid)">删除</el-button></div>
           </div>
       </div>
@@ -52,14 +52,32 @@
 export default {
   name: "mywork",
   data() {
+    let id
+    if (this.$route.query.uuid != undefined) {
+      id = this.$route.query.uuid
+    } else {
+      id = this.$route.query.uid
+    }
+    let ifMy
+    if (this.$route.query.my != undefined) {
+      if (this.$route.query.my == "true") {
+        ifMy = true
+      } else if (this.$route.query.my == "false") {
+        ifMy = false
+      } else {
+        ifMy = this.$route.query.my
+      }
+    } else {
+      ifMy = false
+    }
     return {
       dialogVisible: false,
       diaitem: [],
       picdetail:[],
       activeName: "comments",
       col:5,
-      uid:this.$route.query.uid,
-      my:this.$route.query.my,
+      uid:id,
+      my:ifMy,
       avatar:'http://188.131.192.194/head_images/5LSk0zVtyKDq9UciiWPab50dwjoNI2324KtwSyBD.jpeg',
       imgs:[]
     };
@@ -103,7 +121,7 @@ export default {
       })
     },
     deletepic(pid){
-      this.$http.post('/api/delete',{uid:this.uid,pid:pid},{emulateJSON:true})
+      this.$http.post('/api/deletePicture',{uid:this.uid,pid:pid},{emulateJSON:true})
       .then(res=>{
         if (res.body.message=="删除成功") {
           this.$message({

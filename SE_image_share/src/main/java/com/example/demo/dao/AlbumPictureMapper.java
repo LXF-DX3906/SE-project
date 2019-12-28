@@ -18,4 +18,6 @@ public interface AlbumPictureMapper {
     int insertSelective(AlbumPicture record);
 
     List<AlbumPicture> getPictures(Integer albumId);
+
+    Integer globalDeletePicture(Integer pictureId);
 }

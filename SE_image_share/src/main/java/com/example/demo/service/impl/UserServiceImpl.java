@@ -61,6 +61,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean uploadAvatar(Integer uid, String head_img) {
+        User user = userMapper.selectByPrimaryKey(uid);
+        user.setHeadImg(head_img);
+        return userMapper.updateByPrimaryKeySelective(user) > 0;
+    }
+
+    @Override
     public Integer getFollowsNum(Integer userId) {
         return followMapper.getFollows(userId).size();
     }

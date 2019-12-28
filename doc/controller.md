@@ -1,7 +1,7 @@
 - [ ] **/upload**
 - [ ] /pictureUpload
 
-- [ ] /basicInfo
+- [x] /basicInfo
 
 - [x] /phoneLogin
 
@@ -13,51 +13,51 @@
 
 - [ ] **/adminUpload**
 
-- [ ] /galleryList
+- [x] /galleryList
 
-- [ ] /galleryUpdate
+- [x] /galleryUpdate
 
-- [ ] /galleryDelete
+- [x] /galleryDelete
 
 - [ ] /galleryUpload
 
-- [ ] /galleryDetail
+- [x] /galleryDetail
 
 - [x] /delete
 
-- [ ] /collect
+- [x] /collect
 
 - [x] /focus
 
-- [ ] /deleteFocus
+- [x] /deleteFocus
 
-- [ ] /userFocus  
+- [x] /userFocus  
 
-- [ ] /userComment
+- [x] /userComment
 
-- [ ] /pictureLike
+- [x] /pictureLike
 
-- [ ] /addFocus
+- [x] /addFocus
 
-- [ ] /pictureLikeDelete
+- [x] /pictureLikeDelete
 
-- [ ] /pictureDetail
+- [x] /pictureDetail
 
-- [ ] /userComment
+- [x] /userComment
 
-- [ ] /basicInfo
+- [x] /basicInfo
 
-- [ ] /createGallery  
+- [x] /createGallery  
 
 - [x] /myPictures
 
-- [ ] /deletes
+- [x] /deletes
 
 - [x] /addFocus
 
 - [x] /pictureUsersList  
 
-- [ ] /pictureLike
+- [x] /pictureLike
 
 - [x] /typeSearch
 
