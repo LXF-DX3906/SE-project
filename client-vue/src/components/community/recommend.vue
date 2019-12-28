@@ -1,19 +1,19 @@
 <template>
-  <div class="tj">
+  <div class="recommend">
     <el-row type="flex" justify="center">
       <el-col :span="23">
-        <waterfall class="tj-div" :col="col" :width="itemWidth" :gutterWidth="gutterWidth" :data="imgs" @loadmore="loadmore"
+        <waterfall class="recommend-div" :col="col" :width="itemWidth" :gutterWidth="gutterWidth" :data="imgs" @loadmore="loadmore"
       @scroll="scroll">
       <template>
         <div class="cell-item" v-for="img in imgs" :key="img.id">
-          <img :src="img.position" class="tj-img" @click="show(img)">
+          <img :src="img.position" class="recommend-img" @click="show(img)">
           <div class="item-body">
-            <div class="tj-desc">{{img.description}}</div>
-            <el-row type="flex" class="tj-footer">
-            <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" class="tj-tx">
+            <div class="recommend-desc">{{img.description}}</div>
+            <el-row type="flex" class="recommend-footer">
+            <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" class="recommend-tx">
               <img :src="img.head_image" @click="others(img.uid)">
           </el-col>
-          <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="tj-name">
+          <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="recommend-name">
             <span @click="others(img.uid)">{{img.username?img.username:'注册用户'}}</span>
           </el-col>
           </el-row>
@@ -25,32 +25,32 @@
     </el-row>
     <!--弹出对话框-->
     <el-dialog :visible.sync="dialogVisible" width="70%">
-      <div class="tj-diahead">
-        <div class="tj-diahead-tx">
+      <div class="recommend-diahead">
+        <div class="recommend-diahead-tx">
           <img :src="useritem.head_image" @click="others(diaitem.uid)">
         </div>
-        <div class="tj-diahead-name" @click="others(diaitem.uid)">{{useritem.username?useritem.username:'注册用户'}}</div>
-        <el-button size="medium" class="tj-diahead-btn" type="success" @click="follow(diaitem.uid)">关注</el-button>
+        <div class="recommend-diahead-name" @click="others(diaitem.uid)">{{useritem.username?useritem.username:'注册用户'}}</div>
+        <el-button size="medium" class="recommend-diahead-btn" type="success" @click="follow(diaitem.uid)">关注</el-button>
       </div>
-      <div class="tj-dia-cont">
+      <div class="recommend-dia-cont">
         <img :src="diaitem.position">
       </div>
-      <div class="tj-dia-text" v-text="diaitem.description"></div>
-      <div class="tj-dia-like">
+      <div class="recommend-dia-text" v-text="diaitem.description"></div>
+      <div class="recommend-dia-like">
         <el-button icon="el-icon-gz-heart" @click="like(diaitem)"></el-button>
           <span v-text="diaitem.like_num"></span>
       </div>
-          <div class="tj-dia-tabs">
-            <div class="tj-dia-comment">
-              <el-input class="tj-dia-input" v-model="comment" placeholder="请输入内容"></el-input>
-              <el-button class="tj-dia-btn" type="primary" @click="addcom(diaitem.pid,diaitem.uid,comment)">评 论</el-button>
+          <div class="recommend-dia-tabs">
+            <div class="recommend-dia-comment">
+              <el-input class="recommend-dia-input" v-model="comment" placeholder="请输入内容"></el-input>
+              <el-button class="recommend-dia-btn" type="primary" @click="addcom(diaitem.pid,diaitem.uid,comment)">评 论</el-button>
             </div>
-            <div class="tj-hot" v-for="com in picdetail.comment" :key="com.cid">
-              <div class="tj-hot-tx">
+            <div class="recommend-hot" v-for="com in picdetail.comment" :key="com.cid">
+              <div class="recommend-hot-tx">
                 <img :src="com.from_head_image">
               </div>
-              <div class="tj-hot-name" >{{com.from_username?com.from_username:'注册用户'}}</div>
-              <div class="tj-coms-com" >{{com.content}}</div>
+              <div class="recommend-hot-name" >{{com.from_username?com.from_username:'注册用户'}}</div>
+              <div class="recommend-coms-com" >{{com.content}}</div>
             </div>
           </div>
     </el-dialog>
@@ -58,7 +58,7 @@
 </template>
 <script>
 export default {
-  name: "tuijian",
+  name: "recommend",
   components: {
   },
   data() {
@@ -223,14 +223,14 @@ export default {
 };
 </script>
 <style>
-.tj {
+.recommend {
   background-color: #ededef;
   width: 100%;
   min-height: 500px;
   height: auto;
   overflow: hidden;
 }
-.tj-div {
+.recommend-div {
   margin: 20px auto;
 }
 .cell-item{
@@ -239,36 +239,36 @@ export default {
   border: #bbbbbb solid 1px;
   margin-bottom: 20px;
 }
-.tj-img {
+.recommend-img {
   margin-top: 0;
   width: 100%;
   height: 80%;
   cursor: pointer;
 }
-.tj-desc{
+.recommend-desc{
   margin: 5px 0 5px 10px;
   text-align: left;
   font-size: 14px;
   height: auto;
   word-wrap:break-word;
 }
-.tj-footer{
+.recommend-footer{
   border-top:1px solid #F2F2F2;
 }
-.tj-tx{
+.recommend-tx{
   width: 35px;
   height: 35px;
   margin: 10px 10px 10px 20px;
   vertical-align: middle;
 }
-.tj-tx img{
+.recommend-tx img{
   width: 100%;
   height: 100%;
   border-radius: 50%;
   vertical-align: middle;
   cursor: pointer;
 }
-.tj-name{
+.recommend-name{
   color: #9E7E6B;
   font-size: 14px;
   display: table-cell;
@@ -277,7 +277,7 @@ export default {
   cursor: pointer;
 }
 
-.tj-card-foot-btn button {
+.recommend-card-foot-btn button {
   padding: 0;
   border: none;
   margin-top: 25%;
@@ -285,23 +285,23 @@ export default {
 .el-dialog__body {
   padding-top: 0;
 }
-.tj-diahead {
+.recommend-diahead {
   height: 50px;
   margin-bottom: 20px;
 }
-.tj-diahead-tx {
+.recommend-diahead-tx {
   width: 50px;
   height: 50px;
   display: inline-block;
   text-align: center;
 }
-.tj-diahead-tx img {
+.recommend-diahead-tx img {
   width: 100%;
   height: 100%;
   vertical-align: middle;
   cursor: pointer;
 }
-.tj-diahead-name {
+.recommend-diahead-name {
   width: auto;
   margin: auto 30px;
   font-size: 20px;
@@ -309,20 +309,20 @@ export default {
   display: inline-block;
   cursor: pointer;
 }
-.tj-diahead-btn {
+.recommend-diahead-btn {
   display: inline-block;
 }
-.tj-dia-cont {
+.recommend-dia-cont {
   margin: 0 auto;
   width: auto;
   height: auto;
   text-align: center;
 }
-.tj-dia-cont img{
+.recommend-dia-cont img{
   width: 100%;
   height: 100%;
 }
-.tj-dia-text {
+.recommend-dia-text {
   margin: 10px 0 0 0px;
   display: inline-block;
   font-family: "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", tahoma, arial,
@@ -330,12 +330,12 @@ export default {
   font-size: 1rem;
   color: #444;
 }
-.tj-dia-tabs {
+.recommend-dia-tabs {
   margin-top: 40px;
   background-color: #fafafa;
   overflow: hidden;
 }
-.tj-dia-like {
+.recommend-dia-like {
   font-size: 15x;
   text-align: center;
   height: 25px;
@@ -343,50 +343,50 @@ export default {
   margin-top: 10px;
   float: right;
 }
-.tj-dia-like button{
+.recommend-dia-like button{
   border: none;
   padding: 0;
 }
-.tj-dia-like span{
+.recommend-dia-like span{
   line-height: 15px;
   margin-left: 10px;
   display:inline-block;
   position: relative;
   top:-29%;
 }
-.tj-hot {
+.recommend-hot {
   border-bottom: 1px solid #e7e7e7;
   padding: 10px 0 10px 10px;
   font-size: 12px;
 }
-.tj-hot-tx {
+.recommend-hot-tx {
   display: inline-block;
   width: 30px;
   height: 30px;
   text-align: center;
 }
-.tj-hot-tx img {
+.recommend-hot-tx img {
   width: 100%;
   height: 100%;
   vertical-align: middle;
 }
-.tj-hot-name {
+.recommend-hot-name {
   display: inline-block;
   margin: 0 10px;
   color: #7594b3;
 }
-.tj-coms-com {
+.recommend-coms-com {
   display: inline-block;
 }
-.tj-dia-comment {
+.recommend-dia-comment {
   margin: 10px auto;
   width: 800px;
 }
-.tj-dia-input {
+.recommend-dia-input {
   display: inline-block;
   width: 700px;
 }
-.tj-dia-btn {
+.recommend-dia-btn {
   display: inline-block;
   margin-left: 10px;
 }

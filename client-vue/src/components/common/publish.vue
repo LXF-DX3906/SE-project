@@ -1,8 +1,8 @@
 <template>
-  <el-container class="fb">
-    <el-main class="fb-main">
+  <el-container class="publish">
+    <el-main class="publish-main">
       <el-upload
-        class="fb-upload"
+        class="publish-upload"
         action=""
         list-type="picture-card"
         :on-preview="handlePictureCardPreview"
@@ -23,18 +23,18 @@
         <img width="100%" :src="dialogImageUrl" alt>
       </el-dialog>
     </el-main>
-    <el-aside width="30%" class="fb-aside">
-      <h5 class="fb-title">作品描述</h5>
+    <el-aside width="30%" class="publish-aside">
+      <h5 class="publish-title">作品描述</h5>
       <el-input
-        class="fb-width"
+        class="publish-width"
         type="textarea"
         :rows="3"
         placeholder="说说你的拍摄经历...."
         v-model="description"
       ></el-input>
-      <h5 class="fb-title">标签</h5>
-      <span class="fb-title fb-tj">推荐:</span>
-      <ul class="fb-ul fb-ulf">
+      <h5 class="publish-title">标签</h5>
+      <span class="publish-title publish-tj">推荐:</span>
+      <ul class="publish-ul publish-ulf">
         <li
           v-for="(item,i) of categories"
           :key="item.id"
@@ -43,7 +43,7 @@
           @click="handleInputConfirm(item.category)"
         ></li>
       </ul>
-      <ul class="fb-ul">
+      <ul class="publish-ul">
         <li
           v-for="(item,i) of categories"
           :key="item.id"
@@ -56,18 +56,18 @@
       <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="mini"
         @keyup.enter.native="handleInputConfirm(inputValue)"></el-input>
       <el-button class="button-new-tag" size="small" @click="showInput" v-if="dynamicTags.length<5">+</el-button>
-      <ul class="fb-ult">
-        <li class="fb-li-left">(输入标签内容回车即可添加标签)</li>
-        <li class="fb-li-right">{{dynamicTags.length}}/5</li>
+      <ul class="publish-ult">
+        <li class="publish-li-left">(输入标签内容回车即可添加标签)</li>
+        <li class="publish-li-right">{{dynamicTags.length}}/5</li>
       </ul>
-      <el-button class="fb-btn" @click="fabu()" plain>发&nbsp;&nbsp;&nbsp;布</el-button>
+      <el-button class="publish-btn" @click="publish()" plain>发&nbsp;&nbsp;&nbsp;布</el-button>
     </el-aside>
   </el-container>
 </template>
 
 <script>
 export default {
-  name: "fabu",
+  name: "publish",
   data() {
     return {
       uid:localStorage.getItem('uid'),
@@ -180,7 +180,7 @@ export default {
           this.inputValue = '';
         }
       },
-    fabu(){
+    publish(){
       let tags=this.dynamicTags.toString();
       this.uploadFormdata.append('height', this.height.toString())
       this.uploadFormdata.append('width',this.width.toString())
@@ -233,49 +233,49 @@ export default {
     vertical-align: bottom;
   }
 
-.fb {
+.publish {
   min-height: 541px;
   height: auto;
 }
-.fb-main {
+.publish-main {
   background-color: #f9f9f9;
 }
-.fb-aside {
+.publish-aside {
   background-color: #f5f5f5;
   border-left: #ffffff solid 1px;
 }
-.fb-upload {
+.publish-upload {
   margin: 35px;
 }
 .el-upload--picture-card {
   background-color: #ededef !important;
   border: #bbbbbb solid 1px !important;
 }
-.fb-title {
+.publish-title {
   margin-left: 10px;
 
 }
-.fb-width {
+.publish-width {
   text-align: center;
 }
-.fb-width input,
+.publish-width input,
 textarea {
   width: 350px !important;
   margin: 0 auto;
 }
-.fb-tj {
+.publish-tj {
   color: #85888a;
   font-size: 13px;
   display: inline;
 }
-.fb-ulf {
+.publish-ulf {
   display: inline;
   padding: 0;
 }
-.fb-ul {
+.publish-ul {
   margin: 5px 0 10px 0;
 }
-.fb-ul li {
+.publish-ul li {
   list-style: none;
   display: inline;
   margin: 0 10px 0 10px;
@@ -283,23 +283,23 @@ textarea {
   font-size: 14px;
   cursor: pointer;
 }
-.fb-ult {
+.publish-ult {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.fb-ult li {
+.publish-ult li {
   display: inline;
   font-size: 13px;
   color: #85888a;
 }
-.fb-li-left {
+.publish-li-left {
   margin-left: 8%;
 }
-.fb-li-right {
+.publish-li-right {
   margin-left: 30%;
 }
-.fb-btn {
+.publish-btn {
   clear: both;
   width: 60%;
   display: block !important;

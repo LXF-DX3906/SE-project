@@ -1,16 +1,16 @@
 <template>
-  <div class="sq">
+  <div class="community">
     <div class="head" :style="{backgroundImage:'url('+bgurl+')'}">
       <div class="head-bg">
-        <ul class="sq-ul">
-          <li class="sq-tx">
+        <ul class="community-ul">
+          <li class="community-tx">
             <img :src="txurl">
           </li>
-          <li class="sq-li2">
-            <ul class="sq-ul2">
-              <li class="sq-name" v-text="username"></li>
+          <li class="community-li2">
+            <ul class="community-ul2">
+              <li class="community-name" v-text="username"></li>
               <li>
-                <ul class="sq-ul3">
+                <ul class="community-ul3">
                   <li>
                       <el-button type="text" @click="show('follows');showfollows()">关注&nbsp;{{follows}}</el-button>
                   </li>
@@ -19,7 +19,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="sq-intr" v-text="introduction"></li>
+              <li class="community-intr" v-text="introduction"></li>
             </ul>
           </li>
         </ul>
@@ -27,8 +27,8 @@
     </div>
     <el-container>
       <el-header>
-        <el-row type="flex" justify="center" class="sq-head">
-          <el-col :xs="1" :sm="1" :md="1" :lg="1" :xl="1" :class="['sq-btn',flag1?'sq-btn-act':'']">
+        <el-row type="flex" justify="center" class="community-head">
+          <el-col :xs="1" :sm="1" :md="1" :lg="1" :xl="1" :class="['community-btn',flag1?'community-btn-act':'']">
             <el-button type="text" @click="show('mywork');showwork()">我的作品</el-button>
           </el-col>
           <el-col
@@ -37,7 +37,7 @@
             :md="1"
             :lg="1"
             :xl="1"
-            :class="['sq-btn','sq-like',flag2?'sq-btn-act':'']"
+            :class="['community-btn','community-like',flag2?'community-btn-act':'']"
           >
             <el-button type="text" @click="show('mylike');showlike()">喜欢</el-button>
           </el-col>
@@ -47,15 +47,15 @@
             :md="1"
             :lg="1"
             :xl="1"
-            :class="['sq-btn','sq-collection',collection?'sq-btn-act':'']"
+            :class="['community-btn','community-collection',collection?'community-btn-act':'']"
           >
             <el-button type="text" @click="show('mycollection');showcollection()">收藏</el-button>
           </el-col>
-          <el-col :xs="1" :sm="1" :md="1" :lg="1" :xl="1" :class="['sq-btn',flag3?'sq-btn-act':'']">
+          <el-col :xs="1" :sm="1" :md="1" :lg="1" :xl="1" :class="['community-btn',flag3?'community-btn-act':'']">
             <el-button type="text" @click="show('myalbum');showalbum()">相册</el-button>
           </el-col>
-          <div v-if="flag4" :class="[flag5?'sq-head-btn3':'sq-head-btn']">
-            <el-button size="mini" class="mysq-btn-al" @click="createalbum">新建相册</el-button>
+          <div v-if="flag4" :class="[flag5?'community-head-btn3':'community-head-btn']">
+            <el-button size="mini" class="mycommunity-btn-al" @click="createalbum">新建相册</el-button>
           </div>
         </el-row>
 
@@ -79,7 +79,7 @@
           </div>
         </el-dialog>
       </el-header>
-      <el-main class="mysq-main">
+      <el-main class="mycommunity-main">
         <router-view ref="child" v-on:getmsg="getmsg"></router-view>
       </el-main>
     </el-container>
@@ -88,7 +88,7 @@
 
 <script>
 export default {
-  name: "myshequ",
+  name: "mycommunity",
   components: {},
   data() {
     return {
@@ -328,7 +328,7 @@ export default {
 </script>
 
 <style>
-.sq {
+.community {
   min-height: 600px;
   height: auto;
 }
@@ -345,112 +345,112 @@ export default {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
   overflow: hidden;
 }
-.sq-ul {
+.community-ul {
   list-style: none;
   margin: 13% 0 0 0;
 }
-.sq-ul li {
+.community-ul li {
   color: #ffffff;
   text-align: center;
 }
-.sq-tx {
+.community-tx {
   width: 120px;
   height: 120px;
   display: inline-block;
 }
-.sq-tx img {
+.community-tx img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
 }
-.sq-li2 {
+.community-li2 {
   display: inline-block;
   position: relative;
   top: -20px;
 }
-.sq-btn-editfm {
+.community-btn-editfm {
   display: inline-block;
 }
-.sq-ul2 {
+.community-ul2 {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.sq-name {
+.community-name {
   font-size: 1.5rem;
   font-weight: bolder;
   margin-bottom: 15px;
 }
-.sq-intr {
+.community-intr {
   margin-top: 15px;
   font-size: 13px;
 }
-.sq-ul3 {
+.community-ul3 {
   margin: 0;
   list-style: none;
 }
-.sq-ul3 span {
+.community-ul3 span {
   color: #ffffff !important;
 }
-.sq-ul3 li {
+.community-ul3 li {
   display: inline;
   font-size: 14px;
 }
-.sq-ul3 li:before {
+.community-ul3 li:before {
   content: "/";
   color: #e0e0e0;
   font-size: 14px;
   margin: 0 10px;
 }
-.sq-btn-editfm {
+.community-btn-editfm {
   float: right;
   margin-right: 50px;
   position: relative;
   bottom: -65px;
 }
-.sq-btn-editfm span {
+.community-btn-editfm span {
   color: #ffffff !important;
 }
-.sq-head {
+.community-head {
   border-bottom: #bbbbbb solid 1px;
 }
-.sq-btn {
+.community-btn {
   text-align: center;
   font-family: "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", tahoma, arial,
     simsun, "宋体";
 }
-.sq-like {
+.community-like {
   margin: 0 40px 0 50px;
 }
-.sq-collection {
+.community-collection {
   margin: 0 40px 0 0;
 }
-.sq-head-btn {
+.community-head-btn {
   position: relative;
   right: -31%;
 }
 
-.sq-btn span {
+.community-btn span {
   font-size: 0.8rem;
   color: #000000;
 }
-.sq-btn-act {
+.community-btn-act {
   border-bottom: #41b93b solid 2px;
 }
-.sq-btn-act span {
+.community-btn-act span {
   color: #41b93b;
 }
-.mysq-main {
+.mycommunity-main {
   min-height: 500px;
   height: auto;
   width: auto;
   background-color: #f9f9f9;
 }
-.mysq-btn-al {
+.mycommunity-btn-al {
   margin-top: 8px;
   border: #009688 solid 1px !important;
 }
-.mysq-btn-al span {
+.mycommunity-btn-al span {
   color: #009688;
 }
 </style>

@@ -2,17 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import myindex from "./components/common/index.vue"
-import fabu from './components/common/fabu.vue'
+import publish from './components/common/publish.vue'
 import others from './components/common/others.vue'
-import upload from './components/common/upload.vue'
 
 import gallery from './components/gallery/gallery.vue'
 import search from './components/gallery/search.vue'
 
 import community from "./components/community/index.vue"
-import mycommunity from './components/community/myshequ.vue'
-import recommend from './components/community/tuijian.vue'
-import myfollow from './components/community/guanzhu.vue'
+import mycommunity from './components/community/mycommunity.vue'
+import recommend from './components/community/recommend.vue'
 import mywork from './components/community/mywork.vue'
 import mylike from './components/community/like.vue'
 import collection from './components/community/collection.vue'
@@ -35,10 +33,6 @@ export default new Router({
   routes: [{
       path: '/',
       component: myindex,
-    },
-    {
-      path: '/upload',
-      component: upload,
     },
     {
       path: '/gallery',
@@ -89,10 +83,6 @@ export default new Router({
           component: recommend
         },
         {
-          path: 'myfollow',
-          component: myfollow
-        },
-        {
           path: 'mycommunity',
           component: mycommunity,
           children: [{
@@ -135,7 +125,7 @@ export default new Router({
     },
     {
       path: '/publish',
-      component: fabu
+      component: publish,
     },
     {
       path: '/notice',
