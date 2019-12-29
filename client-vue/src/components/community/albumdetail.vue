@@ -4,7 +4,7 @@
       <el-row type="flex" justify="center">
         <el-col :span="23">
           <div class="aldetail-head" v-if="my">
-            <input type="file" @change="changeimg($event)" ref="imgInput" style="display:none;">
+<!--            <input type="file" @change="changeimg($event)" ref="imgInput" style="display:none;">-->
             <el-button size="mini" class="aldetail-head-btn" @click="uploadimg">上传图片</el-button>
           </div>
           <waterfall
@@ -42,6 +42,25 @@
         <img :src="diaitem.position">
       </div>
     </el-dialog>
+
+    <el-dialog :visible.sync="uploadToAlbum">
+      <el-form class="album-dia" v-model="form">
+        <el-checkbox-group v-model="form.adds">
+          <el-row>
+            <el-col :span="8" v-for="pic in pics" :key="pic.pid" >
+              <el-card :body-style="{ padding: '0px' }">
+                <el-checkbox-button :label="pic.pid"><img :src="pic.position" class="image"></el-checkbox-button>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-checkbox-group>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="uploadToAlbum = false">取 消</el-button>
+        <el-button type="primary" @click="galleryUpload">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -71,7 +90,12 @@ export default {
       uid: this.$route.query.uid,
       my: ifMy,
       col: 5,
-      imgs: []
+      imgs: [],
+      uploadToAlbum:false,
+      pics:[],
+      form:{
+        adds:[],
+      },
     };
   },
   created() {
@@ -86,32 +110,51 @@ export default {
     }
   },
   methods: {
-    changeimg(e) {
-      var file = e.target.files[0];
-      var image = new FormData();
-      image.append("file", file);
-      this.$http.post("/api/upload", image).then(res => {
-        if (res.body.message == "上传成功") {
-          this.galleryUpload(res.body.image, res.body.weight, res.body.height);
-        }
-      });
-    },
+    // changeimg(e) {
+    //   // var file = e.target.files[0];
+    //   // var image = new FormData();
+    //   // image.append("file", file);
+    //   // this.$http.post("/api/upload", image).then(res => {
+    //   //   if (res.body.message == "上传成功") {
+    //   //     this.galleryUpload(res.body.image, res.body.weight, res.body.height);
+    //   //   }
+    //   // });
+    //   console.log(this.form.adds)
+    // },
     uploadimg() {
-      this.$refs.imgInput.click();
+      this.$http.post("/api/albumAddPic",{gid: this.gid,uid: this.uid},{emulateJSON:true})
+      .then(res=> {
+        if (res.body.message=="获取成功") {
+          this.pics = [];
+          let items = Object.assign(res.body.result)
+          for (let item of items) {
+            let new_item = {
+              pid: item.pictureId,
+              position: this.$store.state.HOST + item.position,
+            }
+            this.pics.push(new_item)
+          }
+        } else {
+          this.$message({
+            message: "获取失败",
+            type: "error",
+            customClass: "zIndex"
+          });
+        }
+      })
+      this.form.adds=[];
+      this.uploadToAlbum=true
     },
-    galleryUpload(pos, width, height) {
+    galleryUpload() {
+      this.changealbum=false;
+      console.log(JSON.parse(JSON.stringify(this.form.adds)))
       this.$http
         .post(
           "/api/albumUpload",
           {
-            uid: this.uid,
+            pids: this.form.adds,
             gid: this.gid,
-            position: pos,
-            weight: width,
-            height: height,
-            description: ""
-          },
-          { emulateJSON: true }
+          }
         )
         .then(res => {
           if (res.body.message == "添加成功") {
@@ -120,14 +163,16 @@ export default {
               type: "success",
               customClass: "zIndex"
             });
-            this.getalbumdetail();
           } else {
             this.$message({
               message: "添加失败",
-              type: "success",
+              type: "error",
               customClass: "zIndex"
             });
           }
+          this.getalbumdetail();
+          this.form.adds=[];
+          this.uploadToAlbum=false
         });
     },
     scroll() {},
@@ -157,7 +202,7 @@ export default {
     },
     deletedetail(pid) {
       this.$http
-        .post("/api/delete", { gid: this.gid, pid: pid }, { emulateJSON: true })
+        .post("/api/deleteFromAlbum", { gid: this.gid, pid: pid }, { emulateJSON: true })
         .then(res => {
           if (res.body.message == "删除成功") {
             this.$message({
@@ -281,4 +326,11 @@ export default {
   height: auto;
   text-align: center;
 }
+
+.image {
+  width: 100%;
+  display: block;
+}
+
+
 </style>

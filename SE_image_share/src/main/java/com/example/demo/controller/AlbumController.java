@@ -7,12 +7,15 @@ import com.example.demo.entity.Album;
 import com.example.demo.entity.AlbumPicture;
 import com.example.demo.entity.Picture;
 import com.example.demo.service.AlbumService;
+import com.example.demo.service.PictureService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: SE_imsge_share
@@ -35,6 +40,8 @@ public class AlbumController {
     @Autowired
     AlbumService albumService;
 
+    @Autowired
+    PictureService pictureService;
 
     @ApiOperation(
             value = "获取相册",
@@ -224,6 +231,69 @@ public class AlbumController {
             } else {
                 jsonObject.put("message","删除失败");
             }
+        } catch (Exception e) {
+            jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
+    }
+
+    @ApiOperation(
+            value = "获得相册中没有的用户的其他图片",
+            notes = "根据相册id获得相册中没有的用户的其他图片",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
+    })
+    @RequestMapping(value="/albumAddPic",method= RequestMethod.POST)
+    public Object albumAddPic(HttpServletRequest req, HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        Integer albumId = Integer.valueOf(req.getParameter("gid").trim());
+        Integer userId = Integer.valueOf(req.getParameter("uid").trim());
+        try {
+            List<Integer> albumPictureList = albumService.findAlbumPicture(albumId);
+            List<Picture> userPictureList = pictureService.getPicturesByUserId(userId);
+            Map<Integer, Picture> pictureMap = new HashMap<>();
+            for(Picture picture : userPictureList){
+                pictureMap.put(picture.getPictureId(), picture);
+            }
+            for(Integer picId : albumPictureList){
+                pictureMap.remove(picId);
+            }
+            List<Picture> list = new ArrayList<Picture>(pictureMap.values());
+            jsonArray = JSONArray.parseArray(JSONObject.toJSONString(list));
+            jsonObject.put("result", jsonArray);
+            jsonObject.put("message", "获取成功");
+        } catch (Exception e) {
+            jsonObject.put("message", "数据库错误");
+        }
+        return jsonObject;
+    }
+
+    @ApiOperation(
+            value = "上传要添加到相册中的图片",
+            notes = "根据相册id向相册上传要添加的图片",
+            produces = "application/json"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pids", value = "图片IDs", required = true, dataType = "List<Integer>", paramType = "query"),
+    })
+    @RequestMapping(value="/albumUpload",method= RequestMethod.POST)
+    public Object albumUpload(@RequestBody JSONObject req, HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
+        Integer albumId = req.getIntValue("gid");
+        Object picIdList = req.get("pids");
+        try {
+            for (Integer item : (ArrayList<Integer>)picIdList){
+               if(!albumService.insertPicture(albumId, item)) {
+                   jsonObject.put("message","数据库错误");
+                   return jsonObject;
+               }
+            }
+            jsonObject.put("message", "添加成功");
         } catch (Exception e) {
             jsonObject.put("message", "数据库错误");
         }

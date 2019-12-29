@@ -60,4 +60,25 @@ public class AlbumServiceImpl implements AlbumService {
     public boolean deletePictures(Integer albumId, Integer pictureId) {
         return albumPictureMapper.deleteByPrimaryKey(albumId, pictureId) > 0;
     }
+
+    @Override
+    public List<Integer> findAlbumPicture(Integer albumId) {
+        List<AlbumPicture> albumPictures = albumPictureMapper.getPictures(albumId);
+        List<Integer> albumPictureList = new ArrayList<>();
+        if (albumPictures != null){
+            for(AlbumPicture item : albumPictures){
+                albumPictureList.add(item.getPictureId());
+            }
+            return albumPictureList;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean insertPicture(Integer albumId, Integer pictureId) {
+        AlbumPicture albumPicture = new AlbumPicture();
+        albumPicture.setAlbumId(albumId);
+        albumPicture.setPictureId(pictureId);
+        return albumPictureMapper.insert(albumPicture) > 0;
+    }
 }
