@@ -20,7 +20,7 @@
         </div>
       </el-upload>
       <el-dialog :visible.sync="dialogVisible">
-        <img width="100%" :src="dialogImageUrl" alt>
+        <img width="100%" v-lazy="dialogImageUrl" alt>
       </el-dialog>
     </el-main>
     <el-aside width="30%" class="publish-aside">
@@ -190,6 +190,7 @@ export default {
       console.log(this.uploadFormdata.get('type_name'))
       this.$http.post('/api/pictureUpload',this.uploadFormdata)
       .then(res=>{
+        console.log(res)
         if (res.body.message=="添加成功") {
           this.$message({
               message: "发布成功",

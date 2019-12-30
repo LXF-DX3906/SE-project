@@ -13,4 +13,5 @@ public interface PictureService {
     List<LikeNum> getAllLikeNum();
     int getLikeCountById(Integer pictureId);
     int selectUserIdByPictureId(Integer pictureId);
+    Boolean isNum(String s);
 }

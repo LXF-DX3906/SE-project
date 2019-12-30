@@ -4,7 +4,7 @@
       <div class="head-bg">
         <ul class="other-ul">
           <li class="other-tx">
-            <img :src="txurl">
+            <img v-lazy="txurl">
           </li>
           <li class="other-li2">
             <ul class="other-ul2">

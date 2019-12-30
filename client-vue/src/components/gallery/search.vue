@@ -3,12 +3,17 @@
     <div class="search-row">
     <el-row type="flex" justify="center" style="height:50px;">
       <el-col :span="11" class="search-col">
+        <input type="file" @change="changeImg($event)" id="fileInput" style="display:none;">
         <el-input placeholder="请输入内容" v-model="input">
           <el-button slot="append" style="fontSize:20px;" icon="el-icon-search" @click="getdata(input)"></el-button>
+          <label slot="suffix" for="fileInput">
+            <img  src="../../assets/camera.png" class="camera-button">
+          </label>>
         </el-input>
       </el-col>
     </el-row>
     </div>
+    <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>
     <div class="search-result">
       <div
         class="search-result-div"
@@ -17,12 +22,12 @@
         :style="{width:img.weight*200/img.height+'px',flexGrow:img.weight*200/img.height}"
       >
         <i :style="{paddingBottom:img.height/img.weight*100+'%'}"></i>
-        <img :src="img.position" @click="showdia(img)">
+        <img v-lazy="img.position" @click="showdia(img)">
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible" width="70%">
         <div class="dia-cont">
-          <img :src="diaitem.position">
+          <img v-lazy="diaitem.position">
         </div>
         <el-button type="text" @click="docollect(diaitem.pid)">收藏</el-button>
       </el-dialog>
@@ -37,13 +42,30 @@ export default {
       input:this.$route.query.keywords,
       dialogVisible: false,
       diaitem:[],
-      imgs: []
+      imgs: [],
+      infoByImage: this.$route.query.imageSearch,
+      isLoading: true
     };
   },
   created(){
     this.getdata(this.input)
   },
   methods: {
+    getDataByImage(infoByImage) {
+      console.log(infoByImage)
+      this.imgs = []
+      let imgs = Object.assign(infoByImage.result);
+      for (let item of imgs) {
+        let new_item = {
+          pid: item.pictureId,
+          position: this.$store.state.HOST + item.position,
+          weight: item.width,
+          height: item.height,
+          description: item.description
+        }
+        this.imgs.push(new_item)
+      }
+    },
     getdata(keywords){
       this.$http.post('/api/keywordSearch',{keyword:keywords},{emulateJSON:true})
       .then(res=>{
@@ -58,6 +80,7 @@ export default {
             description: item.description
           }
           this.imgs.push(new_item)
+          this.isLoading = false
         }
         let query = this.$router.history.current.query;
         let path = this.$router.history.current.path;
@@ -65,6 +88,7 @@ export default {
         let newQuery = JSON.parse(JSON.stringify(query));
         newQuery.keywords = keywords;
         this.$router.push({ path, query: newQuery });
+        this.getDataByImage(this.infoByImage)
       })
     },
     showdia(item) {
@@ -88,6 +112,32 @@ export default {
             });
         }
       })
+    },
+    changeImg(e) {
+      this.isLoading = true
+      console.log(e)
+      var file = e.target.files[0];
+      var image = new FormData();
+      image.append("img", file);
+      this.$http.post("/api/searchImgByImg", image).then(res => {
+        if (res.body.message == "上传成功") {
+          console.log(res)
+          this.imgs = []
+          let imgs=Object.assign(res.body.result);
+          for (let item of  imgs) {
+            let new_item = {
+              pid: item.pictureId,
+              position: this.$store.state.HOST + item.position,
+              weight: item.width,
+              height: item.height,
+              description: item.description
+            }
+            this.imgs.push(new_item)
+            this.isLoading = false
+          }
+          console.log(this.imgs)
+        }
+      });
     },
   }
 };
@@ -145,6 +195,20 @@ export default {
 }
 .search-result-div img:hover {
   transform: scale(1.2);
+}
+.camera-button{
+  margin-top: 7px;
+  height: 25px;
+  width: 25px;
+}
+.camera-button:hover{
+  cursor: pointer;
+}
+.wait-loading{
+  margin-left:210%!important;
+}
+.loadingDisplay{
+  display: none;
 }
 </style>
 

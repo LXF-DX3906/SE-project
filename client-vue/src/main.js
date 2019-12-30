@@ -8,12 +8,17 @@ import router from './router'
 import store from './store'
 import VueResource from 'vue-resource'
 import waterfall from "vue-waterfall2"
+import VueLazyLoad from 'vue-lazyload'
+import VueLoading from 'vue-loading-template'
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(VueResource)
 Vue.use(waterfall)
+Vue.use(VueLazyLoad)
+Vue.use(VueLoading)
+
 
 Vue.component('v-distpicker', VDistpicker)
 new Vue({

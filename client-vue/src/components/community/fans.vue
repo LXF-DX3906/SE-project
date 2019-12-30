@@ -6,7 +6,7 @@
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="card-bg"></div>
             <ul class="fans-ul">
-                <li class="fans-tx"><img :src="item.head_image" @click="others(item.uid)"></li>
+                <li class="fans-tx"><img v-lazy="item.head_image" @click="others(item.uid)"></li>
                 <li class="fans-name" @click="others(item.uid)">{{item.username?item.username:'注册用户'}}</li>
                 <li class="fans-btn">
                     <el-button  size="mini" @click="follow(item.uid)">关注</el-button>

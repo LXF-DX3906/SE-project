@@ -2,7 +2,9 @@
   <div class="al">
     <!--我的相册-->
     <el-row class="al-row" v-if="myalbum">
-     <el-col :span="5" class="al-col" v-for="item in datalist" :key="item.gid">
+        <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>
+
+        <el-col :span="5" class="al-col" v-for="item in datalist" :key="item.gid">
        <div class="al-two" v-if="item.num==0">
           <div class="al-one" :style="{backgroundImage:'url('+bgurl+')'}" @click="detail(item.gid)"></div>
         </div>
@@ -98,6 +100,7 @@ export default {
       formLabelWidth1: "100px",
       formLabelWidth2: "100px",
       myalbum:this.$route.query.uid==localStorage.getItem('uid')?true:false,
+        isLoading: true
     };
   },
   created(){
@@ -105,6 +108,7 @@ export default {
   },
   methods: {
      getalbum(){
+         this.isLoading = true
       this.$http.post('/api/albumList',{uid:this.uid},{emulateJSON:true})
       .then(res=>{
           if (res.body.message=="获取成功") {
@@ -133,6 +137,7 @@ export default {
                   customClass: "zIndex"
               });
           }
+          this.isLoading = false
       })
     },
     changeal(gid,name,status,desc){
@@ -260,5 +265,11 @@ export default {
 }
 .album-dia{
   margin-top: 30px;
+}
+.wait-loading{
+    margin-left:210%!important;
+}
+.loadingDisplay{
+    display: none;
 }
 </style>

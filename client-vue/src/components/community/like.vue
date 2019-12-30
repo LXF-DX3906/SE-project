@@ -7,7 +7,7 @@
       <template>
         <div class="like-item" v-for="img in imgs" :key="img.pid">
           <div class="like-img">
-            <img :src="img.position">
+            <img v-lazy="img.position">
           </div>
           <div class="like-shadow">
           <div class="like-det">
@@ -28,17 +28,17 @@
     <el-dialog :visible.sync="dialogVisible" width="70%" class="like-dia">
       <div class="like-diahead">
         <div class="like-diahead-tx">
-          <img :src="useritem.head_image" @click="others(diaitem.uid)">
+          <img v-lazy="useritem.head_image" @click="others(diaitem.uid)">
         </div>
         <div class="like-diahead-name" @click="others(diaitem.uid)">{{useritem.username?useritem.username:'注册用户'}}</div>
         <el-button size="mini" class="like-diahead-btn" type="success" @click="afollow(diaitem.uid)">关注</el-button>
       </div>
       <div class="like-dia-cont">
-        <img :src="diaitem.position">
+        <img v-lazy="diaitem.position">
       </div>
       <div class="like-dia-text" v-text="diaitem.description"></div>
       <div class="tj-dia-like">
-        <el-button icon="el-icon-gz-heart"></el-button>
+        <el-button icon="el-icon-star-off"></el-button>
           <span v-text="diaitem.like_num"></span>
       </div>
           <div class="like-dia-tabs">
@@ -48,7 +48,7 @@
             </div>
             <div class="like-hot" v-for="com in picdetail.comment" :key="com.cid">
               <div class="like-hot-tx">
-                <img :src="com.from_head_image">
+                <img v-lazy="HOST + com.from_head_image">
               </div>
               <div class="like-hot-name">{{com.from_username?com.from_username:'注册用户'}}</div>
               <div class="like-coms-com">{{com.content}}</div>
@@ -87,6 +87,7 @@ export default {
       diaitem: [],
       picdetail:[],
       useritem:[],
+      HOST: this.$store.state.HOST
     };
   },
   created(){

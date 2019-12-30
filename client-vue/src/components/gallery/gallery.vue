@@ -3,9 +3,16 @@
     <div class="gbanner">
       <el-row type="flex" justify="center">
         <el-col :span="10" :offset="0" class="gel-col">
-          <el-input placeholder="搜索图库内的图片" v-model="searchwords">
+          <el-row>
+            <input type="file" @change="changeImg($event)" id="fileInput" style="display:none;">
+          <el-input  placeholder="搜索图库内的图片" v-model="searchwords">
             <el-button slot="append" icon="el-icon-search" class="tuku-search" @click="search(searchwords)"></el-button>
+            <label slot="suffix" for="fileInput">
+            <img  src="../../assets/camera.png" class="camera-button-gallery">
+            </label>>
           </el-input>
+
+          </el-row>
         </el-col>
       </el-row>
     </div>
@@ -43,6 +50,7 @@
       </el-row>
     </div>
     <div class="gtuku">
+      <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>
       <div
         class="gtuku-div"
         v-for="(img) in imgs"
@@ -50,12 +58,12 @@
         :style="{width:img.width*200/img.height+'px',flexGrow:img.width*200/img.height}"
       >
         <i :style="{paddingBottom:img.height/img.width*100+'%'}"></i>
-        <img :src="img.position" @click="showdia(img)">
+        <img v-lazy="img.position" @click="showdia(img)">
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible" width="70%">
         <div class="dia-cont">
-          <img :src="diaitem.position">
+          <img v-lazy="diaitem.position">
         </div>
         <el-button type="text" v-if="collect" @click="docollect(diaitem.pid)">收藏</el-button>
         <el-button type="text" style="color:#bfbfbf;" v-else @click="cancelcollect(diaitem.pid)">已收藏</el-button>
@@ -97,7 +105,8 @@ export default {
         {id:13,name:"阅读",flag:false},
         {id:14,name:"动物",flag:false},
         {id:15,name:"科技",flag:false},
-      ]
+      ],
+      isLoading:true
     };
   },
   created(){
@@ -125,6 +134,7 @@ export default {
             description: item.description
           }
           this.imgs.push(new_item)
+          this.isLoading = false
         }
       })
     },
@@ -224,6 +234,16 @@ export default {
     }
 	image.src = imgsrc;
   },
+    changeImg(e) {
+      var file = e.target.files[0];
+      var image = new FormData();
+      image.append("img", file);
+      this.$http.post("/api/searchImgByImg", image).then(res => {
+        if (res.body.message == "上传成功") {
+          this.$router.push({path:'/gallery/search',query:{imageSearch:res.body}});
+        }
+      });
+    },
   },
 };
 </script>
@@ -352,5 +372,19 @@ export default {
 .dia-cont img{
   width: 100%;
   height: 100%;
+}
+  .camera-button-gallery{
+    margin-top: 10px;
+    height: 30px;
+    width: 30px;
+  }
+.camera-button-gallery:hover{
+  cursor: pointer;
+}
+.wait-loading{
+  margin-left:210%!important;
+}
+.loadingDisplay{
+  display: none;
 }
 </style>

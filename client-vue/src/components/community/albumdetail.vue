@@ -17,9 +17,10 @@
             @scroll="scroll"
           >
             <template>
+                <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>
               <div class="aldetail-item" v-for="img in imgs" :key="img.pid">
                 <div class="aldetail-img">
-                  <img :src="img.position">
+                  <img v-lazy="img.position">
                 </div>
                 <div class="aldetail-shadow">
                   <div class="aldetail-det">
@@ -39,7 +40,7 @@
     </div>
     <el-dialog :visible.sync="dialogVisible" width="70%">
       <div class="colec-dia-cont">
-        <img :src="diaitem.position">
+        <img v-lazy="diaitem.position">
       </div>
     </el-dialog>
 
@@ -49,7 +50,8 @@
           <el-row>
             <el-col :span="8" v-for="pic in pics" :key="pic.pid" >
               <el-card :body-style="{ padding: '0px' }">
-                <el-checkbox-button :label="pic.pid"><img :src="pic.position" class="image"></el-checkbox-button>
+                <el-checkbox-button :label="pic.pid">
+                    <img v-lazy="pic.position" class="image"></el-checkbox-button>
               </el-card>
             </el-col>
           </el-row>
@@ -96,6 +98,7 @@ export default {
       form:{
         adds:[],
       },
+        isLoading: true
     };
   },
   created() {
@@ -198,6 +201,7 @@ export default {
               customClass: "zIndex"
             });
           }
+            this.isLoading = false
         });
     },
     deletedetail(pid) {
@@ -331,6 +335,11 @@ export default {
   width: 100%;
   display: block;
 }
-
+.wait-loading{
+    margin-left:210%!important;
+}
+.loadingDisplay{
+    display: none;
+}
 
 </style>

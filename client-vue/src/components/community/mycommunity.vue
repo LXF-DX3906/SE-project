@@ -4,7 +4,7 @@
       <div class="head-bg">
         <ul class="community-ul">
           <li class="community-tx">
-            <img :src="txurl">
+            <img v-lazy="txurl">
           </li>
           <li class="community-li2">
             <ul class="community-ul2">

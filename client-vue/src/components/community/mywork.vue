@@ -7,7 +7,7 @@
       <template>
         <div class="mywork-item" v-for="img in imgs" :key="img.pid">
           <div class="mywork-img">
-            <img :src="img.position">
+            <img v-lazy="img.position">
           </div>
           <div class="mywork-shadow">
           <div class="mywork-det">
@@ -27,18 +27,18 @@
 
     <el-dialog :visible.sync="dialogVisible" width="70%" class="tj-dia">
       <div class="mywork-dia-img">
-        <img :src="diaitem.position">
+        <img v-lazy="diaitem.position">
       </div>
       <div class="mywork-dia-text" v-text="diaitem.description"></div>
         <div class="tj-dia-like">
-        <el-button icon="el-icon-gz-heart"></el-button>
+        <el-button icon="el-icon-star-off"></el-button>
           <span v-text="diaitem.like_num"></span>
         </div>
         <div class="mywork-tag">标签：{{diaitem.type_name}}</div>
           <div class="mywork-dia-tabs">
             <div class="mywork-hot" v-for="com in picdetail.comment" :key="com.cid">
               <div class="mywork-hot-tx">
-                <img :src="com.from_head_image">
+                <img v-lazy="com.from_head_image">
               </div>
               <div class="mywork-hot-name">{{com.from_username?com.from_username:'注册用户'}}</div>
               <div class="mywork-coms-com">{{com.content}}</div>
@@ -79,7 +79,7 @@ export default {
       uid:id,
       my:ifMy,
       avatar:'http://188.131.192.194/head_images/5LSk0zVtyKDq9UciiWPab50dwjoNI2324KtwSyBD.jpeg',
-      imgs:[]
+      imgs:[],
     };
   },
   created(){

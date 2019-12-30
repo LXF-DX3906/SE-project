@@ -5,13 +5,14 @@
         <waterfall class="recommend-div" :col="col" :width="itemWidth" :gutterWidth="gutterWidth" :data="imgs" @loadmore="loadmore"
       @scroll="scroll">
       <template>
+        <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>
         <div class="cell-item" v-for="img in imgs" :key="img.id">
-          <img :src="img.position" class="recommend-img" @click="show(img)">
+          <img v-lazy="img.position" class="recommend-img" @click="show(img)">
           <div class="item-body">
             <div class="recommend-desc">{{img.description}}</div>
             <el-row type="flex" class="recommend-footer">
             <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" class="recommend-tx">
-              <img :src="img.head_image" @click="others(img.uid)">
+              <img v-lazy="img.head_image" @click="others(img.uid)">
           </el-col>
           <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="recommend-name">
             <span @click="others(img.uid)">{{img.username?img.username:'注册用户'}}</span>
@@ -27,13 +28,13 @@
     <el-dialog :visible.sync="dialogVisible" width="70%">
       <div class="recommend-diahead">
         <div class="recommend-diahead-tx">
-          <img :src="useritem.head_image" @click="others(diaitem.uid)">
+          <img v-lazy="useritem.head_image" @click="others(diaitem.uid)">
         </div>
         <div class="recommend-diahead-name" @click="others(diaitem.uid)">{{useritem.username?useritem.username:'注册用户'}}</div>
         <el-button size="medium" class="recommend-diahead-btn" type="success" @click="follow(diaitem.uid)">关注</el-button>
       </div>
       <div class="recommend-dia-cont">
-        <img :src="diaitem.position">
+        <img v-lazy="diaitem.position">
       </div>
       <div class="recommend-dia-text" v-text="diaitem.description"></div>
       <div class="recommend-dia-like">
@@ -47,7 +48,7 @@
             </div>
             <div class="recommend-hot" v-for="com in picdetail.comment" :key="com.cid">
               <div class="recommend-hot-tx">
-                <img :src="com.from_head_image">
+                <img v-lazy="HOST+com.from_head_image">
               </div>
               <div class="recommend-hot-name" >{{com.from_username?com.from_username:'注册用户'}}</div>
               <div class="recommend-coms-com" >{{com.content}}</div>
@@ -57,6 +58,8 @@
   </div>
 </template>
 <script>
+import store from "../../store";
+
 export default {
   name: "recommend",
   components: {
@@ -71,7 +74,9 @@ export default {
       imgs: [],
       diaitem: [],
       picdetail:[],
-      useritem:{}
+      useritem:{},
+      HOST: this.$store.state.HOST,
+      isLoading: true
     };
   },
   created() {
@@ -135,6 +140,7 @@ export default {
             like_num:item.likeNum,
           }
           this.imgs.push(new_item)
+          this.isLoading = false
         }
       })
     },
@@ -390,4 +396,10 @@ export default {
   display: inline-block;
   margin-left: 10px;
 }
+  .wait-loading{
+    margin-left:210%!important;
+  }
+  .loadingDisplay{
+    display: none;
+  }
 </style>

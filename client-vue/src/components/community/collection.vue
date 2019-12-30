@@ -7,7 +7,7 @@
       <template>
         <div class="collec-item" v-for="img in imgs" :key="img.pid">
           <div class="collec-img">
-            <img :src="img.position">
+            <img v-lazy="img.position">
           </div>
           <div class="collec-shadow">
           <div class="collec-det">
@@ -25,7 +25,7 @@
 
     <el-dialog :visible.sync="dialogVisible" width="70%">
       <div class="colec-dia-cont">
-        <img :src="diaitem.position">
+        <img v-lazy="diaitem.position">
       </div>
     </el-dialog>
   </div>
@@ -54,7 +54,7 @@ export default {
       diaitem: [],
       activeName: "comments",
       comment: "",
-      uid:this.$route.query.uid, 
+      uid:this.$route.query.uid,
       col:5,
       imgs:[],
       my:ifMy

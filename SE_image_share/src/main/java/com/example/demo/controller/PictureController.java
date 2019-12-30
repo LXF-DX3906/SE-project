@@ -1,29 +1,30 @@
 package com.example.demo.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.example.demo.dao.*;
 import com.example.demo.entity.*;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.service.PictureService;
+import com.example.demo.utils.ImageUtil;
 import io.swagger.annotations.*;
-import org.apache.ibatis.annotations.Lang;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.example.demo.utils.baiduUtils.Base64Util;
+import com.example.demo.utils.baiduUtils.HttpUtil;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -98,7 +99,6 @@ public class PictureController {
         return jsonObject;
     }
 
-
     @ApiOperation(
             value = "推荐图片",
             notes = "推荐页图片，按点赞量排序",
@@ -125,7 +125,11 @@ public class PictureController {
                 }
                 JSONObject tempJsonObject = new JSONObject();
                 tempJsonObject = JSONObject.parseObject(JSONObject.toJSONString(item));
-                tempJsonObject.put("likeNum",likeNumDict.get(tempJsonObject.getInteger("pictureId")));
+                if(likeNumDict.get(tempJsonObject.getInteger("pictureId")) == null){
+                    tempJsonObject.put("likeNum",0);
+                }else {
+                    tempJsonObject.put("likeNum", likeNumDict.get(tempJsonObject.getInteger("pictureId")));
+                }
                 tempJsonObject.put("userId",pictureService.selectUserIdByPictureId(tempJsonObject.getInteger("pictureId")));
                 tempJsonObject.put("userName",userMapper.selectByPrimaryKey(tempJsonObject.getInteger("userId")).getUserName());
                 tempJsonObject.put("headImg",userMapper.selectByPrimaryKey(tempJsonObject.getInteger("userId")).getHeadImg());
@@ -246,6 +250,9 @@ public class PictureController {
             pictureMapper.insertSelective(picture);
             //获取自增后的pid
             int pid = picture.getPictureId();
+
+            String result = ImageUtil.addImgToBaiDu(file.get(0),pid);
+
             //将uid与pid插入表HavePicture
             HavePicture havePicture =new HavePicture();
             havePicture.setPictureId(pid);
@@ -263,22 +270,13 @@ public class PictureController {
                 imagePath.mkdirs();
             }
             file.get(0).transferTo(localFile);
+
             jsonObject.put("message","添加成功");
         }catch (Exception e){
             jsonObject.put("message","error");
         }
         return jsonObject;
     }
-
-
-
-
-
-
-
-
-
-
 
 
     @ApiOperation(
@@ -311,12 +309,60 @@ public class PictureController {
         return jsonObject;
     }
 
+    @ApiOperation(
+            value = "以图搜图",
+            notes = "以图搜图"
+    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "img", value = "图片文件", required = true, dataType = "MultipartFile", paramType = "form")
+    })
+    @RequestMapping(value="/searchImgByImg",method= RequestMethod.POST)
+    public Object searchImgByImg(HttpServletRequest req, HttpSession session) throws IOException {
+        List<MultipartFile> file = ((MultipartHttpServletRequest) req).getFiles("img");
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            //在百度图像搜索库中搜索图像
+            String result = ImageUtil.searchImgInBaiDu(file.get(0));
+            //将获得的结果转化为jSONObject
+            JSONObject tempJsonObject = JSONObject.parseObject(result);
+            JSONArray tempJsonArray = JSONObject.parseArray(tempJsonObject.getString("result"));
+
+            for(Object item: tempJsonArray){
+                JSONObject temp = JSONObject.parseObject(item.toString());
+                String brief = temp.getString("brief");
+                String score = temp.getString("score");
+                if (pictureService.isNum(brief)){
+                    Picture tempPicture = pictureMapper.selectByPrimaryKey(Integer.valueOf(brief));
+                    JSONObject tempPictureJson = new JSONObject();
+                    tempPictureJson.put("pictureId",tempPicture.getPictureId());
+                    tempPictureJson.put("position",tempPicture.getPosition());
+                    tempPictureJson.put("width",tempPicture.getWidth());
+                    tempPictureJson.put("height",tempPicture.getHeight());
+                    tempPictureJson.put("typeName",tempPicture.getTypeName());
+                    tempPictureJson.put("description", tempPicture.getDescription());
+                    tempPictureJson.put("score",score);
+                    jsonArray.add(tempPictureJson);
+                }
+            }
+            jsonObject.put("result",jsonArray);
+//            System.out.println(result);
+            jsonObject.put("message","上传成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonObject.put("message","error");
+        }
+        return jsonObject;
+    }
+
     @Configuration
     public class MyPicConfig implements WebMvcConfigurer {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
           //  registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:/Users/10638/Desktop/SoftwareProject/Service/SE_image_share/pictures/");
-           registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
+          // registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
+            registry.addResourceHandler("/pictures/**").addResourceLocations("file:E:\\大三上\\软件工程\\SE project\\SE-project\\SE_image_share\\pictures/");
         }
     }
 }

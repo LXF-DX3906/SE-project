@@ -6,7 +6,7 @@
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="card-bg"></div>
             <ul class="follows-ul">
-                <li class="follows-tx"><img :src="item.head_image" @click="others(item.uid)" ></li>
+                <li class="follows-tx"><img v-lazy="item.head_image" @click="others(item.uid)" ></li>
                 <li class="follows-name" @click="others(item.uid)">{{item.username?item.username:'注册用户'}}</li>
                 <li class="follows-btn">
                     <el-button size="mini" @click="deletefocus(item.uid)">取消关注</el-button>
