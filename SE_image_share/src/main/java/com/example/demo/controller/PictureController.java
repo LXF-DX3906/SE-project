@@ -361,8 +361,8 @@ public class PictureController {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
           //  registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:/Users/10638/Desktop/SoftwareProject/Service/SE_image_share/pictures/");
-          // registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
-            registry.addResourceHandler("/pictures/**").addResourceLocations("file:E:\\大三上\\软件工程\\SE project\\SE-project\\SE_image_share\\pictures/");
+           registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
+           // registry.addResourceHandler("/pictures/**").addResourceLocations("file:E:\\大三上\\软件工程\\SE project\\SE-project\\SE_image_share\\pictures/");
         }
     }
 }

@@ -13,10 +13,10 @@
       </el-col>
     </el-row>
     </div>
-<!--    <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>-->
-    <div class="search-result">
+    <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>
+    <div class="gtuku">
       <div
-        class="search-result-div"
+        class="gtuku-div"
         v-for="(img) in imgs"
         :key="img.pid"
         :style="{width:img.weight*200/img.height+'px',flexGrow:img.weight*200/img.height}"
@@ -53,6 +53,12 @@ export default {
   },
   methods: {
     getDataByImage(infoByImage) {
+      try {
+        if(infoByImage.result == '' || infoByImage.result == undefined || infoByImage.result == null)
+          return;
+      }catch (e) {
+        return;
+      }
       console.log(infoByImage)
       this.imgs = []
       let imgs = Object.assign(infoByImage.result);
@@ -68,7 +74,9 @@ export default {
       }
     },
     getdata(keywords){
-      console.log(keywords)
+      if(keywords == '' || keywords == undefined || keywords == null)
+        return;
+      console.log('hhhhhhhhhhhhhh', keywords)
       this.isLoading = true
       this.$http.post('/api/keywordSearch',{keyword:keywords},{emulateJSON:true})
       .then(res=>{
@@ -170,7 +178,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   width: 90%;
-  margin: 0 auto;
+  margin: 0 auto 50px auto;
   padding-top: 80px;
 }
 .search-result::after {

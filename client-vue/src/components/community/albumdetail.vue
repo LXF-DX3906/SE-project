@@ -5,7 +5,7 @@
         <el-col :span="23">
           <div class="aldetail-head" v-if="my">
             <input type="file" @change="changeimg($event)" ref="imgInput" style="display:none;">
-            <el-button size="mini" class="aldetail-head-btn" @click="uploadimg">上传图片</el-button>
+            <el-button size="mini" class="aldetail-head-btn" @click="uploadimg">添加图片</el-button>
           </div>
           <waterfall
             class="aldetail-div"
