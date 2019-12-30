@@ -13,7 +13,7 @@
       </el-col>
     </el-row>
     </div>
-    <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>
+<!--    <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>-->
     <div class="search-result">
       <div
         class="search-result-div"
@@ -67,6 +67,7 @@ export default {
       }
     },
     getdata(keywords){
+      this.isLoading = true
       this.$http.post('/api/keywordSearch',{keyword:keywords},{emulateJSON:true})
       .then(res=>{
         this.imgs = []

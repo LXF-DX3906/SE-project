@@ -4,7 +4,7 @@
       <el-row type="flex" justify="center">
         <el-col :span="23">
           <div class="aldetail-head" v-if="my">
-<!--            <input type="file" @change="changeimg($event)" ref="imgInput" style="display:none;">-->
+            <input type="file" @change="changeimg($event)" ref="imgInput" style="display:none;">
             <el-button size="mini" class="aldetail-head-btn" @click="uploadimg">上传图片</el-button>
           </div>
           <waterfall
@@ -17,7 +17,7 @@
             @scroll="scroll"
           >
             <template>
-                <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>
+<!--                <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>-->
               <div class="aldetail-item" v-for="img in imgs" :key="img.pid">
                 <div class="aldetail-img">
                   <img v-lazy="img.position">

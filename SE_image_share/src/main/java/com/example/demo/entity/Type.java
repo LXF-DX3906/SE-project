@@ -23,12 +23,12 @@ public class Type {
         type_dict.put(1,"城市");
         type_dict.put(2,"星空");
         type_dict.put(3,"旅游");
-        type_dict.put(4,"春天");
-        type_dict.put(5,"教育");
+        type_dict.put(4,"冬天");
+        type_dict.put(5,"迪士尼");
         type_dict.put(6,"美食");
-        type_dict.put(7,"健身");
+        type_dict.put(7,"动漫");
         type_dict.put(8,"风景");
-        type_dict.put(9,"金融");
+        type_dict.put(9,"建筑");
         type_dict.put(10,"背景");
         type_dict.put(11,"医疗");
         type_dict.put(12,"植物");
