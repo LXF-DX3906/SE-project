@@ -257,7 +257,7 @@ export default {
 .gbanner {
   width: 100%;
   height: 400px;
-  background: url("../../assets/tuku1.jpg") center no-repeat;
+  background: url("../../assets/tuku2.jpg") center no-repeat;
   background-size: cover;
 }
 .gel-col {

@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     showtuku(){
-      this.$emit('func','gallery'); 
+      this.$emit('func','gallery');
     },
     fabu(){
       if (this.uid) {
@@ -86,20 +86,26 @@ export default {
 .ibanner {
   height: 550px;
   margin-bottom: 20px;
-   
+
 }
 .ib1 {
-  background: url("../../assets/tuku.jpg") no-repeat;
+  background: url("../../assets/tuku4.jpg") no-repeat;
   background-size: cover;
+  margin-right: 50px;
+  margin-left: 50px;
 }
 .ib2 {
-  background: url("../../assets/shequ.jpg") no-repeat;
+  background: url("../../assets/shequ1.jpg") no-repeat;
   background-size: cover;
+  margin-right: 50px;
+  margin-left: 50px;
 }
 .ib3 {
   background: url("../../assets/fabu.jpg") no-repeat;
   background-size: cover;
   margin-bottom: 5px;
+  margin-right: 50px;
+  margin-left: 50px;
 }
 .iwhite {
   color: #ffffff;

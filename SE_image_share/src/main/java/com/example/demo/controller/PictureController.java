@@ -57,7 +57,7 @@ public class PictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tid", value = "类型ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/typeSearch",method= RequestMethod.POST)
+    @RequestMapping(value="/api/typeSearch",method= RequestMethod.POST)
     public Object typeSearch(HttpServletRequest req, HttpSession session) {
         Integer tid = Integer.valueOf(req.getParameter("tid"));
         JSONObject jsonObject = new JSONObject();
@@ -82,7 +82,7 @@ public class PictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "keyword", value = "关键词", required = true, dataType = "long", paramType = "query")
     })
-    @RequestMapping(value="/keywordSearch",method= RequestMethod.POST)
+    @RequestMapping(value="/api/keywordSearch",method= RequestMethod.POST)
     public Object keywordSearch(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -104,7 +104,7 @@ public class PictureController {
             notes = "推荐页图片，按点赞量排序",
             produces = "application/json"
     )
-    @RequestMapping(value = "/pictureUsersList",method = RequestMethod.GET)
+    @RequestMapping(value = "/api/pictureUsersList",method = RequestMethod.GET)
     public Object pictureUsersList(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -153,7 +153,7 @@ public class PictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/myPictures",method= RequestMethod.POST)
+    @RequestMapping(value="/api/myPictures",method= RequestMethod.POST)
     public Object myPictures(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -182,7 +182,7 @@ public class PictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pid", value = "图片id", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/pictureDetail",method= RequestMethod.POST)
+    @RequestMapping(value="/api/pictureDetail",method= RequestMethod.POST)
     public Object pictureIdSearch(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         JSONObject comment = new JSONObject();
@@ -221,7 +221,7 @@ public class PictureController {
             @ApiImplicitParam(name = "type_name", value = "图片类型", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "img", value = "图片文件", required = true, dataType = "MultipartFile", paramType = "form")
     })
-    @RequestMapping(value="/pictureUpload",method= RequestMethod.POST)
+    @RequestMapping(value="/api/pictureUpload",method= RequestMethod.POST)
     public Object pictureUpload(HttpServletRequest request , HttpSession session) throws IOException {
         MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
         List<MultipartFile> file = ((MultipartHttpServletRequest) request).getFiles("img");
@@ -288,7 +288,7 @@ public class PictureController {
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/deletePicture",method= RequestMethod.POST)
+    @RequestMapping(value="/api/deletePicture",method= RequestMethod.POST)
     public Object deletePicture(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         Integer userId = Integer.valueOf(req.getParameter("uid").trim());
@@ -316,7 +316,7 @@ public class PictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "img", value = "图片文件", required = true, dataType = "MultipartFile", paramType = "form")
     })
-    @RequestMapping(value="/searchImgByImg",method= RequestMethod.POST)
+    @RequestMapping(value="/api/searchImgByImg",method= RequestMethod.POST)
     public Object searchImgByImg(HttpServletRequest req, HttpSession session) throws IOException {
         List<MultipartFile> file = ((MultipartHttpServletRequest) req).getFiles("img");
         JSONObject jsonObject = new JSONObject();
@@ -361,8 +361,9 @@ public class PictureController {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
           //  registry.addResourceHandler("/pictures/**").addResourceLocations("file:C:/Users/10638/Desktop/SoftwareProject/Service/SE_image_share/pictures/");
-           registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
-           // registry.addResourceHandler("/pictures/**").addResourceLocations("file:E:\\大三上\\软件工程\\SE project\\SE-project\\SE_image_share\\pictures/");
+           //registry.addResourceHandler("/pictures/**").addResourceLocations("file:D:/GitHub/SE-project/SE_image_share/pictures/");
+//           registry.addResourceHandler("/pictures/**").addResourceLocations("file:E:\\大三上\\软件工程\\SE project\\SE-project\\SE_image_share\\pictures/");
+            registry.addResourceHandler("/pictures/**").addResourceLocations("file:/usr/local/SE_project/pictures/");
         }
     }
 }

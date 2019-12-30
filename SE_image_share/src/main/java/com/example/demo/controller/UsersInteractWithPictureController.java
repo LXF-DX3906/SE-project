@@ -54,7 +54,7 @@ public class UsersInteractWithPictureController {
             @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/pictureCollectDelete",method= RequestMethod.POST)
+    @RequestMapping(value="/api/pictureCollectDelete",method= RequestMethod.POST)
     public Object pictureCollectDelete(HttpServletRequest req, HttpSession session) {
         Integer pid = Integer.valueOf(req.getParameter("pid"));
         Integer uid = Integer.valueOf(req.getParameter("uid"));
@@ -85,7 +85,7 @@ public class UsersInteractWithPictureController {
             @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/pictureCollect",method= RequestMethod.POST)
+    @RequestMapping(value="/api/pictureCollect",method= RequestMethod.POST)
     public Object pictureCollect(HttpServletRequest req, HttpSession session) {
         Integer pid = Integer.valueOf(req.getParameter("pid"));
         Integer uid = Integer.valueOf(req.getParameter("uid"));
@@ -114,7 +114,7 @@ public class UsersInteractWithPictureController {
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "content", value = "评论内容", required = true, dataType = "String", paramType = "query")
     })
-    @RequestMapping(value="/userComment",method= RequestMethod.POST)
+    @RequestMapping(value="/api/userComment",method= RequestMethod.POST)
     public Object addComment(HttpServletRequest req, HttpSession session) {
         Integer pid = Integer.valueOf(req.getParameter("pid"));
         Integer uid = Integer.valueOf(req.getParameter("uid"));
@@ -144,7 +144,7 @@ public class UsersInteractWithPictureController {
             @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/pictureLike",method= RequestMethod.POST)
+    @RequestMapping(value="/api/pictureLike",method= RequestMethod.POST)
     public Object pictureLike(HttpServletRequest req, HttpSession session) {
         String a= req.getParameter("pid");
         Integer pid = Integer.valueOf(req.getParameter("pid"));
@@ -173,7 +173,7 @@ public class UsersInteractWithPictureController {
             @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/pictureLikeDelete",method= RequestMethod.POST)
+    @RequestMapping(value="/api/pictureLikeDelete",method= RequestMethod.POST)
     public Object pictureLikeDelete(HttpServletRequest req, HttpSession session) {
         Integer pid = Integer.valueOf(req.getParameter("pid"));
         Integer uid = Integer.valueOf(req.getParameter("uid"));
@@ -197,7 +197,7 @@ public class UsersInteractWithPictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/like",method= RequestMethod.POST)
+    @RequestMapping(value="/api/like",method= RequestMethod.POST)
     public Object like(HttpServletRequest req, HttpSession session) {
         Integer uid = Integer.valueOf(req.getParameter("uid"));
         JSONObject jsonObject = new JSONObject();
@@ -230,7 +230,7 @@ public class UsersInteractWithPictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/collect",method= RequestMethod.POST)
+    @RequestMapping(value="/api/collect",method= RequestMethod.POST)
     public Object collect(HttpServletRequest req, HttpSession session) {
         Integer uid = Integer.valueOf(req.getParameter("uid"));
         JSONObject jsonObject = new JSONObject();

@@ -11,7 +11,7 @@ module.exports = {
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api': ''
+                    '^/api': 'http://localhost:8021'
                 }
             }
         }

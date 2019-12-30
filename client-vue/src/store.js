@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    HOST: 'http://localhost:8021/'
+    HOST: 'http://119.3.190.51:8021/'
   },
   mutations: {
 

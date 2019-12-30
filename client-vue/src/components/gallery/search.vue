@@ -13,7 +13,7 @@
       </el-col>
     </el-row>
     </div>
-    <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>
+<!--    <vue-loading type="spiningDubbles"  class ="wait-loading " :class="{loadingDisplay: !isLoading}" color="#9e9e9e" :size="{ width: '50px', height: '50px' }"></vue-loading>-->
     <div class="gtuku">
       <div
         class="gtuku-div"

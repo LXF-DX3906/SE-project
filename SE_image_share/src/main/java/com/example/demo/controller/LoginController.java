@@ -40,7 +40,7 @@ public class LoginController {
             @ApiImplicitParam(name = "phone", value = "用户电话", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "String", paramType = "query")
     })
-    @RequestMapping(value = "/phoneLogin", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/phoneLogin", method = RequestMethod.POST)
     public Object phoneLoginVerify(HttpServletRequest req, HttpSession session) throws IOException {
         JSONObject jsonObject = new JSONObject();
         //Response<Integer> response = new Response<>();
@@ -82,7 +82,7 @@ public class LoginController {
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "String", paramType = "query")
     })
     @ResponseBody
-    @RequestMapping(value = "/emailLogin", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/emailLogin", method = RequestMethod.POST)
     public Object emailLoginVerify(HttpServletRequest req, HttpSession session) throws IOException {
         JSONObject jsonObject = new JSONObject();
         //Response<Integer> response = new Response<>();
@@ -124,7 +124,7 @@ public class LoginController {
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "String", paramType = "query")
     })
     @ResponseBody
-    @RequestMapping(value = "/phoneRegister", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/phoneRegister", method = RequestMethod.POST)
     public Object phoneRegister(HttpServletRequest req) {
         JSONObject jsonObject = new JSONObject();
 
@@ -160,7 +160,7 @@ public class LoginController {
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataType = "String", paramType = "query")
     })
     @ResponseBody
-    @RequestMapping(value = "/emailRegister", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/emailRegister", method = RequestMethod.POST)
     public Object emailRegister(HttpServletRequest req) {
         JSONObject jsonObject = new JSONObject();
 

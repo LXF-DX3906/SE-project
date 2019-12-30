@@ -51,7 +51,7 @@ public class AlbumController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/albumList",method= RequestMethod.POST)
+    @RequestMapping(value="/api/albumList",method= RequestMethod.POST)
     public Object albumList(HttpServletRequest req, HttpSession session) {
         Integer userId = Integer.valueOf(req.getParameter("uid").trim());
         JSONObject jsonObject = new JSONObject();
@@ -82,7 +82,7 @@ public class AlbumController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/albumDetail",method= RequestMethod.POST)
+    @RequestMapping(value="/api/albumDetail",method= RequestMethod.POST)
     public Object albumDetail(HttpServletRequest req, HttpSession session) {
         Integer albumId = Integer.valueOf(req.getParameter("gid").trim());
         JSONObject jsonObject = new JSONObject();
@@ -110,7 +110,7 @@ public class AlbumController {
             @ApiImplicitParam(name = "status", value = "相册状态", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "相册描述", required = false, dataType = "String", paramType = "query"),
     })
-    @RequestMapping(value="/albumUpdate",method= RequestMethod.POST)
+    @RequestMapping(value="/api/albumUpdate",method= RequestMethod.POST)
     public Object albumUpdate(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         Integer albumId = Integer.valueOf(req.getParameter("gid").trim());
@@ -148,7 +148,7 @@ public class AlbumController {
             @ApiImplicitParam(name = "status", value = "相册状态", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "相册描述", required = false, dataType = "String", paramType = "query"),
     })
-    @RequestMapping(value="/createAlbum",method= RequestMethod.POST)
+    @RequestMapping(value="/api/createAlbum",method= RequestMethod.POST)
     public Object createAlbum(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         Integer ownerId = Integer.valueOf(req.getParameter("uid").trim());
@@ -182,7 +182,7 @@ public class AlbumController {
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query"),
     })
-    @RequestMapping(value="/albumDelete",method= RequestMethod.POST)
+    @RequestMapping(value="/api/albumDelete",method= RequestMethod.POST)
     public Object albumDelete(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         Integer albumId = Integer.valueOf(req.getParameter("gid").trim());
@@ -219,7 +219,7 @@ public class AlbumController {
             @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query"),
     })
-    @RequestMapping(value="/deleteFromAlbum",method= RequestMethod.POST)
+    @RequestMapping(value="/api/deleteFromAlbum",method= RequestMethod.POST)
     public Object deleteFromAlbum(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         Integer albumId = Integer.valueOf(req.getParameter("gid").trim());
@@ -246,7 +246,7 @@ public class AlbumController {
             @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
     })
-    @RequestMapping(value="/albumAddPic",method= RequestMethod.POST)
+    @RequestMapping(value="/api/albumAddPic",method= RequestMethod.POST)
     public Object albumAddPic(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -281,7 +281,7 @@ public class AlbumController {
             @ApiImplicitParam(name = "gid", value = "相册ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pids", value = "图片IDs", required = true, dataType = "List<Integer>", paramType = "query"),
     })
-    @RequestMapping(value="/albumUpload",method= RequestMethod.POST)
+    @RequestMapping(value="/api/albumUpload",method= RequestMethod.POST)
     public Object albumUpload(@RequestBody JSONObject req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         Integer albumId = req.getIntValue("gid");

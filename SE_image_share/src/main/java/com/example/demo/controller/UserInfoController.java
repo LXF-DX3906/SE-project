@@ -45,7 +45,7 @@ public class UserInfoController {
             @ApiImplicitParam(name = "uid", value = "用户id", required = true, dataType = "Integer", paramType = "query")
     })
     @ResponseBody
-    @RequestMapping(value = "/basicInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/basicInfo", method = RequestMethod.POST)
     public Object userInfo(HttpServletRequest req) {
         JSONObject jsonObject = new JSONObject();
         String userId = req.getParameter("uid").trim();
@@ -85,7 +85,7 @@ public class UserInfoController {
             @ApiImplicitParam(name = "phone", value = "新编辑的电话", required = true, dataType = "String", paramType = "query")
     })
     @ResponseBody
-    @RequestMapping(value = "/updatePhone", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/updatePhone", method = RequestMethod.POST)
     public Object updatePhone(HttpServletRequest req) {
         JSONObject jsonObject = new JSONObject();
         String userId = req.getParameter("uid").trim();
@@ -128,7 +128,7 @@ public class UserInfoController {
             @ApiImplicitParam(name = "email", value = "新编辑的邮箱", required = true, dataType = "String", paramType = "query")
     })
     @ResponseBody
-    @RequestMapping(value = "/updateEmail", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/updateEmail", method = RequestMethod.POST)
     public Object updateEmail(HttpServletRequest req) {
         JSONObject jsonObject = new JSONObject();
         String userId = req.getParameter("uid").trim();
@@ -171,7 +171,7 @@ public class UserInfoController {
             @ApiImplicitParam(name = "password", value = "新编辑的密码", required = true, dataType = "String", paramType = "query")
     })
     @ResponseBody
-    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/updatePassword", method = RequestMethod.POST)
     public Object updatePassword(HttpServletRequest req) {
         JSONObject jsonObject = new JSONObject();
         String userId = req.getParameter("uid").trim();
@@ -211,7 +211,7 @@ public class UserInfoController {
             @ApiImplicitParam(name = "city", value = "用户所在城市", required = false, dataType = "String", paramType = "query"),
     })
     @ResponseBody
-    @RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/updateInfo", method = RequestMethod.POST)
     public Object updateInfo(HttpServletRequest req) {
         JSONObject jsonObject = new JSONObject();
         String userId = req.getParameter("uid").trim();
@@ -260,7 +260,7 @@ public class UserInfoController {
             @ApiImplicitParam(name="avatarFile",value = "头像图片文件", required = true, dataType = "MultipartFile", paramType = "form"),
             @ApiImplicitParam(name="uid",value = "用户id", required = true, dataType = "Integer", paramType = "form")
     })
-    @RequestMapping(value = "/uploadAvatar",method = RequestMethod.POST)
+    @RequestMapping(value = "/api/uploadAvatar",method = RequestMethod.POST)
     public Object uploadAvatar(HttpServletRequest req) throws IOException {
         MultipartHttpServletRequest params=((MultipartHttpServletRequest) req);
         List<MultipartFile> avatarFile = ((MultipartHttpServletRequest) req).getFiles("avatarFile");

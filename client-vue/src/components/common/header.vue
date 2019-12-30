@@ -2,7 +2,7 @@
   <div id="head" class="hheader">
     <el-row>
       <el-col :lg="4" :xs="1" :sm="1" :md="1" :xl="4" class="hel-col">
-        <img src="../../assets/logo.png" class="hlogo" @click="show">
+        <img src="../../assets/logo2.png" class="hlogo" @click="show">
       </el-col>
       <el-col :lg="0" :xs="8" :sm="4" :md="4" :xl="1">&nbsp;</el-col>
       <el-col :lg="1" :xs="1" :sm="1" :md="1" :xl="1" :class="['hel-col',flag1?'active-tk':'']">
@@ -406,9 +406,10 @@ export default {
   border-bottom: #bbbbbb solid 1px;
 }
 .hlogo {
-  height: 2.6rem;
-  width: 10rem;
-  padding-left: 0.5rem;
+  height: 2.1rem;
+  width: 2.4rem;
+  padding-left: 2.5rem;
+  padding-top: 0.15rem;
   float: left;
   cursor: pointer;
 }
