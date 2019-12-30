@@ -49,6 +49,7 @@ export default {
   },
   created(){
     this.getdata(this.input)
+    this.getDataByImage(this.infoByImage)
   },
   methods: {
     getDataByImage(infoByImage) {
@@ -67,29 +68,31 @@ export default {
       }
     },
     getdata(keywords){
+      console.log(keywords)
       this.isLoading = true
       this.$http.post('/api/keywordSearch',{keyword:keywords},{emulateJSON:true})
       .then(res=>{
+        console.log(res)
         this.imgs = []
         let imgs=Object.assign(res.body.result);
         for (let item of  imgs) {
           let new_item = {
             pid: item.pictureId,
             position: this.$store.state.HOST + item.position,
-            weight: item.weight,
+            weight: item.width,
             height: item.height,
             description: item.description
           }
           this.imgs.push(new_item)
           this.isLoading = false
         }
+        console.log(this.imgs)
         let query = this.$router.history.current.query;
         let path = this.$router.history.current.path;
         //对象的拷贝
         let newQuery = JSON.parse(JSON.stringify(query));
         newQuery.keywords = keywords;
         this.$router.push({ path, query: newQuery });
-        this.getDataByImage(this.infoByImage)
       })
     },
     showdia(item) {
@@ -199,6 +202,7 @@ export default {
 }
 .camera-button{
   margin-top: 7px;
+  margin-right: 5px;
   height: 25px;
   width: 25px;
 }

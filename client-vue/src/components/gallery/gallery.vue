@@ -375,6 +375,7 @@ export default {
 }
   .camera-button-gallery{
     margin-top: 10px;
+    margin-right: 8px;
     height: 30px;
     width: 30px;
   }
