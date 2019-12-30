@@ -91,7 +91,7 @@ export default {
       gid: this.$route.query.gid,
       uid: this.$route.query.uid,
       my: ifMy,
-      col: 5,
+      col: 4,
       imgs: [],
       uploadToAlbum:false,
       pics:[],
@@ -236,7 +236,7 @@ export default {
 .detail-body {
   min-height: 300px;
   height: auto;
-  display: flex;
+  /*display: flex;*/
   width: auto;
   margin: 0 auto;
 }

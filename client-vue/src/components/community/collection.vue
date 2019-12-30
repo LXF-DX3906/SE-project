@@ -55,7 +55,7 @@ export default {
       activeName: "comments",
       comment: "",
       uid:this.$route.query.uid,
-      col:5,
+      col:4,
       imgs:[],
       my:ifMy
     };
@@ -129,7 +129,7 @@ export default {
 .collection {
   min-height: 300px;
   height: auto;
-  display: flex;
+  /*display: flex;*/
   width: auto;
   margin: 0 auto;
 }

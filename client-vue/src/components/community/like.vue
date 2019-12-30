@@ -38,13 +38,13 @@
       </div>
       <div class="like-dia-text" v-text="diaitem.description"></div>
       <div class="tj-dia-like">
-        <el-button icon="el-icon-star-off"></el-button>
+        <el-button icon="el-icon-gz-heart"></el-button>
           <span v-text="diaitem.like_num"></span>
       </div>
           <div class="like-dia-tabs">
-            <div class="tj-dia-comment">
-              <el-input class="tj-dia-input" v-model="comment" placeholder="请输入内容"></el-input>
-              <el-button class="tj-dia-btn" type="primary" @click="addcom(diaitem.pid,diaitem.uid,comment)">评 论</el-button>
+            <div class="recommend-dia-comment">
+              <el-input class="recommend-dia-input" v-model="comment" placeholder="请输入内容"></el-input>
+              <el-button class="recommend-dia-btn" type="primary" @click="addcom(diaitem.pid,diaitem.uid,comment)">评 论</el-button>
             </div>
             <div class="like-hot" v-for="com in picdetail.comment" :key="com.cid">
               <div class="like-hot-tx">
@@ -80,7 +80,7 @@ export default {
       dialogVisible: false,
       avatar:'http://188.131.192.194/head_images/5LSk0zVtyKDq9UciiWPab50dwjoNI2324KtwSyBD.jpeg',
       comment: "",
-      col:5,
+      col:4,
       uid:this.$route.query.uid,
       my:ifMy,
       imgs:[],
@@ -222,9 +222,9 @@ export default {
 
 <style>
 .like {
-  min-height: 300px;
+  min-height: 500px;
   height: auto;
-  display: flex;
+  /*display: flex;*/
   width: auto;
   margin: 0 auto;
 }

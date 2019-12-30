@@ -3,7 +3,7 @@
   <el-row type="flex" justify="center">
       <el-col :span="23">
         <waterfall class="mywork-div" :col="col" :width="itemWidth" :gutterWidth="gutterWidth" :data="imgs" @loadmore="loadmore"
-      @scroll="scroll">
+        @scroll="scroll">
       <template>
         <div class="mywork-item" v-for="img in imgs" :key="img.pid">
           <div class="mywork-img">
@@ -25,13 +25,13 @@
       </el-col>
     </el-row>
 
-    <el-dialog :visible.sync="dialogVisible" width="70%" class="tj-dia">
+    <el-dialog :visible.sync="dialogVisible" width="70%" class="recommend-dia">
       <div class="mywork-dia-img">
         <img v-lazy="diaitem.position">
       </div>
       <div class="mywork-dia-text" v-text="diaitem.description"></div>
         <div class="tj-dia-like">
-        <el-button icon="el-icon-star-off"></el-button>
+        <el-button icon="el-icon-gz-heart"></el-button>
           <span v-text="diaitem.like_num"></span>
         </div>
         <div class="mywork-tag">标签：{{diaitem.type_name}}</div>
@@ -75,11 +75,11 @@ export default {
       diaitem: [],
       picdetail:[],
       activeName: "comments",
-      col:5,
+      col:4,
       uid:id,
       my:ifMy,
       avatar:'http://188.131.192.194/head_images/5LSk0zVtyKDq9UciiWPab50dwjoNI2324KtwSyBD.jpeg',
-      imgs:[],
+      imgs:[]
     };
   },
   created(){
@@ -149,12 +149,17 @@ export default {
 
 <style>
 .mywork {
-  min-height: 300px;
-  height: auto;
-  display: flex;
+  /*min-height: 500px;*/
+  /*height: auto;*/
+  /*display: flex;*/
   flex-wrap: wrap;
-  width:auto;
+  /*width:100%;*/
   margin: 0 auto;
+  background-color: #ededef;
+  width: 100%;
+  min-height: 500px;
+  height: auto;
+  overflow: hidden;
 }
 .mywork-div {
   margin: 20px auto;
@@ -265,6 +270,13 @@ export default {
 .mywork-tag{
   margin-top: 5px;
   margin-left: 10px;
+}
+.el-icon-gz-heart {
+  width: 25px;
+  height: 25px;
+  background: url("../../assets/xin.png") center no-repeat;
+  background-size: 25px 25px;
+  text-align: center;
 }
 </style>
 
