@@ -54,7 +54,7 @@ public class UsersInteractWithPictureController {
             @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/pictureCollectDelete",method= RequestMethod.POST)
+    @RequestMapping(value="/api/pictureCollectDelete",method= RequestMethod.DELETE)
     public Object pictureCollectDelete(HttpServletRequest req, HttpSession session) {
         Integer pid = Integer.valueOf(req.getParameter("pid"));
         Integer uid = Integer.valueOf(req.getParameter("uid"));
@@ -173,7 +173,7 @@ public class UsersInteractWithPictureController {
             @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/pictureLikeDelete",method= RequestMethod.POST)
+    @RequestMapping(value="/api/pictureLikeDelete",method= RequestMethod.DELETE)
     public Object pictureLikeDelete(HttpServletRequest req, HttpSession session) {
         Integer pid = Integer.valueOf(req.getParameter("pid"));
         Integer uid = Integer.valueOf(req.getParameter("uid"));
@@ -197,7 +197,7 @@ public class UsersInteractWithPictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/like",method= RequestMethod.POST)
+    @RequestMapping(value="/api/like",method= RequestMethod.GET)
     public Object like(HttpServletRequest req, HttpSession session) {
         Integer uid = Integer.valueOf(req.getParameter("uid"));
         JSONObject jsonObject = new JSONObject();
@@ -230,7 +230,7 @@ public class UsersInteractWithPictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/collect",method= RequestMethod.POST)
+    @RequestMapping(value="/api/collect",method= RequestMethod.GET)
     public Object collect(HttpServletRequest req, HttpSession session) {
         Integer uid = Integer.valueOf(req.getParameter("uid"));
         JSONObject jsonObject = new JSONObject();

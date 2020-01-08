@@ -57,7 +57,7 @@ public class PictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tid", value = "类型ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/typeSearch",method= RequestMethod.POST)
+    @RequestMapping(value="/api/typeSearch",method= RequestMethod.GET)
     public Object typeSearch(HttpServletRequest req, HttpSession session) {
         Integer tid = Integer.valueOf(req.getParameter("tid"));
         JSONObject jsonObject = new JSONObject();
@@ -82,7 +82,7 @@ public class PictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "keyword", value = "关键词", required = true, dataType = "long", paramType = "query")
     })
-    @RequestMapping(value="/api/keywordSearch",method= RequestMethod.POST)
+    @RequestMapping(value="/api/keywordSearch",method= RequestMethod.GET)
     public Object keywordSearch(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -153,7 +153,7 @@ public class PictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/myPictures",method= RequestMethod.POST)
+    @RequestMapping(value="/api/myPictures",method= RequestMethod.GET)
     public Object myPictures(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -182,7 +182,7 @@ public class PictureController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pid", value = "图片id", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/pictureDetail",method= RequestMethod.POST)
+    @RequestMapping(value="/api/pictureDetail",method= RequestMethod.GET)
     public Object pictureIdSearch(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         JSONObject comment = new JSONObject();
@@ -288,7 +288,7 @@ public class PictureController {
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pid", value = "图片ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/deletePicture",method= RequestMethod.POST)
+    @RequestMapping(value="/api/deletePicture",method= RequestMethod.DELETE)
     public Object deletePicture(HttpServletRequest req, HttpSession session) {
         JSONObject jsonObject = new JSONObject();
         Integer userId = Integer.valueOf(req.getParameter("uid").trim());
@@ -333,17 +333,21 @@ public class PictureController {
                 JSONObject temp = JSONObject.parseObject(item.toString());
                 String brief = temp.getString("brief");
                 String score = temp.getString("score");
-                if (pictureService.isNum(brief)){
-                    Picture tempPicture = pictureMapper.selectByPrimaryKey(Integer.valueOf(brief));
-                    JSONObject tempPictureJson = new JSONObject();
-                    tempPictureJson.put("pictureId",tempPicture.getPictureId());
-                    tempPictureJson.put("position",tempPicture.getPosition());
-                    tempPictureJson.put("width",tempPicture.getWidth());
-                    tempPictureJson.put("height",tempPicture.getHeight());
-                    tempPictureJson.put("typeName",tempPicture.getTypeName());
-                    tempPictureJson.put("description", tempPicture.getDescription());
-                    tempPictureJson.put("score",score);
-                    jsonArray.add(tempPictureJson);
+                try {
+                    if (pictureService.isNum(brief)) {
+                        Picture tempPicture = pictureMapper.selectByPrimaryKey(Integer.valueOf(brief));
+                        JSONObject tempPictureJson = new JSONObject();
+                        tempPictureJson.put("pictureId", tempPicture.getPictureId());
+                        tempPictureJson.put("position", tempPicture.getPosition());
+                        tempPictureJson.put("width", tempPicture.getWidth());
+                        tempPictureJson.put("height", tempPicture.getHeight());
+                        tempPictureJson.put("typeName", tempPicture.getTypeName());
+                        tempPictureJson.put("description", tempPicture.getDescription());
+                        tempPictureJson.put("score", score);
+                        jsonArray.add(tempPictureJson);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             }
             jsonObject.put("result",jsonArray);

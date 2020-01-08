@@ -125,7 +125,7 @@ export default {
     //   console.log(this.form.adds)
     // },
     uploadimg() {
-      this.$http.post("/api/albumAddPic",{gid: this.gid,uid: this.uid},{emulateJSON:true})
+      this.$http.get("/api/albumAddPic",{params:{gid: this.gid,uid: this.uid}},{emulateJSON:true})
       .then(res=> {
         if (res.body.message=="获取成功") {
           this.pics = [];
@@ -182,7 +182,7 @@ export default {
     loadmore() {},
     getalbumdetail() {
       this.$http
-        .post("/api/albumDetail", { gid: this.gid }, { emulateJSON: true })
+        .get("/api/albumDetail",{params:{ gid: this.gid }}, { emulateJSON: true })
         .then(res => {
           if (res.body.message == "获取成功") {
             this.imgs = [];
@@ -206,7 +206,7 @@ export default {
     },
     deletedetail(pid) {
       this.$http
-        .post("/api/deleteFromAlbum", { gid: this.gid, pid: pid }, { emulateJSON: true })
+        .delete("/api/deleteFromAlbum", {params:{ gid: this.gid, pid: pid }}, { emulateJSON: true })
         .then(res => {
           if (res.body.message == "删除成功") {
             this.$message({

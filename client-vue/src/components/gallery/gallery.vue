@@ -121,7 +121,7 @@ export default {
       this.getdata(key)
     },
     getdata(tid){
-      this.$http.post('/api/typeSearch',{tid:tid},{emulateJSON:true})
+      this.$http.get('/api/typeSearch',{params:{tid:tid}},{emulateJSON:true})
       .then(res=>{
         this.imgs = []
         let imgs = Object.assign(res.body.result);
@@ -151,7 +151,7 @@ export default {
     },
     collectinfo(pid){
       console.log('hhhhh')
-      this.$http.post('/api/pictureCollectDelete',{uid:this.uid,pid:pid},{emulateJSON:true})
+      this.$http.delete('/api/pictureCollectDelete',{params:{uid:this.uid,pid:pid}},{emulateJSON:true})
       .then(res=>{
         if(res.body.message=="未收藏"){
           this.collect=true
@@ -193,7 +193,7 @@ export default {
 
     },
     cancelcollect(pid){
-      this.$http.post('/api/pictureCollectDelete',{uid:this.uid,pid:pid},{emulateJSON:true})
+      this.$http.delete('/api/pictureCollectDelete',{params:{uid:this.uid,pid:pid}},{emulateJSON:true})
       .then(res=>{
         if(res.body.message=="取消收藏成功"){
           this.collect=true
@@ -257,7 +257,7 @@ export default {
 .gbanner {
   width: 100%;
   height: 400px;
-  background: url("../../assets/tuku2.jpg") center no-repeat;
+  background: url("../../assets/tuku1.jpg") center no-repeat;
   background-size: cover;
 }
 .gel-col {

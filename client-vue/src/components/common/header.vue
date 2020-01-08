@@ -154,7 +154,7 @@ export default {
       }
     },
     getinfo(uid) {
-      this.$http.post("/api/basicInfo", { uid: uid }, { emulateJSON: true })
+      this.$http.get("/api/basicInfo", { params:{uid: uid }}, { emulateJSON: true })
         .then(res => {
           if (res.body.message == "登陆成功") {
             if (res.body.username) {
@@ -184,9 +184,9 @@ export default {
       if (type == "phone") {
         console.log(type)
         this.$http
-          .post(
+          .get(
             "/api/phoneLogin",
-            { phone: data, password: passwd },
+            {params:{ phone: data, password: passwd }},
             { emulateJSON: true }
           )
           .then(result => {
@@ -222,9 +222,9 @@ export default {
         })
       } else if (type == "email") {
         this.$http
-          .post(
+          .get(
             "/api/emailLogin",
-            { email: data, password: passwd },
+            {params:{ email: data, password: passwd }},
             { emulateJSON: true }
           )
           .then(result => {

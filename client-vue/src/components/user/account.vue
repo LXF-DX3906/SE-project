@@ -127,7 +127,7 @@ export default {
   },
   methods: {
     getuserinfo(){
-      this.$http.post("/api/basicInfo",{ uid: this.uid },{ emulateJSON: true})
+      this.$http.get("/api/basicInfo",{params:{ uid: this.uid }},{ emulateJSON: true})
       .then(result => {
         if (result.body.email) {
           this.email=result.body.email;
@@ -145,7 +145,7 @@ export default {
     saveemail() {
         this.$refs.emailForm.validate((valid) => {
           if (valid) {
-            this.$http.post("/api/updateEmail",{ uid:this.uid,email: this.emailForm.email},{ emulateJSON: true })
+            this.$http.put("/api/updateEmail",{ uid:this.uid,email: this.emailForm.email},{ emulateJSON: true })
         .then(res => {
           if (res.body.message=="编辑成功") {
           this.$message({
@@ -174,7 +174,7 @@ export default {
     savephone() {
         this.$refs.phoneForm.validate((valid) => {
         if(valid){
-        this.$http.post("/api/updatePhone",{ uid:this.uid, phone:this.phoneForm.phone},{ emulateJSON: true })
+        this.$http.put("/api/updatePhone",{ uid:this.uid, phone:this.phoneForm.phone},{ emulateJSON: true })
         .then(res => {
           if (res.body.message=="编辑成功") {
           this.$message({
@@ -202,7 +202,7 @@ export default {
     savepassword() {
       this.$refs.ruleForm.validate((valid) => {
         if(valid){
-          this.$http.post("/api/updatePassword",{ uid:this.uid, password:this.ruleForm.pass},{ emulateJSON: true })
+          this.$http.put("/api/updatePassword",{ uid:this.uid, password:this.ruleForm.pass},{ emulateJSON: true })
                   .then(res => {
                     if (res.body.message=="编辑成功") {
                       this.$message({

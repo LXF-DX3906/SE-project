@@ -35,7 +35,7 @@ export default {
       this.$router.push({path: "/community/others",query:{my:false,uuid:uid}})
     },
     getfollows(){
-        this.$http.post('/api/focus',{uid:this.uid},{emulateJSON:true})
+        this.$http.get('/api/focus',{params:{uid:this.uid}},{emulateJSON:true})
         .then(res=>{
             this.items = []
             let focus=Object.assign(res.body.result);
@@ -53,7 +53,7 @@ export default {
         })
     },
     deletefocus(uuid){
-    this.$http.post('/api/deleteFocus',{uid:this.uid,uuid:uuid},{emulateJSON:true})
+    this.$http.delete('/api/deleteFocus',{params:{uid:this.uid,uuid:uuid}},{emulateJSON:true})
     .then(res=>{
         if (res.body.message == "取消关注成功") {
             this.$message({

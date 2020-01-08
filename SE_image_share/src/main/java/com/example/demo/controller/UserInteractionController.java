@@ -42,7 +42,7 @@ public class UserInteractionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "当前用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/focus",method= RequestMethod.POST)
+    @RequestMapping(value="/api/focus",method= RequestMethod.GET)
     public Object gatFocus(HttpServletRequest req, HttpSession session) {
         Integer userId = Integer.valueOf(req.getParameter("uid"));
         JSONObject jsonObject = new JSONObject();
@@ -65,7 +65,7 @@ public class UserInteractionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "当前用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/fans",method= RequestMethod.POST)
+    @RequestMapping(value="/api/fans",method= RequestMethod.GET)
     public Object gatFans(HttpServletRequest req, HttpSession session) {
         Integer userId = Integer.valueOf(req.getParameter("uid"));
         JSONObject jsonObject = new JSONObject();
@@ -89,7 +89,7 @@ public class UserInteractionController {
             @ApiImplicitParam(name = "uid", value = "当前用户ID", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "uuid", value = "被取关用户ID", required = true, dataType = "Integer", paramType = "query")
     })
-    @RequestMapping(value="/api/deleteFocus",method= RequestMethod.POST)
+    @RequestMapping(value="/api/deleteFocus",method= RequestMethod.DELETE)
     public Object deleteFocus(HttpServletRequest req, HttpSession session) {
         Integer userId = Integer.valueOf(req.getParameter("uid"));
         Integer followingId = Integer.valueOf(req.getParameter("uuid"));

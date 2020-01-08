@@ -99,7 +99,7 @@ export default {
     loadmore() {
     },
     getmywork(){
-    this.$http.post('/api/myPictures',{uid:this.uid},{emulateJSON:true})
+    this.$http.get('/api/myPictures',{params:{uid:this.uid}},{emulateJSON:true})
       .then(res=>{
         this.imgs = [];
         let imgs = Object.assign(res.body.result);
@@ -115,13 +115,13 @@ export default {
       })
     },
     getpicdetail(pid){
-      this.$http.post('/api/pictureDetail',{pid:pid},{emulateJSON:true})
+      this.$http.get('/api/pictureDetail',{params:{pid:pid}},{emulateJSON:true})
       .then(res=>{
         this.picdetail=Object.assign(res.body);
       })
     },
     deletepic(pid){
-      this.$http.post('/api/deletePicture',{uid:this.uid,pid:pid},{emulateJSON:true})
+      this.$http.delete('/api/deletePicture',{params:{uid:this.uid,pid:pid}},{emulateJSON:true})
       .then(res=>{
         if (res.body.message=="删除成功") {
           this.$message({

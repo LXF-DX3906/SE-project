@@ -79,7 +79,7 @@ export default {
       this.city=a.value;
      },
      getinfo(){
-       this.$http.post('/api/basicInfo',{uid:this.uid},{emulateJSON:true})
+       this.$http.get('/api/basicInfo',{params:{uid:this.uid}},{emulateJSON:true})
      .then(result=>{
        this.username=result.body.username;
        this.sex=result.body.sex;
@@ -91,7 +91,7 @@ export default {
      })
      },
      updateInfo(){
-       this.$http.post('/api/updateInfo',{uid:this.uid,
+       this.$http.put('/api/updateInfo',{uid:this.uid,
        username:this.username,
        sex:this.sex,
        birthday:this.birth,

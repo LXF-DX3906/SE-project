@@ -40,7 +40,7 @@ create table picture
 (
 	picture_id			int not null auto_increment,
     position	        varchar(50),
-    weight              varchar(20),
+    width               varchar(20),
     height              varchar(20),
     type_name			varchar(20),
     description			varchar(300),

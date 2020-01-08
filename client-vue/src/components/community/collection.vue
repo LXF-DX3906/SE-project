@@ -77,7 +77,7 @@ export default {
     loadmore(index) {
     },
     getmycollection(){
-      this.$http.post('/api/collect',{uid:this.uid},{emulateJSON:true})
+      this.$http.get('/api/collect',{params:{uid:this.uid}},{emulateJSON:true})
       .then(res=>{
         if (res.body.message == "获取成功") {
           this.imgs = [];
@@ -99,7 +99,7 @@ export default {
       })
     },
     deletecollection(pid){
-      this.$http.post('/api/pictureCollectDelete',{uid:this.uid,pid:pid},{emulateJSON:true})
+      this.$http.delete('/api/pictureCollectDelete',{params:{uid:this.uid,pid:pid}},{emulateJSON:true})
       .then(res=>{
         if (res.body.message=="取消收藏成功") {
           this.$message({

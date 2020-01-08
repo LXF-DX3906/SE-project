@@ -65,7 +65,7 @@ public class PictureServiceImpl implements PictureService {
     public Boolean isNum(String s){
         char[] ch = s.toCharArray();
         for (char c : ch) {
-            if (!(c > '0' && c <= '9')) {
+            if (!(c >= '0' && c <= '9')) {
                 return false;
             }
         }

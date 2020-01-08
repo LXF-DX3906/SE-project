@@ -101,7 +101,7 @@ export default {
       collection: false,
       uid:localStorage.getItem('uid'),
       username: "",
-      txurl: "../../assets/tx6.jpg",
+      txurl: require("../../assets/tx6.jpg"),
       bgurl: require("../../assets/shequ-bg.jpg"),
       introduction: "做个自我介绍吧..",
       follows: '',
@@ -222,7 +222,7 @@ export default {
       this.follows = data
     },
     getinfo(){
-      this.$http.post('/api/basicInfo',{uid:localStorage.getItem('uid')},{emulateJSON:true})
+      this.$http.get('/api/basicInfo',{params:{uid:localStorage.getItem('uid')}},{emulateJSON:true})
      .then(result=>{
        if (result.body.username) {
           this.username=result.body.username;

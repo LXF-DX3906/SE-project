@@ -130,7 +130,7 @@ export default {
     loadmore() {
     },
     getmylike(){
-      this.$http.post('/api/like',{uid:this.uid},{emulateJSON:true})
+      this.$http.get('/api/like',{params:{uid:this.uid}},{emulateJSON:true})
       .then(res=>{
         this.imgs = []
         let imgs = Object.assign(res.body.result);
@@ -151,7 +151,7 @@ export default {
       })
     },
     deletelike(pid){
-      this.$http.post('/api/pictureLikeDelete',{uid:this.uid,pid:pid},{emulateJSON:true})
+      this.$http.delete('/api/pictureLikeDelete',{params:{uid:this.uid,pid:pid}},{emulateJSON:true})
       .then(res=>{
         if (res.body.message=="取消点赞成功") {
           this.$message({
@@ -170,7 +170,7 @@ export default {
       })
     },
     getuserinfo(uid){
-      this.$http.post('/api/basicInfo',{uid:uid},{emulateJSON:true})
+      this.$http.get('/api/basicInfo',{params:{uid:uid}},{emulateJSON:true})
       .then(res=>{
         this.useritem = {
           username: res.body.username,
@@ -187,7 +187,7 @@ export default {
 
     },
     getpicdetail(pid){
-      this.$http.post('/api/pictureDetail',{pid:pid},{emulateJSON:true})
+      this.$http.get('/api/pictureDetail',{params:{pid:pid}},{emulateJSON:true})
       .then(res=>{
         this.picdetail=Object.assign(res.body.result);
       })

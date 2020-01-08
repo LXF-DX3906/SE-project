@@ -109,7 +109,7 @@ export default {
   methods: {
      getalbum(){
          this.isLoading = true
-      this.$http.post('/api/albumList',{uid:this.uid},{emulateJSON:true})
+      this.$http.get('/api/albumList',{params:{uid:this.uid}},{emulateJSON:true})
       .then(res=>{
           if (res.body.message=="获取成功") {
               this.datalist = []
@@ -148,7 +148,7 @@ export default {
       this.albuminfo=desc;
     },
     edit(gid){
-      this.$http.post('/api/albumUpdate',{gid:gid,uid:this.uid,albumName:this.albumname,status:this.status,description:this.albuminfo},{emulateJSON:true})
+      this.$http.put('/api/albumUpdate',{gid:gid,uid:this.uid,albumName:this.albumname,status:this.status,description:this.albuminfo},{emulateJSON:true})
       .then(res=>{
         if (res.body.message=="修改成功") {
           this.$message({
@@ -169,7 +169,7 @@ export default {
       })
     },
     deletealbum(gid){
-      this.$http.post('/api/albumDelete',{gid:gid,uid:this.uid},{emulateJSON:true})
+      this.$http.delete('/api/albumDelete',{params:{gid:gid,uid:this.uid}},{emulateJSON:true})
       .then(res=>{
         if (res.body.message=="删除成功") {
           this.$message({

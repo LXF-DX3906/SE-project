@@ -145,7 +145,7 @@ export default {
       })
     },
     getuserinfo(uid){
-      this.$http.post('/api/basicInfo',{uid:uid},{emulateJSON:true})
+      this.$http.get('/api/basicInfo',{params:{uid:uid}},{emulateJSON:true})
       .then(res=>{
         console.log(res)
         this.useritem = {
@@ -160,7 +160,7 @@ export default {
       })
     },
     getpicdetail(pid){
-      this.$http.post('/api/pictureDetail',{pid:pid},{emulateJSON:true})
+      this.$http.get('/api/pictureDetail',{params:{pid:pid}},{emulateJSON:true})
       .then(res=>{
         console.log(res);
         this.picdetail=Object.assign(res.body.result);

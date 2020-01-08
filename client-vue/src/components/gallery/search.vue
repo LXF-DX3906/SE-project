@@ -29,8 +29,9 @@
         <div class="dia-cont">
           <img v-lazy="diaitem.position">
         </div>
-        <el-button type="text" @click="docollect(diaitem.pid)">收藏</el-button>
-      </el-dialog>
+        <el-button type="text" v-if="collect" @click="docollect(diaitem.pid)">收藏</el-button>
+      <el-button type="text" style="color:#bfbfbf;" v-else @click="cancelcollect(diaitem.pid)">已收藏</el-button>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -44,7 +45,8 @@ export default {
       diaitem:[],
       imgs: [],
       infoByImage: this.$route.query.imageSearch,
-      isLoading: true
+      isLoading: true,
+      collect:true
     };
   },
   created(){
@@ -78,7 +80,7 @@ export default {
         return;
       console.log('hhhhhhhhhhhhhh', keywords)
       this.isLoading = true
-      this.$http.post('/api/keywordSearch',{keyword:keywords},{emulateJSON:true})
+      this.$http.get('/api/keywordSearch',{params:{keyword:keywords}},{emulateJSON:true})
       .then(res=>{
         console.log(res)
         this.imgs = []
@@ -106,11 +108,28 @@ export default {
     showdia(item) {
       this.dialogVisible = true;
       this.diaitem = item;
+      this.collectinfo(this.diaitem.pid)
+    },
+    collectinfo(pid){
+      console.log('hhhhh')
+      this.$http.delete('/api/pictureCollectDelete',{params:{uid:this.uid,pid:pid}},{emulateJSON:true})
+              .then(res=>{
+                if(res.body.message=="未收藏"){
+                  this.collect=true
+                }else{
+                  this.$http.post('/api/pictureCollect',{uid:this.uid,pid:pid},{emulateJSON:true})
+                          .then(res=>{
+                            console.log('hhh',res)
+                            this.collect=false
+                          })
+                }
+              })
     },
     docollect(pid){
       this.$http.post('/api/pictureCollect',{uid:this.uid,pid:pid},{emulateJSON:true})
       .then(res=>{
         if(res.body.message=="收藏成功"){
+          this.collect=false
           this.$message({
               message: "收藏成功",
               type: "success",
@@ -124,6 +143,25 @@ export default {
             });
         }
       })
+    },
+    cancelcollect(pid){
+      this.$http.delete('/api/pictureCollectDelete',{params:{uid:this.uid,pid:pid}},{emulateJSON:true})
+              .then(res=>{
+                if(res.body.message=="取消收藏成功"){
+                  this.collect=true
+                  this.$message({
+                    message: "取消收藏成功",
+                    type: "success",
+                    customClass: "zIndex"
+                  });
+                }else{
+                  this.$message({
+                    message: "取消收藏失败",
+                    type: "danger",
+                    customClass: "zIndex"
+                  });
+                }
+              })
     },
     changeImg(e) {
       this.isLoading = true
